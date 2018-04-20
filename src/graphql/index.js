@@ -13,7 +13,31 @@ export const LOGIN_MUTATION = gql`
   }
 `;
 
-export const USER_QUERY = gql`
+export const CREATE_USER_MUTATION = gql`
+  mutation createUserMutation($input: createUserInput!) {
+    createUser(input: $input) {
+      response {
+        username
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const EDIT_USER_MUTATION = gql`
+  mutation editUserByIdMutation($id: Int!, $input: createUserInput!) {
+    editUserById(id: $id, input: $input) {
+      response {
+        username
+        firstName
+        lastName
+      }
+    }
+  }
+`;
+
+export const USERS_QUERY = gql`
   query users($role: String!) {
     users(role: $role) {
       pageInfo {
@@ -22,7 +46,22 @@ export const USER_QUERY = gql`
       }
       edges {
         node {
-          id
+          _id
+          firstName
+          lastName
+          email
+        }
+      }
+    }
+  }
+`;
+
+export const USER_BY_ID_QUERY = gql`
+  query user($id: Int!) {
+    user(id: $id) {
+      edges {
+        node {
+          _id
           firstName
           lastName
           email
@@ -37,9 +76,8 @@ const httpLink = createHttpLink({
 });
 
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from local storage if it exists
+  // eslint-disable-next-line
   const token = localStorage.getItem('token');
-  // return the headers to the context so httpLink can read them
   return {
     headers: {
       ...headers,
@@ -47,8 +85,20 @@ const authLink = setContext((_, { headers }) => {
     }
   };
 });
+// this disable cache
+const defaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'network-only',
+    errorPolicy: 'ignore'
+  },
+  query: {
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all'
+  }
+};
 
 export const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
+  defaultOptions
 });

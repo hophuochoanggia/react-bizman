@@ -11,13 +11,14 @@ import {
   Table,
   Pagination,
   PaginationItem,
-  PaginationLink
+  PaginationLink,
+  NavLink
 } from 'reactstrap';
-import { USER_QUERY } from '../graphql';
-import { WithQuery } from './Common';
+import { USERS_QUERY } from '../graphql';
+import WithQuerySpinnerError from './HOC';
 import capitalize from '../utils/capitalize';
 
-const ListUser = ({ handleForm, data }) => (
+const ListUser = ({ handleForm, data, role }) => (
   <Row className="animated fadeIn">
     <Col>
       <Card>
@@ -28,6 +29,7 @@ const ListUser = ({ handleForm, data }) => (
               type="select"
               name="role"
               id="role"
+              defaultValue={role}
               onChange={event => handleForm(event.target.value)}
             >
               <option value="CONSULTANT">Consultant</option>
@@ -49,8 +51,12 @@ const ListUser = ({ handleForm, data }) => (
             </thead>
             <tbody>
               {data.map(({ node }) => (
-                <tr key={node.id}>
-                  <td>{`${capitalize(node.firstName)} ${node.lastName.toUpperCase()}`}</td>
+                <tr key={node._id}>
+                  <td>
+                    <NavLink href={`/#/user/${node._id}`}>
+                      {`${capitalize(node.firstName)} ${node.lastName.toUpperCase()}`}
+                    </NavLink>
+                  </td>
                   <td>{node.email}</td>
                 </tr>
               ))}
@@ -88,4 +94,11 @@ export default compose(withStateHandlers(
       role: value
     })
   }
-))(props => <WithQuery Comp={ListUser} query={USER_QUERY} {...props} />);
+))(props => (
+  <WithQuerySpinnerError
+    Comp={ListUser}
+    query={USERS_QUERY}
+    variables={{ role: props.role }}
+    forwardProps={props}
+  />
+));

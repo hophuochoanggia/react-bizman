@@ -21,7 +21,7 @@ import {
 import { LOGIN_MUTATION } from '../graphql';
 import { setCredential } from '../action/credential';
 import { startSpinner, stopSpinner } from '../action/spinner';
-import { Spinner } from '../element/Common';
+import { Spinner } from '../components/common';
 
 const Login = ({
   form,
@@ -29,8 +29,7 @@ const Login = ({
   handleLogin,
   spinner,
   setCredential,
-  startSpinner,
-  stopSpinner,
+  handleSpinner,
   isLoggedIn
 }) => {
   if (isLoggedIn) return <Redirect to="/dashboard" />;
@@ -80,9 +79,7 @@ const Login = ({
                             <Button
                               color="primary"
                               className="px-4"
-                              onClick={() =>
-                                handleLogin(login, setCredential, startSpinner, stopSpinner)
-                              }
+                              onClick={() => handleLogin(login, setCredential, handleSpinner)}
                             >
                               Login
                             </Button>
@@ -113,29 +110,27 @@ Login.propTypes = {
   handleLogin: PropTypes.func.isRequired,
   spinner: PropTypes.bool.isRequired,
   setCredential: PropTypes.func.isRequired,
-  startSpinner: PropTypes.func.isRequired,
-  stopSpinner: PropTypes.func.isRequired
+  handleSpinner: PropTypes.func.isRequired
 };
 
-const withRedux = connect(
-  state => ({ isLoggedIn: state.credential.isLoggedIn, spinner: state.spinner }),
-  {
-    setCredential,
-    startSpinner,
-    stopSpinner
-  }
-)(Login);
+const withRedux = connect(state => ({ isLoggedIn: state.credential.isLoggedIn }), {
+  setCredential,
+  startSpinner,
+  stopSpinner
+})(Login);
 
 export default withStateHandlers(
-  ({ initial = { username: 'superadmin', password: '12345' } }) => ({
-    form: initial
+  () => ({
+    form: { username: 'superadmin', password: '12345' },
+    spinner: false
   }),
   {
+    handleSpinner: ({ spinner }) => () => ({ spinner: !spinner }),
     handleForm: ({ form }) => (key, value) => ({
       form: { ...form, [key]: value }
     }),
-    handleLogin: ({ form }) => (login, setCredential, startSpinner, stopSpinner) => {
-      startSpinner();
+    handleLogin: ({ form }) => (login, setCredential, handleSpinner) => {
+      handleSpinner();
       login({ variables: form })
         .then(({ data: { login: { token } } }) => {
           // eslint-disable-next-line
@@ -144,15 +139,14 @@ export default withStateHandlers(
             position: toast.POSITION.BOTTOM_RIGHT
           });
           setCredential(token);
-          stopSpinner();
         })
         .catch(error => {
           const { message } = error;
           toast.error(message.split(':')[1], {
             position: toast.POSITION.BOTTOM_RIGHT
           });
-          stopSpinner();
-        });
+        })
+        .finally(handleSpinner);
     }
   }
 )(withRedux);

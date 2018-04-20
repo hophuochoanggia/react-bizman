@@ -6,7 +6,7 @@ import { ApolloProvider } from 'react-apollo';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 
 import 'react-toastify/dist/ReactToastify.css';
 import 'flag-icon-css/css/flag-icon.min.css';
@@ -27,6 +27,7 @@ const initialState = {
   },
   spinner: false
 };
+// eslint-disable-next-line
 if (localStorage.hasOwnProperty('token')) {
   // initialState.credential.token = localStorage.token;
   initialState.credential.isLoggedIn = true;
@@ -37,11 +38,11 @@ const store = createStore(rootReducer, initialState, applyMiddleware(logger, thu
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
-      <Router>
+      <HashRouter>
         <Switch>
           <Route path="/" name="App" component={App} />
         </Switch>
-      </Router>
+      </HashRouter>
     </Provider>
   </ApolloProvider>,
   // eslint-disable-next-line

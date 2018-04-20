@@ -2,9 +2,9 @@ import React from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Login from './containers/Login';
-import Main from './containers/Full';
-import Toast from './element/Toast';
+import Login from './views/Login';
+import Main from './views/Full';
+import Toast from './containers/Toast';
 
 const App = ({ isLoggedIn }) => (
   <div>
@@ -13,7 +13,7 @@ const App = ({ isLoggedIn }) => (
       {isLoggedIn ? (
         <Route path="/" name="Main" component={Main} />
       ) : (
-        <Redirect from="*" to="login" />
+        <Redirect from="*" to="/login" />
       )}
     </Switch>
     <Toast />
