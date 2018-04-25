@@ -15,7 +15,7 @@ import 'flag-icon-css/css/flag-icon.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'simple-line-icons/css/simple-line-icons.css';
 
-import { client } from './graphql';
+import client from './graphql';
 import rootReducer from './rootReducer';
 import '../scss/style.scss';
 import '../scss/core/_dropdown-menu-right.scss';

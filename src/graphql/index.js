@@ -2,150 +2,7 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
-import gql from 'graphql-tag';
 import { GRAPHQL } from '../config';
-
-export const LOGIN_MUTATION = gql`
-  mutation loginMutation($username: String!, $password: String!) {
-    login(input: { username: $username, password: $password }) {
-      token
-    }
-  }
-`;
-const fragments = {};
-fragments.userDetail = gql`
-  fragment userDetail on user {
-    _id
-    username
-    firstName
-    lastName
-    address
-    address2
-    isMale
-    suburb
-    state
-    workPhone
-    homePhone
-    mobile
-    fax
-    email
-    email2
-    providerNo
-    role
-  }
-`;
-fragments.userList = gql`
-  fragment userList on user {
-    _id
-    firstName
-    lastName
-    email
-  }
-`;
-
-fragments.patientList = gql`
-  fragment patientList on patient {
-    _id
-    firstName
-    lastName
-    email
-  }
-`;
-
-export const CREATE_USER_MUTATION = gql`
-  mutation createUserMutation($input: createUserInput!) {
-    createUser(input: $input) {
-      response {
-        ...userList
-      }
-    }
-  }
-  ${fragments.userList}
-`;
-
-export const EDIT_USER_MUTATION = gql`
-  mutation editUserByIdMutation($id: Int!, $data: userInput!) {
-    editUserById(input: { id: $id, data: $data }) {
-      response {
-        ...userDetail
-      }
-    }
-  }
-  ${fragments.userDetail}
-`;
-
-export const USERS_QUERY = gql`
-  query users($role: String!) {
-    users(role: $role) {
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-      }
-      edges {
-        node {
-          ...userList
-        }
-      }
-    }
-  }
-  ${fragments.userList}
-`;
-
-export const USER_BY_ID_QUERY = gql`
-  query user($id: Int!) {
-    user(id: $id) {
-      edges {
-        node {
-          ...userDetail
-        }
-      }
-    }
-  }
-  ${fragments.userDetail}
-`;
-
-export const VIEWER_QUERY = gql`
-  query {
-    viewer {
-      edges {
-        node {
-          ...userDetail
-        }
-      }
-    }
-  }
-  ${fragments.userDetail}
-`;
-
-export const EDIT_VIEWER_MUTATION = gql`
-  mutation editViewerMutation($data: viewerInput!) {
-    editViewer(input: { data: $data }) {
-      response {
-        ...userDetail
-      }
-    }
-  }
-  ${fragments.userDetail}
-`;
-
-export const SET_PWD_MUTATION = gql`
-  mutation setPwdMutation($old: String!, $password: String!) {
-    setPwd(input: { old: $old, password: $password }) {
-      response
-    }
-  }
-`;
-
-export const CREATE_PATIENT_MUTATION = gql`
-  mutation createPatientMutation($input: createPatientInput!) {
-    createPatient(input: $input) {
-      response {
-        ...patientList
-      }
-    }
-  }
-  ${fragments.patientList}
-`;
 
 const httpLink = createHttpLink({
   uri: GRAPHQL
@@ -173,7 +30,7 @@ const defaultOptions = {
   }
 };
 
-export const client = new ApolloClient({
+export default new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
   defaultOptions

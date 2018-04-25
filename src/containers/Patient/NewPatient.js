@@ -4,7 +4,8 @@ import { withStateHandlers } from 'recompose';
 import PatientForm from '../../_components/PatientForm';
 import { patientFields } from '../../utils/formFields';
 import formExtract from '../../utils/formExtract';
-import { CREATE_PATIENT_MUTATION, USERS_QUERY } from '../../graphql';
+import { CREATE_PATIENT_MUTATION } from '../../graphql/patient';
+import { USERS_QUERY } from '../../graphql/user';
 import toast from '../../utils/toast';
 import capitalize from '../../utils/capitalize';
 import withSpinnerError from '../../_components/HOC';
@@ -25,6 +26,9 @@ const withState = withStateHandlers(
       e.preventDefault();
       const input = formExtract(e, patientFields);
       input.consultantId = parseInt(input.consultantId, 10);
+      if (!birthday) {
+        return toast.error('Please select a birthday');
+      }
       if (isNaN(input.consultantId)) {
         return toast.error('Please select a consultant');
       }

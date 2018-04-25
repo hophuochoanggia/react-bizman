@@ -6,7 +6,7 @@ import { Form } from 'reactstrap';
 
 import UserForm from '../../_components/UserForm';
 import formExtract from '../../utils/formExtract';
-import { CREATE_USER_MUTATION } from '../../graphql';
+import { CREATE_USER_MUTATION } from '../../graphql/user';
 import toast from '../../utils/toast';
 import capitalize from '../../utils/capitalize';
 import { userFields } from '../../utils/formFields';

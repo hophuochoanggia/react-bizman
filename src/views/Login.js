@@ -18,7 +18,7 @@ import {
   InputGroupAddon,
   InputGroupText
 } from 'reactstrap';
-import { LOGIN_MUTATION } from '../graphql';
+import { LOGIN_MUTATION } from '../graphql/user';
 import { setCredential } from '../action/credential';
 import { startSpinner, stopSpinner } from '../action/spinner';
 import { Spinner } from '../_components/common';

@@ -14,6 +14,7 @@ import NewUser from '../containers/User/NewUser';
 import EditUser from '../containers/User/EditUser';
 import Profile from '../containers/User/Profile';
 
+import PatientList from '../containers/Patient/PatientList';
 import NewPatient from '../containers/Patient/NewPatient';
 
 class Full extends Component {
@@ -29,11 +30,12 @@ class Full extends Component {
               <Switch>
                 <Route exact path="/dashboard" name="Dashboard" component={Dashboard} />
 
+                <Route exact path="/user" name="Users" component={UserList} />
                 <Route exact path="/user/new" name="NewUser" component={NewUser} />
-                <Route exact path="/user" name="User" component={UserList} />
-                <Route exact path="/profile" name="Profile" component={Profile} />
                 <Route path="/user/:id" name="UserDetail" component={EditUser} />
+                <Route exact path="/profile" name="Profile" component={Profile} />
 
+                <Route exact path="/patient" name="Patients" component={PatientList} />
                 <Route exact path="/patient/new" name="NewPatient" component={NewPatient} />
 
                 <Redirect from="/" to="/dashboard" />
