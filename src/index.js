@@ -9,6 +9,8 @@ import thunk from 'redux-thunk';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
 import 'react-toastify/dist/ReactToastify.css';
+import 'react-datepicker/dist/react-datepicker.min.css';
+
 import 'flag-icon-css/css/flag-icon.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'simple-line-icons/css/simple-line-icons.css';

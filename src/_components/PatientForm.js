@@ -8,36 +8,33 @@ import {
   CardHeader,
   CardFooter,
   CardBody,
+  Form,
   FormGroup,
   Label,
   Input
 } from 'reactstrap';
-import { Spinner } from './common';
+import DatePicker from 'react-datepicker';
 
-const ProfileForm = ({ spinner, data }) => {
-  const input = data.viewer.edges[0].node;
-  return (
+import { Spinner } from './common';
+import Dropdown from './Dropdown';
+
+const NewPatient = ({
+  spinner,
+  form,
+  handleSubmit,
+  handleSpinner,
+  data,
+  birthday,
+  handleBirthday
+}) => (
+  <Form onSubmit={e => handleSubmit(e, handleSpinner)}>
     <Row>
       <Col xs="12" sm="12">
         <Card>
           <CardHeader>
-            <h3>Profile</h3>
+            <h3>New Patient</h3>
           </CardHeader>
           <CardBody>
-            <Row>
-              <Col xs="12" sm="12" md="12" lg="12">
-                <FormGroup>
-                  <Label>Username: *</Label>
-                  <Input
-                    type="text"
-                    name="username"
-                    placeholder="Enter username"
-                    defaultValue={input.username}
-                    disabled
-                  />
-                </FormGroup>
-              </Col>
-            </Row>
             <Row>
               <Col xs="12" sm="12" md="6" lg="6">
                 <FormGroup>
@@ -46,7 +43,7 @@ const ProfileForm = ({ spinner, data }) => {
                     type="text"
                     name="firstName"
                     placeholder="Enter first name"
-                    defaultValue={input.firstName}
+                    defaultValue={form.firstName}
                     required
                   />
                 </FormGroup>
@@ -58,7 +55,7 @@ const ProfileForm = ({ spinner, data }) => {
                     type="text"
                     name="lastName"
                     placeholder="Enter last name"
-                    defaultValue={input.lastName}
+                    defaultValue={form.lastName}
                     required
                   />
                 </FormGroup>
@@ -72,7 +69,7 @@ const ProfileForm = ({ spinner, data }) => {
                     type="text"
                     name="address"
                     placeholder="Enter address"
-                    defaultValue={input.address}
+                    defaultValue={form.address}
                     required
                   />
                 </FormGroup>
@@ -84,7 +81,7 @@ const ProfileForm = ({ spinner, data }) => {
                     type="text"
                     name="address2"
                     placeholder="Enter address 2"
-                    defaultValue={input.address2}
+                    defaultValue={form.address2}
                   />
                 </FormGroup>
               </Col>
@@ -97,31 +94,36 @@ const ProfileForm = ({ spinner, data }) => {
                     type="email"
                     name="email"
                     placeholder="Enter email"
-                    defaultValue={input.email}
+                    defaultValue={form.email}
                     required
                   />
                 </FormGroup>
               </Col>
               <Col xs="12" sm="12" md="6" lg="6">
                 <FormGroup>
-                  <Label>Email 2:</Label>
-                  <Input
-                    type="email"
-                    name="email2"
-                    placeholder="Enter email 2"
-                    defaultValue={input.email2}
-                  />
+                  <Label>Consultant: *</Label>
+                  <Dropdown data={data.users.edges} name="consultantId" required />
                 </FormGroup>
               </Col>
             </Row>
             <Row>
-              <Col xs="12" sm="6" md="4" lg="4">
+              <Col xs="12" sm="6" md="2" lg="2">
                 <FormGroup>
                   <Label>Gender</Label>
-                  <Input type="select" name="isMale" defaultValue={input.isMale}>
+                  <Input type="select" name="isMale" defaultValue={form.isMale}>
                     <option value>Male</option>
-                    <option value={false}>Female</option>
+                    <option defaultValue={false}>Female</option>
                   </Input>
+                </FormGroup>
+              </Col>
+              <Col xs="12" sm="6" md="2" lg="2">
+                <FormGroup>
+                  <Label>Birthday</Label>
+                  <DatePicker
+                    selected={birthday}
+                    onChange={handleBirthday}
+                    customInput={<Input name="birthday" />}
+                  />
                 </FormGroup>
               </Col>
               <Col xs="12" sm="6" md="4" lg="4">
@@ -131,7 +133,7 @@ const ProfileForm = ({ spinner, data }) => {
                     type="text"
                     name="suburb"
                     placeholder="Enter suburb"
-                    defaultValue={input.suburb}
+                    defaultValue={form.suburb}
                   />
                 </FormGroup>
               </Col>
@@ -142,7 +144,7 @@ const ProfileForm = ({ spinner, data }) => {
                     type="text"
                     name="state"
                     placeholder="Enter state"
-                    defaultValue={input.state}
+                    defaultValue={form.state}
                   />
                 </FormGroup>
               </Col>
@@ -153,7 +155,7 @@ const ProfileForm = ({ spinner, data }) => {
                     type="tex"
                     name="workPhone"
                     placeholder="Enter work phone"
-                    defaultValue={input.workPhone}
+                    defaultValue={form.workPhone}
                     required
                   />
                 </FormGroup>
@@ -165,7 +167,7 @@ const ProfileForm = ({ spinner, data }) => {
                     type="text"
                     name="homePhone"
                     placeholder="Enter home phone"
-                    defaultValue={input.homePhone}
+                    defaultValue={form.homePhone}
                   />
                 </FormGroup>
               </Col>
@@ -176,37 +178,47 @@ const ProfileForm = ({ spinner, data }) => {
                     type="text"
                     name="mobile"
                     placeholder="Enter mobile phone"
-                    defaultValue={input.mobile}
+                    defaultValue={form.mobile}
                   />
                 </FormGroup>
               </Col>
               <Col xs="12" sm="6" md="4" lg="4">
                 <FormGroup>
                   <Label>Fax:</Label>
-                  <Input type="text" name="fax" placeholder="Enter fax" defaultValue={input.fax} />
+                  <Input type="text" name="fax" placeholder="Enter fax" defaultValue={form.fax} />
                 </FormGroup>
               </Col>
-
               <Col xs="12" sm="6" md="4" lg="4">
                 <FormGroup>
-                  <Label>Provider No.:</Label>
+                  <Label>Medicare: </Label>
+                  <Input type="number" name="role" defaultValue={form.medicare} />
+                </FormGroup>
+              </Col>
+              <Col xs="12" sm="6" md="4" lg="4">
+                <FormGroup>
+                  <Label>Driving License: </Label>
+                  <Input type="text" name="role" defaultValue={form.drivingLicense} />
+                </FormGroup>
+              </Col>
+              <Col xs="12" sm="12" md="6" lg="6">
+                <FormGroup>
+                  <Label>DVA No.:</Label>
                   <Input
                     type="text"
                     name="providerNo"
                     placeholder="Enter provider number"
-                    defaultValue={input.providerNo}
+                    defaultValue={form.dva}
                   />
                 </FormGroup>
               </Col>
-              <Col xs="12" sm="6" md="4" lg="4">
+              <Col xs="12" sm="12" md="6" lg="6">
                 <FormGroup>
-                  <Label>Role: *</Label>
-                  <Input type="select" name="role" defaultValue={input.role} disabled>
-                    <option value="consultant">Consultant</option>
-                    <option value="admin">Admin</option>
-                    <option value="doctor">Doctor</option>
-                    <option value="specialist">Specialist</option>
-                    <option value="dentist">Dentist</option>
+                  <Label>DVA Type:</Label>
+                  <Input type="select" name="role" defaultValue={form.dvaType}>
+                    <option value={null}>None</option>
+                    <option value="GOLD">Gold</option>
+                    <option value="SILVER">Silver</option>
+                    <option value="ORANGE">Orange</option>
                   </Input>
                 </FormGroup>
               </Col>
@@ -229,11 +241,18 @@ const ProfileForm = ({ spinner, data }) => {
         </Card>
       </Col>
     </Row>
-  );
+  </Form>
+);
+
+NewPatient.defaultProps = {
+  form: {}
 };
 
-ProfileForm.propTypes = {
-  data: PropTypes.object.isRequired,
-  spinner: PropTypes.bool.isRequired
+NewPatient.propTypes = {
+  form: PropTypes.object,
+  spinner: PropTypes.bool.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  handleSpinner: PropTypes.func.isRequired
 };
-export default ProfileForm;
+
+export default NewPatient;

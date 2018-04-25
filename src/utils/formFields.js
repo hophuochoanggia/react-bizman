@@ -37,3 +37,24 @@ export const viewerFields = [
 ];
 
 export const passwordFields = ['old', 'password', 'confirm'];
+
+export const patientFields = [
+  'firstName',
+  'lastName',
+  'address',
+  'address2',
+  'email',
+  'email2',
+  'isMale',
+  'suburb',
+  'state',
+  'workPhone',
+  'homePhone',
+  'mobile',
+  'fax',
+  'dva',
+  'dvaType',
+  'medicare',
+  'drivingLicense',
+  'consultantId'
+];

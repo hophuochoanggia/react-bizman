@@ -4,12 +4,12 @@ import { compose, graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
 import { Form } from 'reactstrap';
 
-import UserForm from '../_components/UserForm';
-import withSpinnerError from '../_components/HOC';
-import formExtract from '../utils/formExtract';
-import { USER_BY_ID_QUERY, EDIT_USER_MUTATION } from '../graphql';
-import toast from '../utils/toast';
-import { userFields } from '../utils/formFields';
+import UserForm from '../../_components/UserForm';
+import withSpinnerError from '../../_components/HOC';
+import formExtract from '../../utils/formExtract';
+import { USER_BY_ID_QUERY, EDIT_USER_MUTATION } from '../../graphql';
+import toast from '../../utils/toast';
+import { userFields } from '../../utils/formFields';
 
 const EditUser = withSpinnerError(({
   handleSpinner, spinner, handleSubmit, data, editUser, match: { params: { id } }

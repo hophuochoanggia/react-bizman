@@ -24,6 +24,22 @@ export default {
           icon: 'icon-user-follow'
         }
       ]
+    },
+    {
+      name: 'Patient',
+      icon: 'icon-menu',
+      children: [
+        {
+          name: 'Patient',
+          url: '/Patient',
+          icon: 'icon-user'
+        },
+        {
+          name: 'New Patient',
+          url: '/patient/new',
+          icon: 'icon-plus'
+        }
+      ]
     }
   ]
 };

@@ -43,6 +43,15 @@ fragments.userList = gql`
   }
 `;
 
+fragments.patientList = gql`
+  fragment patientList on patient {
+    _id
+    firstName
+    lastName
+    email
+  }
+`;
+
 export const CREATE_USER_MUTATION = gql`
   mutation createUserMutation($input: createUserInput!) {
     createUser(input: $input) {
@@ -125,6 +134,17 @@ export const SET_PWD_MUTATION = gql`
       response
     }
   }
+`;
+
+export const CREATE_PATIENT_MUTATION = gql`
+  mutation createPatientMutation($input: createPatientInput!) {
+    createPatient(input: $input) {
+      response {
+        ...patientList
+      }
+    }
+  }
+  ${fragments.patientList}
 `;
 
 const httpLink = createHttpLink({

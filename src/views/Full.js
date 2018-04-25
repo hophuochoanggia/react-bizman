@@ -8,10 +8,13 @@ import Footer from '../components/Footer/';
 import Breadcrumb from '../components/Breadcrumb/';
 
 import Dashboard from '../containers/Dashboard';
-import UserList from '../containers/UserList';
-import NewUser from '../containers/NewUser';
-import EditUser from '../containers/EditUser';
-import Profile from '../containers/Profile';
+
+import UserList from '../containers/User/UserList';
+import NewUser from '../containers/User/NewUser';
+import EditUser from '../containers/User/EditUser';
+import Profile from '../containers/User/Profile';
+
+import NewPatient from '../containers/Patient/NewPatient';
 
 class Full extends Component {
   render() {
@@ -30,6 +33,8 @@ class Full extends Component {
                 <Route exact path="/user" name="User" component={UserList} />
                 <Route exact path="/profile" name="Profile" component={Profile} />
                 <Route path="/user/:id" name="UserDetail" component={EditUser} />
+
+                <Route exact path="/patient/new" name="NewPatient" component={NewPatient} />
 
                 <Redirect from="/" to="/dashboard" />
               </Switch>

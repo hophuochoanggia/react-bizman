@@ -4,12 +4,12 @@ import { graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
 import { Form } from 'reactstrap';
 
-import UserForm from '../_components/UserForm';
-import formExtract from '../utils/formExtract';
-import { CREATE_USER_MUTATION } from '../graphql';
-import toast from '../utils/toast';
-import capitalize from '../utils/capitalize';
-import { userFields } from '../utils/formFields';
+import UserForm from '../../_components/UserForm';
+import formExtract from '../../utils/formExtract';
+import { CREATE_USER_MUTATION } from '../../graphql';
+import toast from '../../utils/toast';
+import capitalize from '../../utils/capitalize';
+import { userFields } from '../../utils/formFields';
 
 const NewUser = ({
   handleSpinner, spinner, handleSubmit, history, createUser
@@ -50,7 +50,7 @@ export default withStateHandlers(
           history.push('/user');
         })
         .catch(({ message }) => {
-          toast.error(message.split(':')[1]);
+          toast.error(message);
           handleSpinner();
         });
     }

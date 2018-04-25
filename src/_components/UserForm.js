@@ -18,7 +18,9 @@ const UserForm = ({ spinner, input }) => (
   <Row>
     <Col xs="12" sm="12">
       <Card>
-        <CardHeader>User Detail</CardHeader>
+        <CardHeader>
+          <h3>User Detail</h3>
+        </CardHeader>
         <CardBody>
           <Row>
             <Col xs="12" sm="12" md="12" lg="12">

@@ -19,7 +19,9 @@ const PasswordForm = ({ spinner }) => (
   <Row>
     <Col xs="12" sm="12">
       <Card>
-        <CardHeader>Change Password</CardHeader>
+        <CardHeader>
+          <h3>Change Password</h3>
+        </CardHeader>
         <CardBody>
           <Row>
             <Col xs="12" sm="12" md="12" lg="12">
@@ -31,12 +33,7 @@ const PasswordForm = ({ spinner }) => (
             <Col xs="12" sm="12" md="12" lg="12">
               <FormGroup>
                 <Label>New Password: *</Label>
-                <Input
-                  type="password"
-                  name="password"
-                  placeholder="Enter new password"
-                  required
-                />
+                <Input type="password" name="password" placeholder="Enter new password" required />
               </FormGroup>
             </Col>
             <Col xs="12" sm="12" md="12" lg="12">
@@ -50,16 +47,16 @@ const PasswordForm = ({ spinner }) => (
         <CardFooter>
           {spinner ? (
             <Spinner />
-            ) : (
-              <React.Fragment>
-                <Button type="submit" size="md" color="warning">
-                  <i className="fa fa-dot-circle-o" /> Change Password
-                </Button>
-                <Button type="reset" size="md" color="danger">
-                  <i className="fa fa-ban" /> Reset
-                </Button>
-              </React.Fragment>
-            )}
+          ) : (
+            <React.Fragment>
+              <Button type="submit" size="md" color="warning">
+                <i className="fa fa-dot-circle-o" /> Change Password
+              </Button>
+              <Button type="reset" size="md" color="danger">
+                <i className="fa fa-ban" /> Reset
+              </Button>
+            </React.Fragment>
+          )}
         </CardFooter>
       </Card>
     </Col>
