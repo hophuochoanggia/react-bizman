@@ -59,10 +59,10 @@ class Sidebar extends Component {
     const wrapper = item => {
       return item.wrapper && item.wrapper.element
         ? React.createElement(
-            item.wrapper.element,
-            item.wrapper.attributes,
-            item.name
-          )
+          item.wrapper.element,
+          item.wrapper.attributes,
+          item.name
+        )
         : item.name;
     };
 

@@ -8,9 +8,10 @@ import Footer from '../components/Footer/';
 import Breadcrumb from '../components/Breadcrumb/';
 
 import Dashboard from '../containers/Dashboard';
-import User from '../containers/User';
+import UserList from '../containers/UserList';
 import NewUser from '../containers/NewUser';
 import EditUser from '../containers/EditUser';
+import Profile from '../containers/Profile';
 
 class Full extends Component {
   render() {
@@ -26,7 +27,8 @@ class Full extends Component {
                 <Route exact path="/dashboard" name="Dashboard" component={Dashboard} />
 
                 <Route exact path="/user/new" name="NewUser" component={NewUser} />
-                <Route exact path="/user" name="User" component={User} />
+                <Route exact path="/user" name="User" component={UserList} />
+                <Route exact path="/profile" name="Profile" component={Profile} />
                 <Route path="/user/:id" name="UserDetail" component={EditUser} />
 
                 <Redirect from="/" to="/dashboard" />

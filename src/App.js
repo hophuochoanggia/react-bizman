@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Login from './views/Login';
 import Main from './views/Full';
-import Toast from './containers/Toast';
+import Toast from './_components/Toast';
 
 const App = ({ isLoggedIn }) => (
   <div>

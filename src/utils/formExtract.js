@@ -1,8 +1,9 @@
 export default (formData, fields) => {
   const result = {};
   fields.forEach(field => {
-    const { value } = formData.target[field];
-    if (value) result[field] = value;
+    if (formData.target[field] && formData.target[field].value !== '') {
+      result[field] = formData.target[field].value;
+    }
   });
   return result;
 };

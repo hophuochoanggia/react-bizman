@@ -12,31 +12,25 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import { Spinner } from '../components/common';
+import { Spinner } from './common';
 
-const UserFormContent = ({ spinner, input }) => (
+const UserForm = ({ spinner, input }) => (
   <Row>
     <Col xs="12" sm="12">
       <Card>
-        <CardHeader>New User</CardHeader>
+        <CardHeader>User Detail</CardHeader>
         <CardBody>
           <Row>
-            <Col xs="12" sm="12" md="6" lg="6">
+            <Col xs="12" sm="12" md="12" lg="12">
               <FormGroup>
                 <Label>Username: *</Label>
                 <Input
                   type="text"
                   name="username"
                   placeholder="Enter username"
-                  defaultValue={input ? input.username : ''}
+                  defaultValue={input.username}
                   required
                 />
-              </FormGroup>
-            </Col>
-            <Col xs="12" sm="12" md="6" lg="6">
-              <FormGroup>
-                <Label>Password: *</Label>
-                <Input type="password" name="password" placeholder="Enter user password" required />
               </FormGroup>
             </Col>
           </Row>
@@ -44,13 +38,25 @@ const UserFormContent = ({ spinner, input }) => (
             <Col xs="12" sm="12" md="6" lg="6">
               <FormGroup>
                 <Label>First Name: *</Label>
-                <Input type="text" name="firstName" placeholder="Enter first name" required />
+                <Input
+                  type="text"
+                  name="firstName"
+                  placeholder="Enter first name"
+                  defaultValue={input.firstName}
+                  required
+                />
               </FormGroup>
             </Col>
             <Col xs="12" sm="12" md="6" lg="6">
               <FormGroup>
                 <Label>Last Name: *</Label>
-                <Input type="text" name="lastName" placeholder="Enter last name" required />
+                <Input
+                  type="text"
+                  name="lastName"
+                  placeholder="Enter last name"
+                  defaultValue={input.lastName}
+                  required
+                />
               </FormGroup>
             </Col>
           </Row>
@@ -58,13 +64,49 @@ const UserFormContent = ({ spinner, input }) => (
             <Col xs="12" sm="12" md="6" lg="6">
               <FormGroup>
                 <Label>Address: *</Label>
-                <Input type="text" name="address" placeholder="Enter address" required />
+                <Input
+                  type="text"
+                  name="address"
+                  placeholder="Enter address"
+                  defaultValue={input.address}
+                  required
+                />
               </FormGroup>
             </Col>
             <Col xs="12" sm="12" md="6" lg="6">
               <FormGroup>
                 <Label>Address 2:</Label>
-                <Input type="text" name="address2" placeholder="Enter address 2" />
+                <Input
+                  type="text"
+                  name="address2"
+                  placeholder="Enter address 2"
+                  defaultValue={input.address2}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs="12" sm="12" md="6" lg="6">
+              <FormGroup>
+                <Label>Email: *</Label>
+                <Input
+                  type="email"
+                  name="email"
+                  placeholder="Enter email"
+                  defaultValue={input.email}
+                  required
+                />
+              </FormGroup>
+            </Col>
+            <Col xs="12" sm="12" md="6" lg="6">
+              <FormGroup>
+                <Label>Email 2:</Label>
+                <Input
+                  type="email"
+                  name="email2"
+                  placeholder="Enter email 2"
+                  defaultValue={input.email2}
+                />
               </FormGroup>
             </Col>
           </Row>
@@ -72,7 +114,7 @@ const UserFormContent = ({ spinner, input }) => (
             <Col xs="12" sm="6" md="4" lg="4">
               <FormGroup>
                 <Label>Gender</Label>
-                <Input type="select" name="isMale">
+                <Input type="select" name="isMale" defaultValue={input.isMale}>
                   <option value>Male</option>
                   <option value={false}>Female</option>
                 </Input>
@@ -81,61 +123,81 @@ const UserFormContent = ({ spinner, input }) => (
             <Col xs="12" sm="6" md="4" lg="4">
               <FormGroup>
                 <Label>Suburb</Label>
-                <Input type="text" name="suburb" placeholder="Enter suburb" />
+                <Input
+                  type="text"
+                  name="suburb"
+                  placeholder="Enter suburb"
+                  defaultValue={input.suburb}
+                />
               </FormGroup>
             </Col>
             <Col xs="12" sm="6" md="4" lg="4">
               <FormGroup>
                 <Label>State</Label>
-                <Input type="text" name="state" placeholder="Enter state" />
+                <Input
+                  type="text"
+                  name="state"
+                  placeholder="Enter state"
+                  defaultValue={input.state}
+                />
               </FormGroup>
             </Col>
             <Col xs="12" sm="6" md="4" lg="4">
               <FormGroup>
                 <Label>Work phone: *</Label>
-                <Input type="tex" name="workPhone" placeholder="Enter work phone" required />
+                <Input
+                  type="tex"
+                  name="workPhone"
+                  placeholder="Enter work phone"
+                  defaultValue={input.workPhone}
+                  required
+                />
               </FormGroup>
             </Col>
             <Col xs="12" sm="6" md="4" lg="4">
               <FormGroup>
                 <Label>Home phone:</Label>
-                <Input type="text" name="homePhone" placeholder="Enter home phone" />
+                <Input
+                  type="text"
+                  name="homePhone"
+                  placeholder="Enter home phone"
+                  defaultValue={input.homePhone}
+                />
               </FormGroup>
             </Col>
             <Col xs="12" sm="6" md="4" lg="4">
               <FormGroup>
                 <Label>Mobile phone:</Label>
-                <Input type="text" name="mobilePhone" placeholder="Enter mobile phone" />
+                <Input
+                  type="text"
+                  name="mobile"
+                  placeholder="Enter mobile phone"
+                  defaultValue={input.mobile}
+                />
               </FormGroup>
             </Col>
             <Col xs="12" sm="6" md="4" lg="4">
               <FormGroup>
                 <Label>Fax:</Label>
-                <Input type="text" name="fax" placeholder="Enter fax" />
+                <Input type="text" name="fax" placeholder="Enter fax" defaultValue={input.fax} />
               </FormGroup>
             </Col>
-            <Col xs="12" sm="6" md="4" lg="4">
-              <FormGroup>
-                <Label>Email: *</Label>
-                <Input type="email" name="email" placeholder="Enter email" required />
-              </FormGroup>
-            </Col>
-            <Col xs="12" sm="6" md="4" lg="4">
-              <FormGroup>
-                <Label>Email 2:</Label>
-                <Input type="email" name="email2" placeholder="Enter email 2" />
-              </FormGroup>
-            </Col>
+
             <Col xs="12" sm="6" md="4" lg="4">
               <FormGroup>
                 <Label>Provider No.:</Label>
-                <Input type="text" name="providerNo" placeholder="Enter provider number" />
+                <Input
+                  type="text"
+                  name="providerNo"
+                  placeholder="Enter provider number"
+                  defaultValue={input.providerNo}
+                />
               </FormGroup>
             </Col>
             <Col xs="12" sm="6" md="4" lg="4">
               <FormGroup>
                 <Label>Role: *</Label>
-                <Input type="select" name="role">
+                <Input type="select" name="role" defaultValue={input.role}>
                   <option value="consultant">Consultant</option>
                   <option value="admin">Admin</option>
                   <option value="doctor">Doctor</option>
@@ -165,8 +227,12 @@ const UserFormContent = ({ spinner, input }) => (
   </Row>
 );
 
-UserFormContent.propTypes = {
+UserForm.defaultProps = {
+  input: {}
+};
+
+UserForm.propTypes = {
   input: PropTypes.object,
   spinner: PropTypes.bool.isRequired
 };
-export default UserFormContent;
+export default UserForm;

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { graphql } from 'react-apollo';
 import { compose, withStateHandlers } from 'recompose';
 import {
   Input,
@@ -15,10 +16,9 @@ import {
   NavLink
 } from 'reactstrap';
 import { USERS_QUERY } from '../graphql';
-import WithQuerySpinnerError from './HOC';
-import capitalize from '../utils/capitalize';
+import withSpinnerError from '../_components/HOC';
 
-const ListUser = ({ handleForm, data, role }) => (
+const ListUser = withSpinnerError(({ handleForm, data: { users: { edges } }, role }) => (
   <Row className="animated fadeIn">
     <Col>
       <Card>
@@ -50,11 +50,11 @@ const ListUser = ({ handleForm, data, role }) => (
               </tr>
             </thead>
             <tbody>
-              {data.map(({ node }) => (
+              {edges.map(({ node }) => (
                 <tr key={node._id}>
                   <td>
                     <NavLink href={`/#/user/${node._id}`}>
-                      {`${capitalize(node.firstName)} ${node.lastName.toUpperCase()}`}
+                      {`${node.firstName} ${node.lastName}`}
                     </NavLink>
                   </td>
                   <td>{node.email}</td>
@@ -78,12 +78,15 @@ const ListUser = ({ handleForm, data, role }) => (
       </Card>
     </Col>
   </Row>
-);
+));
 
 ListUser.propTypes = {
-  data: PropTypes.array.isRequired,
-  handleForm: PropTypes.func.isRequired
+  data: PropTypes.object.isRequired,
+  handleForm: PropTypes.func.isRequired,
+  role: PropTypes.string.isRequired
 };
+
+const withGraphQL = compose(graphql(USERS_QUERY))(ListUser);
 
 export default compose(withStateHandlers(
   ({ initial = 'CONSULTANT' }) => ({
@@ -94,11 +97,4 @@ export default compose(withStateHandlers(
       role: value
     })
   }
-))(props => (
-  <WithQuerySpinnerError
-    Comp={ListUser}
-    query={USERS_QUERY}
-    variables={{ role: props.role }}
-    forwardProps={props}
-  />
-));
+))(withGraphQL);

@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
-import {
-  Badge,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Dropdown,
-} from 'reactstrap';
+import { Badge, DropdownItem, DropdownMenu, DropdownToggle, Dropdown, NavLink } from 'reactstrap';
 
 class HeaderDropdown extends Component {
   constructor(props) {
@@ -13,13 +7,13 @@ class HeaderDropdown extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      dropdownOpen: false,
+      dropdownOpen: false
     };
   }
 
   toggle() {
     this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
+      dropdownOpen: !this.state.dropdownOpen
     });
   }
 
@@ -27,11 +21,7 @@ class HeaderDropdown extends Component {
     return (
       <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle nav>
-          <img
-            src={'img/avatars/6.jpg'}
-            className="img-avatar"
-            alt="admin@bootstrapmaster.com"
-          />
+          <img src="img/avatars/6.jpg" className="img-avatar" alt="admin@bootstrapmaster.com" />
         </DropdownToggle>
         <DropdownMenu right>
           <DropdownItem header tag="div" className="text-center">
@@ -41,36 +31,30 @@ class HeaderDropdown extends Component {
             <i className="fa fa-bell-o" /> Updates<Badge color="info">42</Badge>
           </DropdownItem>
           <DropdownItem>
-            <i className="fa fa-envelope-o" /> Messages<Badge color="success">
-              42
-            </Badge>
+            <i className="fa fa-envelope-o" /> Messages<Badge color="success">42</Badge>
           </DropdownItem>
           <DropdownItem>
             <i className="fa fa-tasks" /> Tasks<Badge color="danger">42</Badge>
           </DropdownItem>
           <DropdownItem>
-            <i className="fa fa-comments" /> Comments<Badge color="warning">
-              42
-            </Badge>
+            <i className="fa fa-comments" /> Comments<Badge color="warning">42</Badge>
           </DropdownItem>
           <DropdownItem header tag="div" className="text-center">
             <strong>Settings</strong>
           </DropdownItem>
           <DropdownItem>
-            <i className="fa fa-user" /> Profile
+            <NavLink href="/#/profile">
+              <i className="fa fa-user" /> Profile
+            </NavLink>
           </DropdownItem>
           <DropdownItem>
             <i className="fa fa-wrench" /> Settings
           </DropdownItem>
           <DropdownItem>
-            <i className="fa fa-usd" /> Payments<Badge color="secondary">
-              42
-            </Badge>
+            <i className="fa fa-usd" /> Payments<Badge color="secondary">42</Badge>
           </DropdownItem>
           <DropdownItem>
-            <i className="fa fa-file" /> Projects<Badge color="primary">
-              42
-            </Badge>
+            <i className="fa fa-file" /> Projects<Badge color="primary">42</Badge>
           </DropdownItem>
           <DropdownItem divider />
           <DropdownItem>

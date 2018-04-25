@@ -21,7 +21,7 @@ import {
 import { LOGIN_MUTATION } from '../graphql';
 import { setCredential } from '../action/credential';
 import { startSpinner, stopSpinner } from '../action/spinner';
-import { Spinner } from '../components/common';
+import { Spinner } from '../_components/common';
 
 const Login = ({
   form,
