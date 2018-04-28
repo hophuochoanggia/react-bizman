@@ -1,23 +1,35 @@
 import React from 'react';
-import { Input } from 'reactstrap';
+import { mapProps } from 'recompose';
 import PropTypes from 'prop-types';
+import Async from 'react-select/lib/Async';
 
-const Dropdown = ({ name, data, required }) => (
-  <Input type="select" name={name} defaultValue={null} required={required}>
-    <option selected value="undefined">
-      Please select one
-    </option>
-    {data.map(({ node }) => (
-      <option key={node._id} value={node._id}>
-        {node.firstName} {node.lastName}
-      </option>
-    ))}
-  </Input>
+const Dropdown = ({ defaultValue, defaultOptions }) => (
+  <Async name="consultantId" defaultValue={defaultValue} defaultOptions={defaultOptions} />
 );
-Dropdown.propTypes = {
-  name: PropTypes.string.isRequired,
-  data: PropTypes.array.isRequired,
-  required: PropTypes.bool.isRequired
+Dropdown.defaultProps = {
+  defaultValue: undefined
 };
 
-export default Dropdown;
+Dropdown.propTypes = {
+  defaultValue: PropTypes.object,
+  defaultOptions: PropTypes.array.isRequired
+};
+
+const transformProp = () =>
+  mapProps(props => {
+    const {
+      current, data, name, handleChange
+    } = props;
+    const defaultValue = current ? { value: current._id, label: current.fullName } : null;
+    const defaultOptions = data[name].edges.map(el => ({
+      value: el.node._id,
+      label: el.node.fullName
+    }));
+    return {
+      defaultValue,
+      defaultOptions,
+      handleChange
+    };
+  });
+
+export default transformProp()(Dropdown);

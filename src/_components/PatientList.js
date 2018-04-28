@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import {
   Row,
   Col,
@@ -9,11 +10,10 @@ import {
   Table,
   Pagination,
   PaginationItem,
-  PaginationLink,
-  NavLink
+  PaginationLink
 } from 'reactstrap';
 
-const List = ({ data }) => (
+const List = ({ data, history }) => (
   <Row className="animated fadeIn">
     <Col>
       <Card>
@@ -21,21 +21,19 @@ const List = ({ data }) => (
           <i className="fa fa-align-justify" />
         </CardHeader>
         <CardBody>
-          <Table responsive striped>
+          <Table hover bordered striped responsive size="sm">
             <thead>
               <tr>
                 <th>Fullname</th>
+                <th>Birthday</th>
                 <th>Email</th>
               </tr>
             </thead>
             <tbody>
               {data.map(({ node }) => (
-                <tr key={node._id}>
-                  <td>
-                    <NavLink href={`/#/user/${node._id}`}>
-                      {`${node.firstName} ${node.lastName}`}
-                    </NavLink>
-                  </td>
+                <tr key={node._id} onClick={() => history.push(`/patient/${node._id}`)}>
+                  <td>{node.fullName}</td>
+                  <td>{moment(node.birthday).format('DD/MM/YYYY')}</td>
                   <td>{node.email}</td>
                 </tr>
               ))}
@@ -58,7 +56,9 @@ const List = ({ data }) => (
     </Col>
   </Row>
 );
-List.PropTypes = {
-  data: PropTypes.array.isRequired
+
+List.propTypes = {
+  data: PropTypes.array.isRequired,
+  history: PropTypes.object.isRequired
 };
 export default List;

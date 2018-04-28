@@ -11,33 +11,43 @@ export default {
     },
     {
       name: 'User',
-      icon: 'icon-menu',
+      icon: 'icon-user-following',
       children: [
         {
           name: 'Manage',
-          url: '/user',
-          icon: 'icon-user-following'
+          url: '/user'
         },
         {
           name: 'New',
-          url: '/user/new',
-          icon: 'icon-user-follow'
+          url: '/user/new'
         }
       ]
     },
     {
       name: 'Patient',
-      icon: 'icon-menu',
+      icon: 'icon-screen-tablet',
       children: [
         {
           name: 'Patient',
-          url: '/Patient',
-          icon: 'icon-user'
+          url: '/Patient'
         },
         {
           name: 'New Patient',
-          url: '/patient/new',
-          icon: 'icon-plus'
+          url: '/patient/new'
+        }
+      ]
+    },
+    {
+      name: 'Superadmin',
+      icon: 'icon-settings',
+      children: [
+        {
+          name: 'Event Type',
+          url: '/eventType'
+        },
+        {
+          name: 'New Event Type',
+          url: '/eventType/new'
         }
       ]
     }

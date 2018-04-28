@@ -12,6 +12,16 @@ export const CREATE_PATIENT_MUTATION = gql`
   ${patientList}
 `;
 
+export const EDIT_PATIENT_MUTATION = gql`
+  mutation editPatientByIdMutation($id: Int!, $data: patientInput!) {
+    editPatientById(input: { id: $id, data: $data }) {
+      response {
+        fullName
+      }
+    }
+  }
+`;
+
 export const PATIENTS_QUERY = gql`
   query {
     patients {
@@ -27,4 +37,17 @@ export const PATIENTS_QUERY = gql`
     }
   }
   ${patientList}
+`;
+
+export const PATIENT_BY_ID_QUERY = gql`
+  query patient($id: Int!) {
+    patient(id: $id) {
+      edges {
+        node {
+          ...patientDetail
+        }
+      }
+    }
+  }
+  ${patientDetail}
 `;

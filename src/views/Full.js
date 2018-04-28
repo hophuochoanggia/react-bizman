@@ -9,13 +9,18 @@ import Breadcrumb from '../components/Breadcrumb/';
 
 import Dashboard from '../containers/Dashboard';
 
-import UserList from '../containers/User/UserList';
+import Users from '../containers/User/Users';
 import NewUser from '../containers/User/NewUser';
 import EditUser from '../containers/User/EditUser';
 import Profile from '../containers/User/Profile';
 
-import PatientList from '../containers/Patient/PatientList';
+import Patients from '../containers/Patient/Patients';
 import NewPatient from '../containers/Patient/NewPatient';
+import EditPatient from '../containers/Patient/EditPatient';
+
+import EventTypes from '../containers/EventType/EventTypes';
+import NewEventType from '../containers/EventType/NewEventType';
+import EditEventType from '../containers/EventType/EditEventType';
 
 class Full extends Component {
   render() {
@@ -30,14 +35,18 @@ class Full extends Component {
               <Switch>
                 <Route exact path="/dashboard" name="Dashboard" component={Dashboard} />
 
-                <Route exact path="/user" name="Users" component={UserList} />
+                <Route exact path="/user" name="Users" component={Users} />
                 <Route exact path="/user/new" name="NewUser" component={NewUser} />
                 <Route path="/user/:id" name="UserDetail" component={EditUser} />
                 <Route exact path="/profile" name="Profile" component={Profile} />
 
-                <Route exact path="/patient" name="Patients" component={PatientList} />
+                <Route exact path="/patient" name="Patients" component={Patients} />
                 <Route exact path="/patient/new" name="NewPatient" component={NewPatient} />
+                <Route path="/patient/:id" name="PatientDetail" component={EditPatient} />
 
+                <Route exact path="/eventType" name="EventTypes" component={EventTypes} />
+                <Route exact path="/eventType/new" name="EventTypes" component={NewEventType} />
+                <Route path="/eventType/:id" name="EventTypeDetail" component={EditEventType} />
                 <Redirect from="/" to="/dashboard" />
               </Switch>
             </Container>

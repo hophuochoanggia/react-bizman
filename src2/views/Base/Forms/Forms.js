@@ -265,7 +265,7 @@ class Forms extends Component {
                         type="textarea"
                         name="textarea-input"
                         id="textarea-input"
-                        rows="9"
+                        rows="5"
                         placeholder="Content..."
                       />
                     </Col>

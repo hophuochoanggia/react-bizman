@@ -6,7 +6,7 @@ import { Form } from 'reactstrap';
 
 import ProfileForm from '../../_components/ProfileForm';
 import PasswordForm from '../../_components/PasswordForm';
-import withSpinnerError from '../../_components/HOC';
+import { withSpinnerError } from '../../_components/HOC';
 import formExtract from '../../utils/formExtract';
 import { VIEWER_QUERY, EDIT_VIEWER_MUTATION, SET_PWD_MUTATION } from '../../graphql/user';
 import toast from '../../utils/toast';

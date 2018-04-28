@@ -45,8 +45,8 @@ export default withStateHandlers(
       const input = formExtract(e, userFields);
       handleSpinner();
       createUser({ variables: { input } })
-        .then(({ data: { createUser: { response: { firstName, lastName } } } }) => {
-          toast.success(`User "${capitalize(firstName)} ${lastName.toUpperCase()}" created`);
+        .then(({ data: { createUser: { response: { fullName } } } }) => {
+          toast.success(`User ${capitalize(fullName)} created`);
           history.push('/user');
         })
         .catch(({ message }) => {

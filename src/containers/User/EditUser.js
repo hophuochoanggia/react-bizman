@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Form } from 'reactstrap';
 
 import UserForm from '../../_components/UserForm';
-import withSpinnerError from '../../_components/HOC';
+import { withSpinnerError } from '../../_components/HOC';
 import formExtract from '../../utils/formExtract';
 import { USER_BY_ID_QUERY, EDIT_USER_MUTATION } from '../../graphql/user';
 import toast from '../../utils/toast';
@@ -51,8 +51,8 @@ export default withStateHandlers(
       const data = formExtract(e, userFields);
       handleSpinner();
       editUser({ variables: { id, data } })
-        .then(({ data: { editUserById: { response: { firstName, lastName } } } }) => {
-          toast.success(`User "${firstName} ${lastName}" updated`);
+        .then(({ data: { editUserById: { response: { fullName } } } }) => {
+          toast.success(`User ${fullName} updated`);
         })
         .catch(({ message }) => {
           toast.error(message.split('GraphQL error: ')[1]);

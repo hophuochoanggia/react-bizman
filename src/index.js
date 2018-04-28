@@ -17,6 +17,8 @@ import 'simple-line-icons/css/simple-line-icons.css';
 
 import client from './graphql';
 import rootReducer from './rootReducer';
+import { decodeJwt } from './utils/jwt';
+
 import '../scss/style.scss';
 import '../scss/core/_dropdown-menu-right.scss';
 
@@ -31,7 +33,7 @@ const initialState = {
 };
 // eslint-disable-next-line
 if (localStorage.hasOwnProperty('token')) {
-  // initialState.credential.token = localStorage.token;
+  initialState.credential = decodeJwt(localStorage.token);
   initialState.credential.isLoggedIn = true;
 }
 const logger = createLogger();

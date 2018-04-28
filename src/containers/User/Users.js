@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
-import { compose, withStateHandlers } from 'recompose';
+import { withStateHandlers } from 'recompose';
 import {
   Input,
   Row,
@@ -12,13 +12,14 @@ import {
   Table,
   Pagination,
   PaginationItem,
-  PaginationLink,
-  NavLink
+  PaginationLink
 } from 'reactstrap';
 import { USERS_QUERY } from '../../graphql/user';
-import withSpinnerError from '../../_components/HOC';
+import { withSpinnerError } from '../../_components/HOC';
 
-const ListUser = withSpinnerError(({ handleForm, data: { users: { edges } }, role }) => (
+const ListUser = withSpinnerError(({
+  handleForm, data: { users: { edges } }, role, history
+}) => (
   <Row className="animated fadeIn">
     <Col>
       <Card>
@@ -42,7 +43,7 @@ const ListUser = withSpinnerError(({ handleForm, data: { users: { edges } }, rol
           </span>
         </CardHeader>
         <CardBody>
-          <Table responsive striped>
+          <Table hover bordered striped responsive size="sm">
             <thead>
               <tr>
                 <th>Fullname</th>
@@ -51,12 +52,8 @@ const ListUser = withSpinnerError(({ handleForm, data: { users: { edges } }, rol
             </thead>
             <tbody>
               {edges.map(({ node }) => (
-                <tr key={node._id}>
-                  <td>
-                    <NavLink href={`/#/user/${node._id}`}>
-                      {`${node.firstName} ${node.lastName}`}
-                    </NavLink>
-                  </td>
+                <tr key={node._id} onClick={() => history.push(`/user/${node._id}`)}>
+                  <td>{node.fullName}</td>
                   <td>{node.email}</td>
                 </tr>
               ))}
@@ -86,15 +83,15 @@ ListUser.propTypes = {
   role: PropTypes.string.isRequired
 };
 
-const withGraphQL = compose(graphql(USERS_QUERY))(ListUser);
+const withGraphQL = graphql(USERS_QUERY)(ListUser);
 
-export default compose(withStateHandlers(
-  ({ initial = 'CONSULTANT' }) => ({
-    role: initial
+export default withStateHandlers(
+  () => ({
+    role: 'CONSULTANT'
   }),
   {
     handleForm: () => value => ({
       role: value
     })
   }
-))(withGraphQL);
+)(withGraphQL);

@@ -22,21 +22,49 @@ fragments.userDetail = gql`
     role
   }
 `;
+
 fragments.userList = gql`
   fragment userList on user {
     _id
+    fullName
+    email
+  }
+`;
+
+fragments.patientDetail = gql`
+  fragment patientDetail on patient {
+    _id
+    birthday
     firstName
     lastName
+    address
+    address2
+    suburb
+    state
+    avatarUrl
+    isMale
+    workPhone
+    homePhone
+    mobile
+    fax
     email
+    medicare
+    drivingLicense
+    dva
+    dvaType
+    consultant {
+      _id
+      fullName
+    }
   }
 `;
 
 fragments.patientList = gql`
   fragment patientList on patient {
     _id
-    firstName
-    lastName
+    fullName
     email
+    birthday
   }
 `;
 module.exports = fragments;

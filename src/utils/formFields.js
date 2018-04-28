@@ -37,6 +37,7 @@ export const viewerFields = [
 ];
 
 export const passwordFields = ['old', 'password', 'confirm'];
+export const eventTypeFields = ['name', 'description', 'metadata'];
 
 export const patientFields = [
   'firstName',
@@ -48,6 +49,7 @@ export const patientFields = [
   'isMale',
   'suburb',
   'state',
+  'avatarUrl',
   'workPhone',
   'homePhone',
   'mobile',
