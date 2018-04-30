@@ -45,7 +45,6 @@ const WithState = withStateHandlers(
           history.push('/patient');
         })
         .catch(error => {
-          console.log(error);
           toast.error(error.message);
           handleSpinner();
         });
