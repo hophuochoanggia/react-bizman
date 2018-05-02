@@ -1,6 +1,27 @@
 import gql from 'graphql-tag';
 
 const fragments = {};
+
+fragments.eventDetail = gql`
+  fragment eventDetail on event {
+    date
+    status
+    data
+    reportingSpecialist {
+      fullName
+    }
+    doctor {
+      fullName
+    }
+    inactiveReason {
+      description
+    }
+    type {
+      name
+    }
+  }
+`;
+
 fragments.userDetail = gql`
   fragment userDetail on user {
     _id
@@ -35,8 +56,7 @@ fragments.patientDetail = gql`
   fragment patientDetail on patient {
     _id
     birthday
-    firstName
-    lastName
+    fullName
     address
     address2
     suburb
@@ -56,7 +76,15 @@ fragments.patientDetail = gql`
       _id
       fullName
     }
+    events {
+      edges {
+        node {
+          ...eventDetail
+        }
+      }
+    }
   }
+  ${fragments.eventDetail}
 `;
 
 fragments.patientList = gql`
@@ -67,4 +95,5 @@ fragments.patientList = gql`
     birthday
   }
 `;
+
 module.exports = fragments;

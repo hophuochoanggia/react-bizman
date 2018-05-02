@@ -39,24 +39,25 @@ export const viewerFields = [
 export const passwordFields = ['old', 'password', 'confirm'];
 export const eventTypeFields = ['name', 'description', 'metadata'];
 
-export const patientFields = [
-  'firstName',
-  'lastName',
-  'address',
-  'address2',
-  'email',
-  'email2',
-  'isMale',
-  'suburb',
-  'state',
-  'avatarUrl',
-  'workPhone',
-  'homePhone',
-  'mobile',
-  'fax',
-  'dva',
-  'dvaType',
-  'medicare',
-  'drivingLicense',
-  'consultantId'
-];
+export const defaultPatient = {
+  firstName: '',
+  lastName: '',
+  address: '',
+  address2: '',
+  birthday: new Date(),
+  email: '',
+  email2: '',
+  isMale: '',
+  suburb: '',
+  state: '',
+  avatarUrl: '',
+  workPhone: '',
+  homePhone: '',
+  mobile: '',
+  fax: '',
+  dva: '',
+  dvaType: '',
+  medicare: '',
+  drivingLicense: '',
+  consultantId: ''
+};

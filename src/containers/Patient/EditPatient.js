@@ -1,78 +1,102 @@
 import React from 'react';
-import { withStateHandlers, compose } from 'recompose';
-import { compose as apolloCompose, graphql } from 'react-apollo';
-import moment from 'moment';
+import PropTypes from 'prop-types';
+import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
+import { withState, withHandlers, compose } from 'recompose';
+import { graphql } from 'react-apollo';
+import classnames from 'classnames';
+
+import { WithState } from './NewPatient';
 
 import PatientForm from '../../_components/PatientForm';
-import { withSpinnerError, combineFetching } from '../../_components/HOC';
-import formExtract from '../../utils/formExtract';
+import { withSpinnerError } from '../../_components/HOC';
 import { PATIENT_BY_ID_QUERY, EDIT_PATIENT_MUTATION } from '../../graphql/patient';
-import { USERS_QUERY } from '../../graphql/user';
 import toast from '../../utils/toast';
-import { patientFields } from '../../utils/formFields';
+import EventByPatient from '../Event/EventByPatient';
 
-const EditPatient = props => <PatientForm {...props} />;
+const EditPatient = props => (
+  <React.Fragment>
+    <Nav tabs>
+      <NavItem>
+        <NavLink
+          className={classnames({
+            active: props.tab === 1
+          })}
+          onClick={() => {
+            props.setTab(1);
+          }}
+        >
+          Event
+        </NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink
+          className={classnames({
+            active: props.tab === 2
+          })}
+          onClick={() => {
+            props.setTab(2);
+          }}
+        >
+          Profile
+        </NavLink>
+      </NavItem>
+    </Nav>
+    <TabContent activeTab={props.tab}>
+      <TabPane tabId={1}>
+        <EventByPatient {...props} />
+      </TabPane>
+      <TabPane tabId={2}>
+        <PatientForm {...props} />
+      </TabPane>
+    </TabContent>
+  </React.Fragment>
+);
 
-const WithCombineFetching = combineFetching(['patient', 'consultants']);
+EditPatient.propTypes = {
+  tab: PropTypes.number.isRequired,
+  setTab: PropTypes.func.isRequired
+};
 
-const WithState = withStateHandlers(
-  ({ patient: { patient }, match, editPatient }) => ({
-    id: match.params.id,
-    spinner: false,
-    birthday: moment(),
-    consultant: patient.edges[0].node.consultant._id,
-    form: patient.edges[0].node,
-    editPatient
-  }),
-  {
-    handleSpinner: ({ spinner }) => () => ({ spinner: !spinner }),
-    handleBirthday: () => date => ({ birthday: date }),
-    handleSubmit: ({ id, birthday, editPatient }) => (e, handleSpinner) => {
-      e.preventDefault();
-      const data = formExtract(e, patientFields);
-      data.consultantId = parseInt(data.consultantId, 10);
-      if (!birthday) {
-        return toast.error('Please select a birthday');
-      }
-      // eslint-disable-next-line
-      if (isNaN(data.consultantId)) {
-        return toast.error('Please select a consultant');
-      }
-      data.birthday = birthday.format();
-      console.log(data);
+const WithTab = withState('tab', 'setTab', 1);
+
+const WithSubmit = compose(
+  graphql(EDIT_PATIENT_MUTATION),
+  withHandlers({
+    handleSubmit: ({
+      match: { params: { id } }, input, mutate, handleSpinner
+    }) => () => {
+      const omitKey = ['consultant', '_id', '__typename'];
+      omitKey.forEach(element => {
+        delete input[element];
+      });
       handleSpinner();
-      editPatient({ variables: { id, data } })
-        .then(({ data: { editPatientById: { response: { fullName } } } }) => {
-          toast.success(`Patient ${fullName} updated`);
+      mutate({
+        variables: {
+          id,
+          data: input
+        }
+      })
+        .then(() => {
+          toast.success('Successfully update user');
         })
-        .catch(({ message }) => {
-          toast.error(message);
+        .catch(e => {
+          toast.error(e.message);
         })
         .finally(handleSpinner);
     }
-  }
+  })
 );
 
-const WithGraphQL = apolloCompose(
-  graphql(EDIT_PATIENT_MUTATION, {
-    name: 'editPatient'
-  }),
+export default compose(
   graphql(PATIENT_BY_ID_QUERY, {
     options: ({ match: { params: { id } } }) => ({
       variables: {
         id
       }
-    }),
-    name: 'patient'
+    })
   }),
-  graphql(USERS_QUERY, {
-    options: () => ({
-      variables: {
-        role: 'CONSULTANT'
-      }
-    }),
-    name: 'consultants'
-  })
-);
-
-export default compose(WithGraphQL, WithCombineFetching, withSpinnerError, WithState)(EditPatient);
+  withSpinnerError,
+  WithState,
+  WithSubmit,
+  WithTab
+)(EditPatient);

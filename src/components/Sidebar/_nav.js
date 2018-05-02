@@ -29,7 +29,7 @@ export default {
       children: [
         {
           name: 'Patient',
-          url: '/Patient'
+          url: '/patient'
         },
         {
           name: 'New Patient',
