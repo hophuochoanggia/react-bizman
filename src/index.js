@@ -22,7 +22,6 @@ import { decodeJwt } from './utils/jwt';
 import '../scss/style.scss';
 import '../scss/core/_dropdown-menu-right.scss';
 
-// import Full from './containers/Full/';
 import App from './App';
 
 const initialState = {

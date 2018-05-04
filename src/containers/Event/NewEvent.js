@@ -1,5 +1,6 @@
-import EventForm from '../../_components/Form/EventForm';
 import { compose, withState, withHandlers } from 'recompose';
+
+import EventForm from '../../_components/Form/EventForm';
 
 const WithState = compose(
   withState('input', 'setInput', ({ data }) => (data ? { ...data.event.edges[0].node } : {})),
