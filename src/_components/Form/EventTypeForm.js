@@ -12,8 +12,8 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import FormBuilder from './FormBuilder';
-import { Spinner } from './common';
+import FormBuilder from '../FormBuilder';
+import { Spinner } from '../common';
 
 const EventTypeForm = ({
   spinner, input, handleInput, handleSubmit

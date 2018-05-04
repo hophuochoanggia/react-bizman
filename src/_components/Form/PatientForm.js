@@ -16,7 +16,7 @@ import {
 } from 'reactstrap';
 import DatePicker from 'react-datepicker';
 
-import { Spinner } from './common';
+import { Spinner } from '../common';
 
 const PatientForm = ({
   spinner, input, handleInput, handleSubmit

@@ -2,9 +2,9 @@ import { compose, withHandlers } from 'recompose';
 import { graphql } from 'react-apollo';
 import toast from '../../utils/toast';
 import { EVENTTYPE_BY_ID_QUERY, EDIT_EVENTTYPE_MUTATION } from '../../graphql/eventType';
-import { withSpinnerError } from '../../_components/HOC';
+import WithSpinnerError from '../../_components/HOC/SpinnerError';
 import { WithStateHandlers } from './NewEventType';
-import EventTypeForm from '../../_components/EventTypeForm';
+import EventTypeForm from '../../_components/Form/EventTypeForm';
 
 const WithSubmit = withHandlers({
   handleSubmit: ({
@@ -32,7 +32,7 @@ export default compose(
       }
     })
   }),
-  withSpinnerError,
+  WithSpinnerError,
   WithStateHandlers,
   graphql(EDIT_EVENTTYPE_MUTATION, {
     name: 'mutate'

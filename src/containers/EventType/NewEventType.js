@@ -2,7 +2,7 @@ import { compose, withState, withHandlers } from 'recompose';
 import { graphql } from 'react-apollo';
 import toast from '../../utils/toast';
 import { CREATE_EVENTTYPE_MUTATION } from '../../graphql/eventType';
-import EventTypeForm from '../../_components/EventTypeForm';
+import EventTypeForm from '../../_components/Form/EventTypeForm';
 
 const defaultSchema = [
   {

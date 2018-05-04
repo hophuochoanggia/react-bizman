@@ -1,18 +1,15 @@
 import React from 'react';
-import { compose, mapProps } from 'recompose';
-import { graphql } from 'react-apollo';
 import PropTypes from 'prop-types';
 import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-import { withSpinnerError, dropdownToggle } from '../../_components/HOC';
-import { EVENTTYPES_QUERY } from '../../graphql/eventType';
+import ControlDropdown from '../HOC/ControlDropdown';
 
 const Base = ({
-  items, isDropdownOpen, toggle, history
+  title, items, isDropdownOpen, toggle, history
 }) => (
   <ButtonDropdown isOpen={isDropdownOpen} toggle={toggle}>
     <DropdownToggle caret color="info">
-      Add Event
+      {title}
     </DropdownToggle>
     <DropdownMenu>
       {items.map(({ node }) => (
@@ -24,19 +21,11 @@ const Base = ({
   </ButtonDropdown>
 );
 Base.propTypes = {
+  title: PropTypes.string.isRequired,
   items: PropTypes.array.isRequired,
   toggle: PropTypes.func.isRequired,
   isDropdownOpen: PropTypes.bool.isRequired,
   history: PropTypes.object.isRequired
 };
 
-// eslint-disable-next-line
-export const AddEventButton = compose(
-  graphql(EVENTTYPES_QUERY),
-  withSpinnerError,
-  mapProps(({ data, history }) => ({
-    items: data.eventTypes.edges,
-    history
-  })),
-  dropdownToggle
-)(Base);
+export default ControlDropdown(Base);

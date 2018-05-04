@@ -15,9 +15,9 @@ import {
   PaginationLink
 } from 'reactstrap';
 import { USERS_QUERY } from '../../graphql/user';
-import { withSpinnerError } from '../../_components/HOC';
+import WithSpinnerError from '../../_components/HOC/SpinnerError';
 
-const ListUser = withSpinnerError(({
+const ListUser = WithSpinnerError(({
   handleForm, data: { users: { edges } }, role, history
 }) => (
   <Row className="animated fadeIn">

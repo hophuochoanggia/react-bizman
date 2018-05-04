@@ -7,8 +7,8 @@ import classnames from 'classnames';
 
 import { WithState } from './NewPatient';
 
-import PatientForm from '../../_components/PatientForm';
-import { withSpinnerError } from '../../_components/HOC';
+import PatientForm from '../../_components/Form/PatientForm';
+import WithSpinnerError from '../../_components/HOC/SpinnerError';
 import { PATIENT_BY_ID_QUERY, EDIT_PATIENT_MUTATION } from '../../graphql/patient';
 import toast from '../../utils/toast';
 import EventByPatient from '../Event/EventByPatient';
@@ -95,7 +95,7 @@ export default compose(
       }
     })
   }),
-  withSpinnerError,
+  WithSpinnerError,
   WithState,
   WithSubmit,
   WithTab

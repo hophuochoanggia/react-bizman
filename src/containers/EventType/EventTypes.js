@@ -15,7 +15,7 @@ import {
 } from 'reactstrap';
 
 import { EVENTTYPES_QUERY } from '../../graphql/eventType';
-import { withSpinnerError } from '../../_components/HOC';
+import WithSpinnerError from '../../_components/HOC/SpinnerError';
 
 const EventTypes = props => {
   const data = props.data.eventTypes.edges;
@@ -73,4 +73,4 @@ const EventTypes = props => {
   );
 };
 
-export default compose(graphql(EVENTTYPES_QUERY), withSpinnerError)(EventTypes);
+export default compose(graphql(EVENTTYPES_QUERY), WithSpinnerError)(EventTypes);

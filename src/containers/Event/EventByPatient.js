@@ -1,8 +1,22 @@
 import React from 'react';
-import { compose, withState, withHandlers, mapProps } from 'recompose';
+import { compose, mapProps } from 'recompose';
+import { graphql } from 'react-apollo';
 import moment from 'moment';
 import { Row, Col, Card, CardHeader, CardBody } from 'reactstrap';
-import { AddEventButton } from '../../_components/AsyncForm/DropdownButton';
+
+import WithSpinnerError from '../../_components/HOC/SpinnerError';
+import AsyncDropdownButton from '../../_components/AsyncForm/DropdownButton';
+import { EVENTTYPES_QUERY } from '../../graphql/eventType';
+
+const AddEventButton = compose(
+  graphql(EVENTTYPES_QUERY),
+  WithSpinnerError,
+  mapProps(({ data, history, title }) => ({
+    items: data.eventTypes.edges,
+    history,
+    title
+  }))
+)(AsyncDropdownButton);
 
 const EventByPatient = p => {
   const { patient, events, history } = p;
@@ -14,7 +28,7 @@ const EventByPatient = p => {
             {patient.fullName} DOB {moment(patient.birthday).format('DD/MM/YYYY')}&nbsp;
           </h1>
           <span className="float-right">
-            <AddEventButton history={history} />
+            <AddEventButton history={history} title="Add Event" />
           </span>
         </Col>
       </Row>

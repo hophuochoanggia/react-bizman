@@ -1,63 +1,39 @@
-import React from 'react';
-import { withStateHandlers } from 'recompose';
-import { compose, graphql } from 'react-apollo';
-import PropTypes from 'prop-types';
-import { Form } from 'reactstrap';
+import { compose, withHandlers } from 'recompose';
+import { graphql } from 'react-apollo';
 
-import UserForm from '../../_components/UserForm';
-import { withSpinnerError } from '../../_components/HOC';
-import formExtract from '../../utils/formExtract';
+import UserForm from '../../_components/Form/UserForm';
+import { getInput, enhance } from './NewUser';
+import WithSpinnerError from '../../_components/HOC/SpinnerError';
 import { USER_BY_ID_QUERY, EDIT_USER_MUTATION } from '../../graphql/user';
 import toast from '../../utils/toast';
-import { userFields } from '../../utils/formFields';
 
-const EditUser = withSpinnerError(({
-  handleSpinner, spinner, handleSubmit, data, editUser, match: { params: { id } }
-}) => (
-  <Form className="animated fadeIn" onSubmit={e => handleSubmit(e, id, editUser, handleSpinner)}>
-    <UserForm spinner={spinner} input={data.user.edges[0].node} />
-  </Form>
-));
-
-EditUser.propTypes = {
-  spinner: PropTypes.bool.isRequired,
-  handleSpinner: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  editUser: PropTypes.func.isRequired,
-  data: PropTypes.object.isRequired
-};
-
-const withGraphQL = compose(
-  graphql(EDIT_USER_MUTATION, {
-    name: 'editUser'
-  }),
+export default compose(
   graphql(USER_BY_ID_QUERY, {
     options: ({ match: { params: { id } } }) => ({
       variables: {
         id
       }
     })
-  })
-)(EditUser);
-
-export default withStateHandlers(
-  ({ initial = false }) => ({
-    spinner: initial
   }),
-  {
-    handleSpinner: ({ spinner }) => () => ({ spinner: !spinner }),
-    handleSubmit: () => (e, id, editUser, handleSpinner) => {
-      e.preventDefault();
-      const data = formExtract(e, userFields);
+  WithSpinnerError,
+  getInput,
+  enhance,
+  graphql(EDIT_USER_MUTATION),
+  withHandlers({
+    handleSubmit: ({
+      match: { params: { id } }, input, mutate, handleSpinner
+    }) => () => {
       handleSpinner();
-      editUser({ variables: { id, data } })
-        .then(({ data: { editUserById: { response: { fullName } } } }) => {
-          toast.success(`User ${fullName} updated`);
+      delete input._id;
+      delete input.__typename;
+      mutate({ variables: { id, data: input } })
+        .then(() => {
+          toast.success('User updated');
         })
         .catch(({ message }) => {
-          toast.error(message.split('GraphQL error: ')[1]);
+          toast.error(message);
         })
         .finally(handleSpinner);
     }
-  }
-)(withGraphQL);
+  })
+)(UserForm);

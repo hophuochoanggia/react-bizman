@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'react-apollo';
 import { compose, withState, withHandlers } from 'recompose';
 
-import PatientForm from '../../_components/PatientForm';
+import PatientForm from '../../_components/Form/PatientForm';
 import { CREATE_PATIENT_MUTATION } from '../../graphql/patient';
 import toast from '../../utils/toast';
 

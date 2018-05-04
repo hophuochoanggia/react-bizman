@@ -12,9 +12,9 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import { Spinner } from './common';
+import { Spinner } from '../common';
 
-const UserForm = ({ spinner, input }) => (
+const UserForm = ({ spinner, input, handleInput, handleSubmit }) => (
   <Row>
     <Col xs="12" sm="12">
       <Card>
@@ -30,7 +30,8 @@ const UserForm = ({ spinner, input }) => (
                   type="text"
                   name="username"
                   placeholder="Enter username"
-                  defaultValue={input.username}
+                  value={input.username || ''}
+                  onChange={handleInput('username')}
                   required
                 />
               </FormGroup>
@@ -44,7 +45,8 @@ const UserForm = ({ spinner, input }) => (
                   type="text"
                   name="firstName"
                   placeholder="Enter first name"
-                  defaultValue={input.firstName}
+                  value={input.firstName || ''}
+                  onChange={handleInput('firstName')}
                   required
                 />
               </FormGroup>
@@ -56,7 +58,8 @@ const UserForm = ({ spinner, input }) => (
                   type="text"
                   name="lastName"
                   placeholder="Enter last name"
-                  defaultValue={input.lastName}
+                  value={input.lastName || ''}
+                  onChange={handleInput('lastName')}
                   required
                 />
               </FormGroup>
@@ -70,7 +73,8 @@ const UserForm = ({ spinner, input }) => (
                   type="text"
                   name="address"
                   placeholder="Enter address"
-                  defaultValue={input.address}
+                  value={input.address || ''}
+                  onChange={handleInput('address')}
                   required
                 />
               </FormGroup>
@@ -82,7 +86,8 @@ const UserForm = ({ spinner, input }) => (
                   type="text"
                   name="address2"
                   placeholder="Enter address 2"
-                  defaultValue={input.address2}
+                  value={input.address2 || ''}
+                  onChange={handleInput('address2')}
                 />
               </FormGroup>
             </Col>
@@ -95,7 +100,8 @@ const UserForm = ({ spinner, input }) => (
                   type="email"
                   name="email"
                   placeholder="Enter email"
-                  defaultValue={input.email}
+                  value={input.email || ''}
+                  onChange={handleInput('email')}
                   required
                 />
               </FormGroup>
@@ -107,7 +113,8 @@ const UserForm = ({ spinner, input }) => (
                   type="email"
                   name="email2"
                   placeholder="Enter email 2"
-                  defaultValue={input.email2}
+                  value={input.email2 || ''}
+                  onChange={handleInput('email2')}
                 />
               </FormGroup>
             </Col>
@@ -116,7 +123,12 @@ const UserForm = ({ spinner, input }) => (
             <Col xs="12" sm="6" md="4" lg="4">
               <FormGroup>
                 <Label>Gender</Label>
-                <Input type="select" name="isMale" defaultValue={input.isMale}>
+                <Input
+                  type="select"
+                  name="isMale"
+                  value={input.isMale}
+                  onChange={handleInput('isMale')}
+                >
                   <option value>Male</option>
                   <option value={false}>Female</option>
                 </Input>
@@ -129,7 +141,8 @@ const UserForm = ({ spinner, input }) => (
                   type="text"
                   name="suburb"
                   placeholder="Enter suburb"
-                  defaultValue={input.suburb}
+                  value={input.suburb || ''}
+                  onChange={handleInput('suburb')}
                 />
               </FormGroup>
             </Col>
@@ -140,7 +153,8 @@ const UserForm = ({ spinner, input }) => (
                   type="text"
                   name="state"
                   placeholder="Enter state"
-                  defaultValue={input.state}
+                  value={input.state || ''}
+                  onChange={handleInput('state')}
                 />
               </FormGroup>
             </Col>
@@ -151,7 +165,8 @@ const UserForm = ({ spinner, input }) => (
                   type="tex"
                   name="workPhone"
                   placeholder="Enter work phone"
-                  defaultValue={input.workPhone}
+                  value={input.workPhone || ''}
+                  onChange={handleInput('workPhone')}
                   required
                 />
               </FormGroup>
@@ -163,7 +178,8 @@ const UserForm = ({ spinner, input }) => (
                   type="text"
                   name="homePhone"
                   placeholder="Enter home phone"
-                  defaultValue={input.homePhone}
+                  value={input.homePhone || ''}
+                  onChange={handleInput('homePhone')}
                 />
               </FormGroup>
             </Col>
@@ -174,14 +190,21 @@ const UserForm = ({ spinner, input }) => (
                   type="text"
                   name="mobile"
                   placeholder="Enter mobile phone"
-                  defaultValue={input.mobile}
+                  value={input.mobile || ''}
+                  onChange={handleInput('mobile')}
                 />
               </FormGroup>
             </Col>
             <Col xs="12" sm="6" md="4" lg="4">
               <FormGroup>
                 <Label>Fax:</Label>
-                <Input type="text" name="fax" placeholder="Enter fax" defaultValue={input.fax} />
+                <Input
+                  type="text"
+                  name="fax"
+                  placeholder="Enter fax"
+                  value={input.fax || ''}
+                  onChange={ handleInput('fax')}
+                />
               </FormGroup>
             </Col>
 
@@ -192,14 +215,20 @@ const UserForm = ({ spinner, input }) => (
                   type="text"
                   name="providerNo"
                   placeholder="Enter provider number"
-                  defaultValue={input.providerNo}
+                  value={input.providerNo || ''}
+                  onChange={handleInput('providerNo')}
                 />
               </FormGroup>
             </Col>
             <Col xs="12" sm="6" md="4" lg="4">
               <FormGroup>
                 <Label>Role: *</Label>
-                <Input type="select" name="role" defaultValue={input.role}>
+                <Input
+                  type="select"
+                  name="role"
+                  value={input.role}
+                  onChange={handleInput('role')}
+                >
                   <option value="consultant">Consultant</option>
                   <option value="admin">Admin</option>
                   <option value="doctor">Doctor</option>
@@ -215,7 +244,7 @@ const UserForm = ({ spinner, input }) => (
             <Spinner />
           ) : (
             <React.Fragment>
-              <Button type="submit" size="md" color="primary">
+              <Button type="submit" size="md" color="primary" onClick={handleSubmit}>
                 <i className="fa fa-dot-circle-o" /> Submit
               </Button>
               <Button type="reset" size="md" color="danger">
@@ -229,12 +258,10 @@ const UserForm = ({ spinner, input }) => (
   </Row>
 );
 
-UserForm.defaultProps = {
-  input: {}
-};
-
 UserForm.propTypes = {
-  input: PropTypes.object,
-  spinner: PropTypes.bool.isRequired
+  input: PropTypes.object.isRequired,
+  spinner: PropTypes.bool.isRequired,
+  handleInput: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired
 };
 export default UserForm;

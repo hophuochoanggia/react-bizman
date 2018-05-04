@@ -1,58 +1,39 @@
 import React from 'react';
-import { withStateHandlers } from 'recompose';
+import { compose, mapProps, withHandlers } from 'recompose';
 import { graphql } from 'react-apollo';
-import PropTypes from 'prop-types';
-import { Form } from 'reactstrap';
 
-import UserForm from '../../_components/UserForm';
-import formExtract from '../../utils/formExtract';
+import UserForm from '../../_components/Form/UserForm';
 import { CREATE_USER_MUTATION } from '../../graphql/user';
 import toast from '../../utils/toast';
-import capitalize from '../../utils/capitalize';
-import { userFields } from '../../utils/formFields';
 
-const NewUser = ({
-  handleSpinner, spinner, handleSubmit, history, createUser
-}) => (
-  <Form
-    className="animated fadeIn"
-    onSubmit={e => handleSubmit(e, createUser, handleSpinner, history)}
-  >
-    <UserForm spinner={spinner} />
-  </Form>
-);
+import ControlForm from '../../_components/HOC/ControlForm';
+import ControlSpinner from '../../_components/HOC/ControlSpinner';
 
-const withGraphQL = graphql(CREATE_USER_MUTATION, {
-  name: 'createUser'
-})(NewUser);
+export const getInput = mapProps(props => ({
+  ...props,
+  input: props.data ? props.data.user.edges[0].node : { isMale: true }
+}));
 
-NewUser.propTypes = {
-  spinner: PropTypes.bool.isRequired,
-  handleSpinner: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  createUser: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
-};
+export const enhance = compose(ControlForm, ControlSpinner);
 
-export default withStateHandlers(
-  ({ initial = false }) => ({
-    spinner: initial
-  }),
-  {
-    handleSpinner: ({ spinner }) => () => ({ spinner: !spinner }),
-    handleSubmit: () => (e, createUser, handleSpinner, history) => {
-      e.preventDefault();
-      const input = formExtract(e, userFields);
+export default compose(
+  getInput,
+  enhance,
+  graphql(CREATE_USER_MUTATION),
+  withHandlers({
+    handleSubmit: ({
+      input, mutate, history, handleSpinner
+    }) => () => {
       handleSpinner();
-      createUser({ variables: { input } })
+      mutate({ variables: { input } })
         .then(({ data: { createUser: { response: { fullName } } } }) => {
-          toast.success(`User ${capitalize(fullName)} created`);
+          toast.success(`User ${fullName} created`);
           history.push('/user');
         })
         .catch(({ message }) => {
-          toast.error(message);
+          toast.error(message.split('GraphQL error: ')[1]);
           handleSpinner();
         });
     }
-  }
-)(withGraphQL);
+  })
+)(UserForm);
