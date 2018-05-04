@@ -1,6 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import moment from 'moment';
 import {
   Row,
   Col,
@@ -14,18 +12,15 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import DatePicker from 'react-datepicker';
 
-import { Spinner } from './common';
-
-const PatientForm = ({
+export default ({
   spinner, input, handleInput, handleSubmit
 }) => (
   <Row>
     <Col xs="12" sm="12">
       <Card>
         <CardHeader>
-          <h3>Patient Detail</h3>
+          <h3>Event Detail</h3>
         </CardHeader>
         <CardBody>
           <Row>
@@ -82,17 +77,6 @@ const PatientForm = ({
                   <option value>Male</option>
                   <option defaultValue={false}>Female</option>
                 </Input>
-              </FormGroup>
-            </Col>
-            <Col xs="12" sm="12" md="3" lg="3">
-              <FormGroup>
-                <Label>Birthday</Label>
-                <DatePicker
-                  dateFormat="DD/MM/YYYY"
-                  selected={moment(input.birthday)}
-                  onChange={e => handleInput('birthday')(e.format('YYYY-MM-DD'))}
-                  customInput={<Input name="birthday" />}
-                />
               </FormGroup>
             </Col>
           </Row>
@@ -256,12 +240,3 @@ const PatientForm = ({
     </Col>
   </Row>
 );
-
-PatientForm.propTypes = {
-  input: PropTypes.object.isRequired,
-  spinner: PropTypes.bool.isRequired,
-  handleInput: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
-};
-
-export default PatientForm;

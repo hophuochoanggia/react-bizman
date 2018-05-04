@@ -22,6 +22,8 @@ import EventTypes from '../containers/EventType/EventTypes';
 import NewEventType from '../containers/EventType/NewEventType';
 import EditEventType from '../containers/EventType/EditEventType';
 
+import NewEvent from '../containers/Event/NewEvent';
+
 class Full extends Component {
   render() {
     return (
@@ -47,6 +49,8 @@ class Full extends Component {
                 <Route exact path="/eventType/new" name="EventTypes" component={NewEventType} />
                 <Route path="/eventType/:id" name="EventTypeDetail" component={EditEventType} />
                 <Route exact path="/eventType" name="EventTypes" component={EventTypes} />
+
+                <Route exact path="/event/new" name="Event" component={NewEvent} />
 
                 <Redirect from="/" to="/dashboard" />
               </Switch>

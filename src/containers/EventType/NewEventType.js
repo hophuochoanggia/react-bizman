@@ -1,11 +1,8 @@
-import React from 'react';
 import { compose, withState, withHandlers } from 'recompose';
 import { graphql } from 'react-apollo';
 import toast from '../../utils/toast';
 import { CREATE_EVENTTYPE_MUTATION } from '../../graphql/eventType';
 import EventTypeForm from '../../_components/EventTypeForm';
-
-export const NewEventType = props => <EventTypeForm {...props} />;
 
 const defaultSchema = [
   {
@@ -24,24 +21,27 @@ const defaultSchema = [
   }
 ];
 
-export const WithState = compose(
+export const WithStateHandlers = compose(
+  withState('spinner', 'setSpinner', false),
   withState(
     'input',
     'setInput',
     ({ data }) =>
       (data ? data.eventType.edges[0].node : { name: '', description: '', metadata: defaultSchema })
   ),
-  withState('spinner', 'setSpinner', false)
+  withHandlers({
+    handleSpinner: ({ spinner, setSpinner }) => () => {
+      setSpinner(!spinner);
+    },
+    handleInput: ({ input, setInput }) => key => value => {
+      setInput({ ...input, [key]: value });
+    }
+  })
 );
 
-export const WithHandler = withHandlers({
-  handleSpinner: ({ spinner, setSpinner }) => () => {
-    setSpinner(!spinner);
-  },
-  handleInput: ({ input, setInput }) => key => value => {
-    setInput({ ...input, [key]: value });
-  },
+const WithSubmit = withHandlers({
   handleSubmit: ({ mutate, history, handleSpinner }) => () => {
+    handleSpinner();
     mutate()
       .then(() => {
         toast.success('Success');
@@ -55,7 +55,7 @@ export const WithHandler = withHandlers({
 });
 
 export default compose(
-  WithState,
+  WithStateHandlers,
   graphql(CREATE_EVENTTYPE_MUTATION, {
     name: 'mutate',
     options: ({ input }) => ({
@@ -64,5 +64,5 @@ export default compose(
       }
     })
   }),
-  WithHandler
-)(NewEventType);
+  WithSubmit
+)(EventTypeForm);

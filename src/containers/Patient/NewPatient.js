@@ -9,14 +9,7 @@ import toast from '../../utils/toast';
 const NewPatient = props => <PatientForm {...props} />;
 
 export const WithState = compose(
-  withState(
-    'input',
-    'setInput',
-    ({ data }) =>
-      (data
-        ? { ...data.patient.edges[0].node, consultantId: data.patient.edges[0].node.consultant._id }
-        : {})
-  ),
+  withState('input', 'setInput', ({ data }) => (data ? { ...data.patient.edges[0].node } : {})),
   withState('spinner', 'setSpinner', false),
   withHandlers({
     handleSpinner: ({ spinner, setSpinner }) => () => {

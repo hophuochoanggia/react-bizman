@@ -6,7 +6,7 @@ import { ApolloProvider } from 'react-apollo';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-datepicker/dist/react-datepicker.min.css';
@@ -42,11 +42,11 @@ const store = createStore(rootReducer, initialState, applyMiddleware(logger, thu
 ReactDOM.render(
   <ApolloProvider client={client}>
     <Provider store={store}>
-      <HashRouter>
+      <Router>
         <Switch>
           <Route path="/" name="App" component={App} />
         </Switch>
-      </HashRouter>
+      </Router>
     </Provider>
   </ApolloProvider>,
   // eslint-disable-next-line

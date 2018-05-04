@@ -10,19 +10,13 @@ import {
   CardBody,
   FormGroup,
   Label,
-  Input,
-  Form
+  Input
 } from 'reactstrap';
 import FormBuilder from './FormBuilder';
 import { Spinner } from './common';
 
 const EventTypeForm = ({
-  spinner,
-  input,
-  handleInput,
-  handleSubmit,
-  handleSpinner,
-  deleteElement
+  spinner, input, handleInput, handleSubmit
 }) => (
   <Row>
     <Col xs="12" sm="12" md="12" lg="12">
@@ -86,11 +80,11 @@ const EventTypeForm = ({
     </Col>
   </Row>
 );
-// EventTypeForm.propTypes = {
-//  input: PropTypes.object,
-//  spinner: PropTypes.bool.isRequired,
-//  handleSubmit: PropTypes.func.isRequired,
-//  handleSpinner: PropTypes.func.isRequired
-// };
+EventTypeForm.propTypes = {
+  input: PropTypes.object.isRequired,
+  spinner: PropTypes.bool.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  handleInput: PropTypes.func.isRequired
+};
 
 export default EventTypeForm;

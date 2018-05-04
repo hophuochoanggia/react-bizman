@@ -65,7 +65,7 @@ const WithSubmit = compose(
     handleSubmit: ({
       match: { params: { id } }, input, mutate, handleSpinner
     }) => () => {
-      const omitKey = ['consultant', '_id', '__typename'];
+      const omitKey = ['_id', '__typename', 'events'];
       omitKey.forEach(element => {
         delete input[element];
       });

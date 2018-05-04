@@ -1,4 +1,4 @@
-import { branch, renderComponent, compose, mapProps } from 'recompose';
+import { branch, renderComponent, compose, mapProps, withState, withHandlers } from 'recompose';
 
 import { Spinner, Error } from '../_components/common';
 
@@ -24,4 +24,13 @@ export const combineFetching = keys =>
 export const withSpinnerError = compose(
   withSpinner(props => props.data.loading),
   withError(props => props.data.error)
+);
+
+export const dropdownToggle = compose(
+  withState('isDropdownOpen', 'setDropdown', false),
+  withHandlers({
+    toggle: ({ isDropdownOpen, setDropdown }) => () => {
+      setDropdown(!isDropdownOpen);
+    }
+  })
 );

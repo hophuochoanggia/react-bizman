@@ -1,11 +1,30 @@
-import { compose } from 'recompose';
+import { compose, withHandlers } from 'recompose';
 import { graphql } from 'react-apollo';
+import toast from '../../utils/toast';
 import { EVENTTYPE_BY_ID_QUERY, EDIT_EVENTTYPE_MUTATION } from '../../graphql/eventType';
 import { withSpinnerError } from '../../_components/HOC';
-import { NewEventType, WithState, WithHandler } from './NewEventType';
+import { WithStateHandlers } from './NewEventType';
+import EventTypeForm from '../../_components/EventTypeForm';
+
+const WithSubmit = withHandlers({
+  handleSubmit: ({
+    mutate, handleSpinner, input, match: { params: { id } }
+  }) => () => {
+    handleSpinner();
+    delete input._id;
+    delete input.__typename;
+    mutate({ variables: { id, data: input } })
+      .then(() => {
+        toast.success('Success');
+      })
+      .catch(e => {
+        toast.error(e.message);
+      })
+      .finally(handleSpinner);
+  }
+});
 
 export default compose(
-  WithState,
   graphql(EVENTTYPE_BY_ID_QUERY, {
     options: ({ match: { params: { id } } }) => ({
       variables: {
@@ -14,14 +33,9 @@ export default compose(
     })
   }),
   withSpinnerError,
+  WithStateHandlers,
   graphql(EDIT_EVENTTYPE_MUTATION, {
-    name: 'mutate',
-    options: ({ match: { params: { id } }, input }) => ({
-      variables: {
-        id,
-        data: input
-      }
-    })
+    name: 'mutate'
   }),
-  WithHandler
-)(NewEventType);
+  WithSubmit
+)(EventTypeForm);

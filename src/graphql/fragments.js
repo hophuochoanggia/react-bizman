@@ -4,21 +4,24 @@ const fragments = {};
 
 fragments.eventDetail = gql`
   fragment eventDetail on event {
-    date
+    _id
     status
     data
-    reportingSpecialist {
-      fullName
-    }
-    doctor {
-      fullName
-    }
     inactiveReason {
       description
     }
     type {
       name
     }
+    users {
+      edges {
+        node {
+          fullName
+          role
+        }
+      }
+    }
+    createdAt
   }
 `;
 
@@ -57,6 +60,8 @@ fragments.patientDetail = gql`
     _id
     birthday
     fullName
+    firstName
+    lastName
     address
     address2
     suburb
@@ -68,14 +73,9 @@ fragments.patientDetail = gql`
     mobile
     fax
     email
-    medicare
     drivingLicense
     dva
     dvaType
-    consultant {
-      _id
-      fullName
-    }
     events {
       edges {
         node {
