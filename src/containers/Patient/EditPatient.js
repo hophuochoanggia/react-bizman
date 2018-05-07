@@ -65,21 +65,28 @@ const WithSubmit = compose(
     handleSubmit: ({
       match: { params: { id } }, input, mutate, handleSpinner
     }) => () => {
-      const omitKey = ['_id', '__typename', 'events'];
+      const data = { ...input };
+      const omitKey = ['_id', '__typename', 'events', 'fullName'];
       omitKey.forEach(element => {
-        delete input[element];
+        delete data[element];
+      });
+      Object.keys(data).map(key => {
+        if (data[key] === null) {
+          delete data[key];
+        }
       });
       handleSpinner();
       mutate({
         variables: {
-          id,
-          data: input
+          id: parseInt(id, 10),
+          data
         }
       })
         .then(() => {
           toast.success('Successfully update user');
         })
         .catch(e => {
+          console.log(e);
           toast.error(e.message);
         })
         .finally(handleSpinner);
