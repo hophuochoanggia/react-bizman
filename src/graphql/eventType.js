@@ -8,7 +8,7 @@ export const EVENTTYPES_QUERY = gql`
           _id
           name
           description
-          metadata
+          schema
         }
       }
     }
@@ -22,7 +22,7 @@ export const EVENTTYPE_BY_ID_QUERY = gql`
         node {
           _id
           name
-          metadata
+          schema
           description
         }
       }
@@ -36,7 +36,7 @@ export const CREATE_EVENTTYPE_MUTATION = gql`
       response {
         _id
         name
-        metadata
+        schema
         description
       }
     }
@@ -49,7 +49,7 @@ export const EDIT_EVENTTYPE_MUTATION = gql`
       response {
         _id
         name
-        metadata
+        schema
         description
       }
     }

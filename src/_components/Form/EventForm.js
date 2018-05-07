@@ -7,14 +7,26 @@ import {
   CardHeader,
   CardFooter,
   CardBody,
-  Form,
   FormGroup,
-  Label,
-  Input
+  Label
 } from 'reactstrap';
 
+import Dropdown from '../AsyncForm/DropdownList';
+import FormViewer from '../FormBuilder/Viewer';
+import { Spinner } from '../common';
+
 export default ({
-  spinner, input, handleInput, handleSubmit
+  spinner,
+  input,
+  schema,
+  handleInput,
+  handleJSON,
+  handleSubmit,
+  CONSULTANT,
+  DOCTOR,
+  SPECIALIST,
+  DENTIST,
+  SCIENTIST
 }) => (
   <Row>
     <Col xs="12" sm="12">
@@ -26,201 +38,57 @@ export default ({
           <Row>
             <Col xs="12" sm="12" md="6" lg="6">
               <FormGroup>
-                <Label>First Name: *</Label>
-                <Input
-                  type="text"
-                  name="firstName"
-                  placeholder="Enter first name"
-                  defaultValue={input.firstName}
-                  onChange={e => handleInput('firstName')(e.target.value)}
-                  required
+                <Label>Consultant: *</Label>
+                <Dropdown
+                  defaultValue={input.consultant}
+                  defaultOptions={CONSULTANT}
+                  handleChange={handleInput('consultant')}
                 />
               </FormGroup>
             </Col>
             <Col xs="12" sm="12" md="6" lg="6">
               <FormGroup>
-                <Label>Last Name: *</Label>
-                <Input
-                  type="text"
-                  name="lastName"
-                  placeholder="Enter last name"
-                  defaultValue={input.lastName}
-                  onChange={e => handleInput('lastName')(e.target.value)}
-                  required
-                />
-              </FormGroup>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs="12" sm="12" md="6" lg="6">
-              <FormGroup>
-                <Label>Email: *</Label>
-                <Input
-                  type="email"
-                  name="email"
-                  placeholder="Enter email"
-                  defaultValue={input.email}
-                  onChange={e => handleInput('email')(e.target.value)}
-                  required
-                />
-              </FormGroup>
-            </Col>
-            <Col xs="12" sm="6" md="3" lg="3">
-              <FormGroup>
-                <Label>Gender</Label>
-                <Input
-                  type="select"
-                  name="isMale"
-                  defaultValue={input.isMale}
-                  onChange={handleInput('isMale')}
-                >
-                  <option value>Male</option>
-                  <option defaultValue={false}>Female</option>
-                </Input>
-              </FormGroup>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs="12" sm="12" md="6" lg="6">
-              <FormGroup>
-                <Label>Address: *</Label>
-                <Input
-                  type="text"
-                  name="address"
-                  placeholder="Enter address"
-                  defaultValue={input.address}
-                  onChange={e => handleInput('address')(e.target.value)}
-                  required
+                <Label>Doctor: *</Label>
+                <Dropdown
+                  defaultValue={input.doctor}
+                  defaultOptions={DOCTOR}
+                  handleChange={handleInput('doctor')}
                 />
               </FormGroup>
             </Col>
             <Col xs="12" sm="12" md="6" lg="6">
               <FormGroup>
-                <Label>Address 2:</Label>
-                <Input
-                  type="text"
-                  name="address2"
-                  placeholder="Enter address 2"
-                  defaultValue={input.address2}
-                  onChange={e => handleInput('address2')(e.target.value)}
+                <Label>Specialist: *</Label>
+                <Dropdown
+                  defaultValue={input.specialist}
+                  defaultOptions={SPECIALIST}
+                  handleChange={handleInput('specialist')}
+                />
+              </FormGroup>
+            </Col>
+            <Col xs="12" sm="12" md="6" lg="6">
+              <FormGroup>
+                <Label>Dentist:</Label>
+                <Dropdown
+                  defaultValue={input.dentist}
+                  defaultOptions={DENTIST}
+                  handleChange={handleInput('dentist')}
+                />
+              </FormGroup>
+            </Col>
+            <Col xs="12" sm="12" md="6" lg="6">
+              <FormGroup>
+                <Label>Scientist:</Label>
+                <Dropdown
+                  defaultValue={input.scientist}
+                  defaultOptions={SCIENTIST}
+                  handleChange={handleInput('scientist')}
                 />
               </FormGroup>
             </Col>
           </Row>
-          <Row>
-            <Col xs="12" sm="6" md="4" lg="4">
-              <FormGroup>
-                <Label>Suburb</Label>
-                <Input
-                  type="text"
-                  name="suburb"
-                  placeholder="Enter suburb"
-                  defaultValue={input.suburb}
-                  onChange={e => handleInput('suburn')(e.target.value)}
-                />
-              </FormGroup>
-            </Col>
-            <Col xs="12" sm="6" md="4" lg="4">
-              <FormGroup>
-                <Label>State</Label>
-                <Input
-                  type="text"
-                  name="state"
-                  placeholder="Enter state"
-                  defaultValue={input.state}
-                  onChange={e => handleInput('state')(e.target.value)}
-                />
-              </FormGroup>
-            </Col>
-            <Col xs="12" sm="6" md="4" lg="4">
-              <FormGroup>
-                <Label>Work phone: *</Label>
-                <Input
-                  type="text"
-                  name="workPhone"
-                  placeholder="Enter work phone"
-                  defaultValue={input.workPhone}
-                  onChange={e => handleInput('workPhone')(e.target.value)}
-                  required
-                />
-              </FormGroup>
-            </Col>
-            <Col xs="12" sm="6" md="4" lg="4">
-              <FormGroup>
-                <Label>Home phone:</Label>
-                <Input
-                  type="text"
-                  name="homePhone"
-                  placeholder="Enter home phone"
-                  onChange={e => handleInput('homePhone')(e.target.value)}
-                  defaultValue={input.homePhone}
-                />
-              </FormGroup>
-            </Col>
-            <Col xs="12" sm="6" md="4" lg="4">
-              <FormGroup>
-                <Label>Mobile phone:</Label>
-                <Input
-                  type="text"
-                  name="mobile"
-                  placeholder="Enter mobile phone"
-                  defaultValue={input.mobile}
-                  onChange={e => handleInput('homePhone')(e.target.value)}
-                />
-              </FormGroup>
-            </Col>
-            <Col xs="12" sm="6" md="4" lg="4">
-              <FormGroup>
-                <Label>Fax:</Label>
-                <Input
-                  type="text"
-                  name="fax"
-                  placeholder="Enter fax"
-                  defaultValue={input.fax}
-                  onChange={e => handleInput('fax')(e.target.value)}
-                />
-              </FormGroup>
-            </Col>
-            <Col xs="12" sm="6" md="4" lg="4">
-              <FormGroup>
-                <Label>Driving License: </Label>
-                <Input
-                  type="text"
-                  name="dva"
-                  defaultValue={input.drivingLicense}
-                  onChange={e => handleInput('drivingLicense')(e.target.value)}
-                />
-              </FormGroup>
-            </Col>
-            <Col xs="12" sm="6" md="4" lg="4">
-              <FormGroup>
-                <Label>DVA No.:</Label>
-                <Input
-                  type="text"
-                  name="providerNo"
-                  placeholder="Enter provider number"
-                  defaultValue={input.dva}
-                  onChange={e => handleInput('dva')(e.target.value)}
-                />
-              </FormGroup>
-            </Col>
-            <Col xs="12" sm="12" md="4" lg="4">
-              <FormGroup>
-                <Label>DVA Type:</Label>
-                <Input
-                  type="select"
-                  name="dvaType"
-                  defaultValue={input.dvaType}
-                  onChange={handleInput('dvaType')}
-                >
-                  <option defaultValue={null}>None</option>
-                  <option defaultValue="GOLD">Gold</option>
-                  <option defaultValue="SILVER">Silver</option>
-                  <option defaultValue="ORANGE">Orange</option>
-                </Input>
-              </FormGroup>
-            </Col>
-          </Row>
+          <hr />
+          <FormViewer schema={schema} data={input.data} handleData={handleJSON('data')} />
         </CardBody>
         <CardFooter>
           {spinner ? (

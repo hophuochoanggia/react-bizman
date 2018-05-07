@@ -9,7 +9,17 @@ const typeGenerator = type => {
     case 'text':
       return {
         type: 'text',
-        title: '',
+        title: 'Title of field',
+        name: 'Textfield',
+        key: Math.random()
+          .toString(36)
+          .substring(7)
+      };
+    case 'date':
+      return {
+        type: 'date',
+        title: 'Date',
+        name: 'Datefield',
         key: Math.random()
           .toString(36)
           .substring(7)
@@ -35,44 +45,40 @@ const FormBuilder = ({
         <DropdownToggle caret>Please select a type</DropdownToggle>
         <DropdownMenu>
           <DropdownItem onClick={() => addElement('text')}>Text</DropdownItem>
+          <DropdownItem onClick={() => addElement('date')}>Date</DropdownItem>
         </DropdownMenu>
       </ButtonDropdown>
     </span>
     <hr />
     {schema.map((el, i) => (
-      <FormBuilderEdit
-        key={el.key}
-        data={el}
-        handleElement={handleElement(i)}
-        deleteElement={deleteElement(i)}
-      />
+      <FormBuilderEdit {...el} handleElement={handleElement(i)} deleteElement={deleteElement(i)} />
     ))}
   </div>
 );
 
 const WithState = compose(
-  withState('schema', 'updateSchema', ({ metadata }) => metadata),
   withState('isDropdownOpen', 'toggleDropdown', false),
   withHandlers({
     toggle: ({ isDropdownOpen, toggleDropdown }) => () => {
       toggleDropdown(!isDropdownOpen);
     },
-    handleElement: ({ schema, updateSchema, syncSchema }) => index => (key, value) => {
-      const newSchema = schema.slice();
-      newSchema[index][key] = value;
-      syncSchema(newSchema);
-      updateSchema(newSchema);
+    handleElement: ({ schema, handleSchema }) => index => (key, value) => {
+      const temp = {
+        ...schema[index],
+        [key]: value
+      };
+      const newSchema = [...schema];
+      newSchema.splice(index, 1, temp);
+      handleSchema(newSchema);
     },
-    addElement: ({ schema, updateSchema, syncSchema }) => type => {
+    addElement: ({ schema, handleSchema }) => type => {
       const newSchema = [...schema, typeGenerator(type)];
-      syncSchema(newSchema);
-      updateSchema(newSchema);
+      handleSchema(newSchema);
     },
-    deleteElement: ({ schema, updateSchema, syncSchema }) => index => () => {
+    deleteElement: ({ schema, handleSchema }) => index => () => {
       const newSchema = schema.slice();
       newSchema.splice(index, 1);
-      syncSchema(newSchema);
-      updateSchema(newSchema);
+      handleSchema(newSchema);
     }
   })
 );

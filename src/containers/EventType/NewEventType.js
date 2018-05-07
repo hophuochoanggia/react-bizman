@@ -7,14 +7,16 @@ import EventTypeForm from '../../_components/Form/EventTypeForm';
 const defaultSchema = [
   {
     type: 'text',
-    title: 'haha',
+    title: 'Text field',
+    name: 'key1',
     key: Math.random()
       .toString(36)
       .substring(7)
   },
   {
     type: 'text',
-    title: 'haha',
+    title: 'Text Field',
+    name: 'key2',
     key: Math.random()
       .toString(36)
       .substring(7)
@@ -27,7 +29,7 @@ export const WithStateHandlers = compose(
     'input',
     'setInput',
     ({ data }) =>
-      (data ? data.eventType.edges[0].node : { name: '', description: '', metadata: defaultSchema })
+      (data ? data.eventType.edges[0].node : { name: null, description: null, schema: defaultSchema })
   ),
   withHandlers({
     handleSpinner: ({ spinner, setSpinner }) => () => {

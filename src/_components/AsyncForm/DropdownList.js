@@ -1,28 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Async from 'react-select/lib/Async';
-
-import WithSpinnerError from '../HOC/SpinnerError';
+import { Input } from 'reactstrap';
 
 const Dropdown = ({ defaultValue, defaultOptions, handleChange }) => (
-  <Async
-    name="consultantId"
-    defaultValue={defaultValue}
-    defaultOptions={defaultOptions}
-    onChange={({ value }) => {
-      handleChange(value);
-    }}
-  />
+  <Input type="select" name="dropdownId" value={defaultValue} onChange={handleChange}>
+    <option value={undefined}> -- select an option -- </option>
+    {defaultOptions.map(option => (
+      <option key={option.value} value={option.value}>
+        {option.label}
+      </option>
+    ))}
+  </Input>
 );
 Dropdown.defaultProps = {
-  defaultValue: undefined
+  defaultValue: ''
 };
 
 Dropdown.propTypes = {
-  defaultValue: PropTypes.object,
+  defaultValue: PropTypes.any,
   defaultOptions: PropTypes.array.isRequired,
   handleChange: PropTypes.func.isRequired
 };
 
-// eslint-disable-next-line
-export default WithSpinnerError(Dropdown);
+export default Dropdown;

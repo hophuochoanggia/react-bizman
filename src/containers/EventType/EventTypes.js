@@ -33,7 +33,7 @@ const EventTypes = props => {
                 <tr>
                   <th>Name</th>
                   <th>Description</th>
-                  <th>Metadata</th>
+                  <th>Schema</th>
                 </tr>
               </thead>
               <tbody>
@@ -46,7 +46,7 @@ const EventTypes = props => {
                         type="textarea"
                         name="description"
                         rows="10"
-                        value={JSON.stringify(node.metadata, null, 2)}
+                        value={JSON.stringify(node.schema, null, 2)}
                         disabled
                       />
                     </td>

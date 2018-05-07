@@ -9,9 +9,8 @@ import CombineFinishFetching from '../../_components/HOC/CombineFetching';
 
 import EventForm from '../../_components/Form/EventForm';
 
-import { EVENTTYPE_BY_ID_QUERY } from '../../graphql/eventType';
 import { USERS_QUERY } from '../../graphql/user';
-import { CREATE_EVENT_MUTATION } from '../../graphql/event';
+import { EVENT_BY_ID_QUERY, EDIT_EVENT_MUTATION } from '../../graphql/event';
 
 const QueryUserByRole = role =>
   graphql(USERS_QUERY, {
@@ -24,18 +23,18 @@ const QueryUserByRole = role =>
   });
 
 const roles = ['CONSULTANT', 'DOCTOR', 'SPECIALIST', 'DENTIST', 'SCIENTIST'];
-const queryProp = ['EVENTTYPE', ...roles];
+const queryProp = ['EVENT', ...roles];
 
 const QueryUser = roles.map(role => QueryUserByRole(role));
 
 const WithState = compose(
-  graphql(EVENTTYPE_BY_ID_QUERY, {
-    options: ({ match: { params: { eventTypeId } } }) => ({
+  graphql(EVENT_BY_ID_QUERY, {
+    options: ({ match: { params: { id } } }) => ({
       variables: {
-        id: eventTypeId
+        id
       }
     }),
-    name: 'EVENTTYPE'
+    name: 'EVENT'
   }),
   ...QueryUser,
   CombineFinishFetching(queryProp), // consolidate loading state of all into 1
@@ -48,35 +47,41 @@ const WithState = compose(
         label: node.fullName
       }));
     });
+    const currentUser = {};
+    props.EVENT.event.edges[0].node.users.edges.map(({ node }) => {
+      const propsName = node.role.toLowerCase();
+      currentUser[propsName] = node._id;
+    });
     return {
       ...props,
       ...dropdownData,
-      schema: props.EVENTTYPE.eventType.edges[0].node.schema,
-      input: { data: {} }
+      schema: props.EVENT.event.edges[0].node.type.schema,
+      input: {
+        ...props.EVENT.event.edges[0].node,
+        ...currentUser
+      }
     };
   }),
   ControlForm,
   ControlSpinner,
-  graphql(CREATE_EVENT_MUTATION),
+  graphql(EDIT_EVENT_MUTATION),
   withHandlers({
     handleSubmit: ({
-      input,
-      history,
-      match: { params: { patientId, eventTypeId } },
-      mutate,
-      handleSpinner
+      input, history, match: { params: { id } }, mutate, handleSpinner
     }) => () => {
-      input.patientId = parseInt(patientId, 10);
-      input.typeId = parseInt(eventTypeId, 10);
+      const data = { ...input };
+      delete data.__typename;
+      delete data.type;
+      delete data.users;
       handleSpinner();
-      mutate({ variables: { input } })
+      mutate({ variables: { id, data } })
         .then(() => {
-          history.push(`/patient/${patientId}`);
+          toast.success('Updated Event');
         })
         .catch(e => {
           toast.error(e.message);
-          handleSpinner();
-        });
+        })
+        .finally(handleSpinner);
     }
   })
 );

@@ -5,7 +5,7 @@ import { ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reac
 import ControlDropdown from '../HOC/ControlDropdown';
 
 const Base = ({
-  title, items, isDropdownOpen, toggle, history
+  title, items, isDropdownOpen, toggle, history, patientId
 }) => (
   <ButtonDropdown isOpen={isDropdownOpen} toggle={toggle}>
     <DropdownToggle caret color="info">
@@ -13,7 +13,10 @@ const Base = ({
     </DropdownToggle>
     <DropdownMenu>
       {items.map(({ node }) => (
-        <DropdownItem key={node._id} onClick={() => history.push('/event/new', { node })}>
+        <DropdownItem
+          key={node._id}
+          onClick={() => history.push(`/event/${patientId}/new/${node._id}`)}
+        >
           {node.name}
         </DropdownItem>
       ))}
@@ -25,7 +28,8 @@ Base.propTypes = {
   items: PropTypes.array.isRequired,
   toggle: PropTypes.func.isRequired,
   isDropdownOpen: PropTypes.bool.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  patientId: PropTypes.string.isRequired
 };
 
 export default ControlDropdown(Base);

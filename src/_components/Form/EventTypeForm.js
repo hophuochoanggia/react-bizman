@@ -12,7 +12,7 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import FormBuilder from '../FormBuilder';
+import FormBuilder from '../FormBuilder/Builder';
 import { Spinner } from '../common';
 
 const EventTypeForm = ({
@@ -58,7 +58,7 @@ const EventTypeForm = ({
           </Row>
           <Row>
             <Col xs="12" sm="12" md="12" lg="12">
-              <FormBuilder metadata={input.metadata} syncSchema={handleInput('metadata')} />
+              <FormBuilder schema={input.schema} handleSchema={handleInput('schema')} />
             </Col>
           </Row>
         </CardBody>

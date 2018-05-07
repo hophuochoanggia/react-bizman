@@ -11,9 +11,10 @@ const WithSubmit = withHandlers({
     mutate, handleSpinner, input, match: { params: { id } }
   }) => () => {
     handleSpinner();
-    delete input._id;
-    delete input.__typename;
-    mutate({ variables: { id, data: input } })
+    const data = { ...input };
+    delete data._id;
+    delete data.__typename;
+    mutate({ variables: { id, data } })
       .then(() => {
         toast.success('Success');
       })

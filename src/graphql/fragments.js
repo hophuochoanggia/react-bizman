@@ -96,4 +96,32 @@ fragments.patientList = gql`
   }
 `;
 
+fragments.eventList = gql`
+  fragment eventList on event {
+    _id
+    status
+    data
+    createdAt
+  }
+`;
+
+fragments.eventDetail = gql`
+  fragment eventDetail on event {
+    status
+    data
+    type {
+      schema
+    }
+    users {
+      edges {
+        node {
+          _id
+          role
+          fullName
+        }
+      }
+    }
+  }
+`;
+
 module.exports = fragments;
