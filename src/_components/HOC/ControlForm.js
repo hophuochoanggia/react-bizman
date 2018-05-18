@@ -2,7 +2,7 @@ import { compose, withState, withHandlers } from 'recompose';
 
 export const ControlForm = compose(
   // for dropdown
-  withState('input', 'setInput', ({ input }) => input || {}),
+  withState('input', 'setInput', ({ input }) => ({ ...input })),
   withHandlers({
     handleJSON: ({ input, setInput }) => key => value => {
       setInput({
@@ -25,7 +25,7 @@ export default compose(
   withState('input', 'setInput', ({ input }) => input || {}),
   withHandlers({
     handleInput: ({ input, setInput }) => key => event => {
-      console.log(key, event.target.value);
+      // console.log(key, event.target.value);
       setInput({ ...input, [key]: event.target.value });
     }
   })

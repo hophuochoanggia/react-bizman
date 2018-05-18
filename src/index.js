@@ -27,8 +27,7 @@ import App from './App';
 const initialState = {
   credential: {
     isLoggedIn: false
-  },
-  spinner: false
+  }
 };
 // eslint-disable-next-line
 if (localStorage.hasOwnProperty('token')) {

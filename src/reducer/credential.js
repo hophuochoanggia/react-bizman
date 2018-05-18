@@ -5,7 +5,7 @@ export default (state = {}, action) => {
     case actionTypes.SET_CREDENTIAL:
       return {
         ...state,
-        isLoggedIn: true
+        isLoggedIn: action.isLoggedIn
       };
     default:
       return state;

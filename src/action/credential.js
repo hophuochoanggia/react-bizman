@@ -1,5 +1,9 @@
 import { actionTypes } from '../config';
 
-export const setCredential = token => ({
-  type: actionTypes.SET_CREDENTIAL
-});
+// eslint-disable-next-line
+export const setLoginState = isLoggedIn => {
+  return {
+    type: actionTypes.SET_CREDENTIAL,
+    isLoggedIn
+  };
+};

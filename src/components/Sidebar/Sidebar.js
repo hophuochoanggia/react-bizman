@@ -56,15 +56,10 @@ class Sidebar extends Component {
     };
 
     // simple wrapper for nav-title item
-    const wrapper = item => {
-      return item.wrapper && item.wrapper.element
-        ? React.createElement(
-          item.wrapper.element,
-          item.wrapper.attributes,
-          item.name
-        )
-        : item.name;
-    };
+    const wrapper = item =>
+      (item.wrapper && item.wrapper.element
+        ? React.createElement(item.wrapper.element, item.wrapper.attributes, item.name)
+        : item.name);
 
     // nav list section title
     const title = (title, key) => {
@@ -91,7 +86,7 @@ class Sidebar extends Component {
           !item.icon ? 'fa fa-circle' : item.icon,
           item.label.variant ? `text-${item.label.variant}` : '',
           item.label.class ? item.label.class : ''
-        ),
+        )
       };
       return navLink(item, key, classes);
     };
@@ -100,11 +95,8 @@ class Sidebar extends Component {
     const navItem = (item, key) => {
       const classes = {
         item: classNames(item.class),
-        link: classNames(
-          'nav-link',
-          item.variant ? `nav-link-${item.variant}` : ''
-        ),
-        icon: classNames(item.icon),
+        link: classNames('nav-link', item.variant ? `nav-link-${item.variant}` : ''),
+        icon: classNames(item.icon)
       };
       return navLink(item, key, classes);
     };
@@ -112,6 +104,7 @@ class Sidebar extends Component {
     // nav link
     const navLink = (item, key, classes) => {
       const url = item.url ? item.url : '';
+      console.log(url);
       return (
         <NavItem key={key} className={classes.item}>
           {isExternal(url) ? (
@@ -137,36 +130,28 @@ class Sidebar extends Component {
     };
 
     // nav dropdown
-    const navDropdown = (item, key) => {
-      return (
-        <li key={key} className={this.activeRoute(item.url, props)}>
-          <a
-            className="nav-link nav-dropdown-toggle"
-            href="#"
-            onClick={this.handleClick}
-          >
-            <i className={item.icon} />
-            {item.name}
-          </a>
-          <ul className="nav-dropdown-items">{navList(item.children)}</ul>
-        </li>
-      );
-    };
+    const navDropdown = (item, key) => (
+      <li key={key} className={this.activeRoute(item.url, props)}>
+        <a className="nav-link nav-dropdown-toggle" href="#" onClick={this.handleClick}>
+          <i className={item.icon} />
+          {item.name}
+        </a>
+        <ul className="nav-dropdown-items">{navList(item.children)}</ul>
+      </li>
+    );
 
     // nav type
     const navType = (item, idx) =>
-      item.title
+      (item.title
         ? title(item, idx)
         : item.divider
           ? divider(item, idx)
           : item.label
             ? navLabel(item, idx)
-            : item.children ? navDropdown(item, idx) : navItem(item, idx);
+            : item.children ? navDropdown(item, idx) : navItem(item, idx));
 
     // nav list
-    const navList = items => {
-      return items.map((item, index) => navType(item, index));
-    };
+    const navList = items => items.map((item, index) => navType(item, index));
 
     const isExternal = url => {
       const link = url ? url.substring(0, 4) : '';

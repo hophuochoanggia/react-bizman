@@ -10,6 +10,20 @@ export default {
       }
     },
     {
+      name: 'Referral',
+      icon: 'icon-user-following',
+      children: [
+        {
+          name: 'Manage',
+          url: '/referral'
+        },
+        {
+          name: 'New',
+          url: '/referral/new'
+        }
+      ]
+    },
+    {
       name: 'User',
       icon: 'icon-user-following',
       children: [
@@ -46,8 +60,8 @@ export default {
           url: '/eventType'
         },
         {
-          name: 'New Event Type',
-          url: '/eventType/new'
+          name: 'Referral Setting',
+          url: '/setting/referral'
         }
       ]
     }

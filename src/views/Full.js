@@ -25,6 +25,8 @@ import EditEventType from '../containers/EventType/EditEventType';
 import NewEvent from '../containers/Event/NewEvent';
 import EditEvent from '../containers/Event/EditEvent';
 
+import ReferralSetting from '../containers/Setting/Referral';
+
 class Full extends Component {
   render() {
     return (
@@ -57,6 +59,8 @@ class Full extends Component {
                   component={NewEvent}
                 />
                 <Route path="/event/:id" name="Event" component={EditEvent} />
+
+                <Route path="/setting/referral" name="Event" component={ReferralSetting} />
 
                 <Redirect from="/" to="/dashboard" />
               </Switch>
