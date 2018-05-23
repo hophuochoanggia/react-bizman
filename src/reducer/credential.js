@@ -4,8 +4,7 @@ export default (state = {}, action) => {
   switch (action.type) {
     case actionTypes.SET_CREDENTIAL:
       return {
-        ...state,
-        isLoggedIn: action.isLoggedIn
+        ...action.credential
       };
     default:
       return state;

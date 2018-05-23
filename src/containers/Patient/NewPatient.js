@@ -5,21 +5,23 @@ import { compose, withState, withHandlers } from 'recompose';
 import PatientForm from '../../_components/Form/PatientForm';
 import { CREATE_PATIENT_MUTATION } from '../../graphql/patient';
 import toast from '../../utils/toast';
+import ControlForm from '../../_components/HOC/ControlForm';
+import ControlSpinner from '../../_components/HOC/ControlSpinner';
 
 const NewPatient = props => <PatientForm {...props} />;
 
-export const WithState = compose(
-  withState('input', 'setInput', ({ data }) => (data ? { ...data.patient.edges[0].node } : {})),
-  withState('spinner', 'setSpinner', false),
-  withHandlers({
-    handleSpinner: ({ spinner, setSpinner }) => () => {
-      setSpinner(!spinner);
-    },
-    handleInput: ({ input, setInput }) => key => value => {
-      setInput({ ...input, [key]: value });
-    }
-  })
-);
+// export const WithState = compose(
+//  withState('input', 'setInput', ({ data }) => (data ? { ...data.patient.edges[0].node } : {})),
+//  withState('spinner', 'setSpinner', false),
+//  withHandlers({
+//    handleSpinner: ({ spinner, setSpinner }) => () => {
+//      setSpinner(!spinner);
+//    },
+//    handleInput: ({ input, setInput }) => key => value => {
+//      setInput({ ...input, [key]: value });
+//    }
+//  })
+// );
 
 const WithSubmit = compose(
   graphql(CREATE_PATIENT_MUTATION, {
@@ -45,4 +47,4 @@ const WithSubmit = compose(
   })
 );
 
-export default compose(WithState, WithSubmit)(NewPatient);
+export default compose(ControlForm, ControlSpinner, WithSubmit)(NewPatient);

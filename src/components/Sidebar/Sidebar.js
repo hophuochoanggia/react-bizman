@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Badge, Nav, NavItem, NavLink as RsNavLink } from 'reactstrap';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
+
 import nav from './_nav';
 import SidebarFooter from './../SidebarFooter';
 import SidebarForm from './../SidebarForm';
 import SidebarHeader from './../SidebarHeader';
 import SidebarMinimizer from './../SidebarMinimizer';
 
+import { decodeJwt } from '../../utils/jwt';
+
 class Sidebar extends Component {
   constructor(props) {
     super(props);
-
     this.handleClick = this.handleClick.bind(this);
     this.activeRoute = this.activeRoute.bind(this);
     this.hideMobile = this.hideMobile.bind(this);
@@ -104,7 +107,6 @@ class Sidebar extends Component {
     // nav link
     const navLink = (item, key, classes) => {
       const url = item.url ? item.url : '';
-      console.log(url);
       return (
         <NavItem key={key} className={classes.item}>
           {isExternal(url) ? (
@@ -164,7 +166,7 @@ class Sidebar extends Component {
         <SidebarHeader />
         <SidebarForm />
         <nav className="sidebar-nav">
-          <Nav>{navList(nav.items)}</Nav>
+          <Nav>{navList(nav(this.props.role).items)}</Nav>
         </nav>
         <SidebarFooter />
         <SidebarMinimizer />
@@ -173,4 +175,4 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+export default connect(state => ({ role: state.credential.role }))(Sidebar);

@@ -6,7 +6,8 @@ import Form from 'react-jsonschema-form';
 import ControlSpinner from '../../_components/HOC/ControlSpinner';
 import { withComponentError } from '../../_components/HOC/SpinnerError';
 import toast from '../../utils/toast';
-import Editor from '../../_components/CodeEditor';
+import Editor from '../CodeEditor';
+import stringToJSX from '../../utils/stringToJSX';
 
 const EnhanceForm = compose(
   lifecycle({
@@ -33,6 +34,7 @@ const FormEditor = ({
   mutate
 }) => (
   <Row>
+    {console.log(JSONSchema)}
     <Col xs="12" sm="12" md="6" lg="6">
       <Editor
         title="Schema"
@@ -53,7 +55,7 @@ const FormEditor = ({
       <Card>
         <CardHeader>Preview</CardHeader>
         <CardBody>
-          <EnhanceForm schema={JSONSchema} uiSchema={UISchema}>
+          <EnhanceForm schema={JSONSchema} uiSchema={stringToJSX(UISchema)}>
             <Button
               color="primary"
               onClick={() => {

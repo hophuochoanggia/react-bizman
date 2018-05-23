@@ -1,3 +1,5 @@
+/* global document */
+/* global localStorage */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createLogger } from 'redux-logger';
@@ -29,8 +31,7 @@ const initialState = {
     isLoggedIn: false
   }
 };
-// eslint-disable-next-line
-if (localStorage.hasOwnProperty('token')) {
+if (localStorage.token) {
   initialState.credential = decodeJwt(localStorage.token);
   initialState.credential.isLoggedIn = true;
 }
@@ -47,6 +48,5 @@ ReactDOM.render(
       </Router>
     </Provider>
   </ApolloProvider>,
-  // eslint-disable-next-line
   document.getElementById('root')
 );

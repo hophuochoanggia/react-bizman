@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
-import { withState, withHandlers, compose } from 'recompose';
+import { withState, withHandlers, compose, mapProps } from 'recompose';
 import { graphql } from 'react-apollo';
 import classnames from 'classnames';
 
-import { WithState } from './NewPatient';
-
 import PatientForm from '../../_components/Form/PatientForm';
 import WithSpinnerError from '../../_components/HOC/SpinnerError';
+import ControlForm from '../../_components/HOC/ControlForm';
+import ControlSpinner from '../../_components/HOC/ControlSpinner';
+
 import { PATIENT_BY_ID_QUERY, EDIT_PATIENT_MUTATION } from '../../graphql/patient';
 import toast from '../../utils/toast';
 import EventByPatient from '../Event/EventByPatient';
@@ -86,7 +87,6 @@ const WithSubmit = compose(
           toast.success('Successfully update user');
         })
         .catch(e => {
-          console.log(e);
           toast.error(e.message);
         })
         .finally(handleSpinner);
@@ -103,7 +103,9 @@ export default compose(
     })
   }),
   WithSpinnerError,
-  WithState,
+  mapProps(props => ({ ...props, input: props.data.patient.edges[0].node })),
+  ControlForm,
+  ControlSpinner,
   WithSubmit,
   WithTab
 )(EditPatient);

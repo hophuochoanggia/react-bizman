@@ -105,21 +105,21 @@ fragments.eventList = gql`
   }
 `;
 
-fragments.eventDetail = gql`
-  fragment eventDetail on event {
+fragments.referralDetail = gql`
+  fragment referralDetail on referral {
+    _id
     status
+    birthday
+    firstName
+    lastName
+    mobile
+    isMale
+    email
+    drivingLicense
     data
-    type {
-      schema
-    }
-    users {
-      edges {
-        node {
-          _id
-          role
-          fullName
-        }
-      }
+    doctor {
+      firstName
+      lastName
     }
   }
 `;

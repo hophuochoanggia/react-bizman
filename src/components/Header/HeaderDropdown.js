@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { Badge, DropdownItem, DropdownMenu, DropdownToggle, Dropdown, NavLink } from 'reactstrap';
+import { connect } from 'react-redux';
+import { setLoginState } from '../../action/credential';
 
 class HeaderDropdown extends Component {
   constructor(props) {
     super(props);
-
     this.toggle = this.toggle.bind(this);
     this.state = {
       dropdownOpen: false
@@ -16,6 +17,11 @@ class HeaderDropdown extends Component {
       dropdownOpen: !this.state.dropdownOpen
     });
   }
+
+  logout = () => {
+    localStorage.removeItem('token');
+    this.props.setLoginState({ isLoggedIn: false });
+  };
 
   dropAccnt() {
     return (
@@ -60,7 +66,7 @@ class HeaderDropdown extends Component {
           <DropdownItem>
             <i className="fa fa-shield" /> Lock Account
           </DropdownItem>
-          <DropdownItem>
+          <DropdownItem onClick={this.logout}>
             <i className="fa fa-lock" /> Logout
           </DropdownItem>
         </DropdownMenu>
@@ -74,4 +80,4 @@ class HeaderDropdown extends Component {
   }
 }
 
-export default HeaderDropdown;
+export default connect(null, { setLoginState })(HeaderDropdown);

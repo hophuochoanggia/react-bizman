@@ -3,7 +3,7 @@ import { compose, withHandlers } from 'recompose';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import toast from '../utils/toast';
+
 import { graphql } from 'react-apollo';
 import {
   Container,
@@ -19,6 +19,8 @@ import {
   InputGroupText
 } from 'reactstrap';
 
+import { decodeJwt } from '../utils/jwt';
+import toast from '../utils/toast';
 import ControlForm from '../_components/HOC/ControlForm';
 import ControlSpinner from '../_components/HOC/ControlSpinner';
 import { LOGIN_MUTATION } from '../graphql/user';
@@ -115,10 +117,12 @@ const WithLogin = withHandlers({
     handleSpinner();
     login({ variables: input })
       .then(({ data: { login: { token } } }) => {
+        const credential = decodeJwt(token);
+        credential.isLoggedIn = true;
         // eslint-disable-next-line
         localStorage.setItem('token', token);
         toast.success('Login success');
-        setLoginState(true);
+        setLoginState(credential);
       })
       .catch(error => {
         const { message } = error;

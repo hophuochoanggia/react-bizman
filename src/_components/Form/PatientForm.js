@@ -9,7 +9,6 @@ import {
   CardHeader,
   CardFooter,
   CardBody,
-  Form,
   FormGroup,
   Label,
   Input
@@ -19,10 +18,16 @@ import DatePicker from 'react-datepicker';
 import { Spinner } from '../common';
 
 const PatientForm = ({
-  spinner, input, handleInput, handleSubmit
+  spinner,
+  input,
+  handleInput,
+  handleInputAsValue,
+  handleSubmit,
+  children
 }) => (
   <Row>
     <Col xs="12" sm="12">
+      {children}
       <Card>
         <CardHeader>
           <h3>Patient Detail</h3>
@@ -37,7 +42,7 @@ const PatientForm = ({
                   name="firstName"
                   placeholder="Enter first name"
                   defaultValue={input.firstName}
-                  onChange={e => handleInput('firstName')(e.target.value)}
+                  onChange={handleInput('firstName')}
                   required
                 />
               </FormGroup>
@@ -50,7 +55,7 @@ const PatientForm = ({
                   name="lastName"
                   placeholder="Enter last name"
                   defaultValue={input.lastName}
-                  onChange={e => handleInput('lastName')(e.target.value)}
+                  onChange={handleInput('lastName')}
                   required
                 />
               </FormGroup>
@@ -65,7 +70,7 @@ const PatientForm = ({
                   name="email"
                   placeholder="Enter email"
                   defaultValue={input.email}
-                  onChange={e => handleInput('email')(e.target.value)}
+                  onChange={handleInput('email')}
                   required
                 />
               </FormGroup>
@@ -90,7 +95,7 @@ const PatientForm = ({
                 <DatePicker
                   dateFormat="DD/MM/YYYY"
                   selected={moment(input.birthday)}
-                  onChange={e => handleInput('birthday')(e.format('YYYY-MM-DD'))}
+                  onChange={e => handleInputAsValue('birthday')(e.format('YYYY-MM-DD'))}
                   customInput={<Input name="birthday" />}
                 />
               </FormGroup>
@@ -105,7 +110,7 @@ const PatientForm = ({
                   name="address"
                   placeholder="Enter address"
                   defaultValue={input.address}
-                  onChange={e => handleInput('address')(e.target.value)}
+                  onChange={handleInput('address')}
                   required
                 />
               </FormGroup>
@@ -118,7 +123,7 @@ const PatientForm = ({
                   name="address2"
                   placeholder="Enter address 2"
                   defaultValue={input.address2}
-                  onChange={e => handleInput('address2')(e.target.value)}
+                  onChange={handleInput('address2')}
                 />
               </FormGroup>
             </Col>
@@ -132,7 +137,7 @@ const PatientForm = ({
                   name="suburb"
                   placeholder="Enter suburb"
                   defaultValue={input.suburb}
-                  onChange={e => handleInput('suburn')(e.target.value)}
+                  onChange={handleInput('suburn')}
                 />
               </FormGroup>
             </Col>
@@ -144,7 +149,7 @@ const PatientForm = ({
                   name="state"
                   placeholder="Enter state"
                   defaultValue={input.state}
-                  onChange={e => handleInput('state')(e.target.value)}
+                  onChange={handleInput('state')}
                 />
               </FormGroup>
             </Col>
@@ -156,7 +161,7 @@ const PatientForm = ({
                   name="workPhone"
                   placeholder="Enter work phone"
                   defaultValue={input.workPhone}
-                  onChange={e => handleInput('workPhone')(e.target.value)}
+                  onChange={handleInput('workPhone')}
                   required
                 />
               </FormGroup>
@@ -168,7 +173,7 @@ const PatientForm = ({
                   type="text"
                   name="homePhone"
                   placeholder="Enter home phone"
-                  onChange={e => handleInput('homePhone')(e.target.value)}
+                  onChange={handleInput('homePhone')}
                   defaultValue={input.homePhone}
                 />
               </FormGroup>
@@ -181,7 +186,7 @@ const PatientForm = ({
                   name="mobile"
                   placeholder="Enter mobile phone"
                   defaultValue={input.mobile}
-                  onChange={e => handleInput('homePhone')(e.target.value)}
+                  onChange={handleInput('homePhone')}
                 />
               </FormGroup>
             </Col>
@@ -193,7 +198,7 @@ const PatientForm = ({
                   name="fax"
                   placeholder="Enter fax"
                   defaultValue={input.fax}
-                  onChange={e => handleInput('fax')(e.target.value)}
+                  onChange={handleInput('fax')}
                 />
               </FormGroup>
             </Col>
@@ -204,7 +209,7 @@ const PatientForm = ({
                   type="text"
                   name="dva"
                   defaultValue={input.drivingLicense}
-                  onChange={e => handleInput('drivingLicense')(e.target.value)}
+                  onChange={handleInput('drivingLicense')}
                 />
               </FormGroup>
             </Col>
@@ -216,7 +221,7 @@ const PatientForm = ({
                   name="providerNo"
                   placeholder="Enter provider number"
                   defaultValue={input.dva}
-                  onChange={e => handleInput('dva')(e.target.value)}
+                  onChange={handleInput('dva')}
                 />
               </FormGroup>
             </Col>
@@ -261,7 +266,9 @@ PatientForm.propTypes = {
   input: PropTypes.object.isRequired,
   spinner: PropTypes.bool.isRequired,
   handleInput: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  handleInputAsValue: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  children: PropTypes.array.isRequired
 };
 
 export default PatientForm;

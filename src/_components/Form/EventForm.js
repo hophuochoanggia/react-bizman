@@ -20,7 +20,7 @@ export default ({
   input,
   schema,
   handleInput,
-  handleJSON,
+  handleSelect,
   handleSubmit,
   CONSULTANT,
   DOCTOR,
@@ -42,7 +42,7 @@ export default ({
                 <Dropdown
                   defaultValue={input.consultant}
                   defaultOptions={CONSULTANT}
-                  handleChange={handleInput('consultant')}
+                  handleChange={handleSelect('consultant')}
                 />
               </FormGroup>
             </Col>
@@ -52,7 +52,7 @@ export default ({
                 <Dropdown
                   defaultValue={input.doctor}
                   defaultOptions={DOCTOR}
-                  handleChange={handleInput('doctor')}
+                  handleChange={handleSelect('doctor')}
                 />
               </FormGroup>
             </Col>
@@ -62,7 +62,7 @@ export default ({
                 <Dropdown
                   defaultValue={input.specialist}
                   defaultOptions={SPECIALIST}
-                  handleChange={handleInput('specialist')}
+                  handleChange={handleSelect('specialist')}
                 />
               </FormGroup>
             </Col>
@@ -72,7 +72,7 @@ export default ({
                 <Dropdown
                   defaultValue={input.dentist}
                   defaultOptions={DENTIST}
-                  handleChange={handleInput('dentist')}
+                  handleChange={handleselect('dentist')}
                 />
               </FormGroup>
             </Col>
@@ -82,13 +82,13 @@ export default ({
                 <Dropdown
                   defaultValue={input.scientist}
                   defaultOptions={SCIENTIST}
-                  handleChange={handleInput('scientist')}
+                  handleChange={handleSelect('scientist')}
                 />
               </FormGroup>
             </Col>
           </Row>
           <hr />
-          <FormViewer schema={schema} data={input.data} handleData={handleJSON('data')} />
+          <FormViewer schema={schema} data={input.data} handleData={handleInput('data')} />
         </CardBody>
         <CardFooter>
           {spinner ? (
