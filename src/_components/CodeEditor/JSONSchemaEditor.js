@@ -34,7 +34,6 @@ const FormEditor = ({
   mutate
 }) => (
   <Row>
-    {console.log(JSONSchema)}
     <Col xs="12" sm="12" md="6" lg="6">
       <Editor
         title="Schema"

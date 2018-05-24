@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import { referralDetail } from './fragments';
 
-export const VIEWER_REFERRAL_LIST = gql`
+export const VIEWER_REFERRALS_QUERY = gql`
   {
     viewer {
       edges {
@@ -22,7 +22,7 @@ export const VIEWER_REFERRAL_LIST = gql`
   }
 `;
 
-export const VIEWER_REFERRAL_BY_ID = gql`
+export const VIEWER_REFERRAL_BY_ID_QUERY = gql`
   query users($id: Int!) {
     viewer {
       edges {

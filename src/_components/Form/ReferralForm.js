@@ -19,7 +19,6 @@ const ReferralForm = ({
   handleSubmit
 }) => {
   const { height, weight, neck } = pathOr({}, ['data', 'BMI'], input);
-  console.log(input);
   return (
     <Card>
       <CardHeader>

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
-import { withStateHandlers } from 'recompose';
+import { withState, compose } from 'recompose';
 import {
   Input,
   Row,
@@ -15,9 +15,14 @@ import {
   PaginationLink
 } from 'reactstrap';
 import { USERS_QUERY } from '../../graphql/user';
-import WithSpinnerError from '../../_components/HOC/SpinnerError';
 
-const ListUser = WithSpinnerError(({
+import WithSpinnerError from '../../_components/HOC/SpinnerError';
+import RouteGuard from '../../_components/HOC/RouteGuard';
+import ReduxCredential from '../../_components/HOC/ReduxCredential';
+
+import { CONSULTANT } from '../../config';
+
+const ListUser = ({
   handleForm, data: { users: { edges } }, role, history
 }) => (
   <Row className="animated fadeIn">
@@ -75,23 +80,18 @@ const ListUser = WithSpinnerError(({
       </Card>
     </Col>
   </Row>
-));
+);
 
 ListUser.propTypes = {
   data: PropTypes.object.isRequired,
   handleForm: PropTypes.func.isRequired,
-  role: PropTypes.string.isRequired
+  role: PropTypes.string.isRequired,
+  history: PropTypes.object.isRequired
 };
-
-const withGraphQL = graphql(USERS_QUERY)(ListUser);
-
-export default withStateHandlers(
-  () => ({
-    role: 'CONSULTANT'
-  }),
-  {
-    handleForm: () => value => ({
-      role: value
-    })
-  }
-)(withGraphQL);
+export default compose(
+  ReduxCredential,
+  RouteGuard,
+  withState('role', 'handleForm', CONSULTANT),
+  graphql(USERS_QUERY),
+  WithSpinnerError
+)(ListUser);

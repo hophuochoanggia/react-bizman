@@ -8,6 +8,7 @@ import { setLoginState } from '../action/credential';
 export const Spinner = () => <i className="fa fa-circle-o-notch fa-lg fa-spin" />;
 export const Error = ({ error }) => <div>{error.toString()}</div>;
 export const NotFoundError = () => <div>Not Found</div>;
+export const DashboardRedirect = () => <Redirect from="*" to="/login" />;
 
 export const WithTokenExpireError = connect(null, { setLoginState })(props => {
   const networkError = pathOr(

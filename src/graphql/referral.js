@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { referralDetail } from './fragments';
 
 // eslint-disable-next-line
 export const CREATE_REFERRAL_MUTATION = gql`
@@ -19,4 +20,30 @@ export const EDIT_REFERRAL_BY_ID_MUTATION = gql`
       }
     }
   }
+`;
+
+export const REFERRALS_QUERY = gql`
+  query {
+    referrals {
+      edges {
+        node {
+          ...referralDetail
+        }
+      }
+    }
+  }
+  ${referralDetail}
+`;
+
+export const REFERRAL_BY_ID_QUERY = gql`
+  query referral($id: Int!) {
+    referral(id: $id) {
+      edges {
+        node {
+          ...referralDetail
+        }
+      }
+    }
+  }
+  ${referralDetail}
 `;

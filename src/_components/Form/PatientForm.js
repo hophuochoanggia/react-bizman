@@ -23,11 +23,11 @@ const PatientForm = ({
   handleInput,
   handleInputAsValue,
   handleSubmit,
-  children
+  match,
+  history
 }) => (
   <Row>
     <Col xs="12" sm="12">
-      {children}
       <Card>
         <CardHeader>
           <h3>Patient Detail</h3>
@@ -267,8 +267,7 @@ PatientForm.propTypes = {
   spinner: PropTypes.bool.isRequired,
   handleInput: PropTypes.func.isRequired,
   handleInputAsValue: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  children: PropTypes.array.isRequired
+  handleSubmit: PropTypes.func.isRequired
 };
 
 export default PatientForm;

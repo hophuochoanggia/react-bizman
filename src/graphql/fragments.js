@@ -112,6 +112,7 @@ fragments.referralDetail = gql`
     birthday
     firstName
     lastName
+    fullName
     mobile
     isMale
     email

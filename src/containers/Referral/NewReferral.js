@@ -10,6 +10,9 @@ import toast from '../../utils/toast';
 import ControlForm from '../../_components/HOC/ControlForm';
 import ControlSpinner from '../../_components/HOC/ControlSpinner';
 import WithSpinnerError from '../../_components/HOC/SpinnerError';
+import RouteGuard from '../../_components/HOC/RouteGuard';
+import ReduxCredential from '../../_components/HOC/ReduxCredential';
+
 import { configLens } from '../../utils/pathLens';
 
 export const LoadConfig = graphql(CONFIG_QUERY, {
@@ -20,18 +23,18 @@ export const LoadConfig = graphql(CONFIG_QUERY, {
   })
 });
 
-export const WithRedux = connect(({ credential }) => ({ credential }));
 const defaultInput = {
   data: {}
 };
 
 export default compose(
+  ReduxCredential,
+  RouteGuard,
   LoadConfig,
   WithSpinnerError,
   mapProps(props => ({ ...props, ...configLens(props.data.config), input: defaultInput })),
   ControlForm,
   ControlSpinner,
-  WithRedux,
   graphql(CREATE_REFERRAL_MUTATION),
   withHandlers({
     handleSubmit: ({

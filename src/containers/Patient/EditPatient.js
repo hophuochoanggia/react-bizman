@@ -9,6 +9,8 @@ import PatientForm from '../../_components/Form/PatientForm';
 import WithSpinnerError from '../../_components/HOC/SpinnerError';
 import ControlForm from '../../_components/HOC/ControlForm';
 import ControlSpinner from '../../_components/HOC/ControlSpinner';
+import RouteGuard from '../../_components/HOC/RouteGuard';
+import ReduxCredential from '../../_components/HOC/ReduxCredential';
 
 import { PATIENT_BY_ID_QUERY, EDIT_PATIENT_MUTATION } from '../../graphql/patient';
 import toast from '../../utils/toast';
@@ -95,6 +97,8 @@ const WithSubmit = compose(
 );
 
 export default compose(
+  ReduxCredential,
+  RouteGuard,
   graphql(PATIENT_BY_ID_QUERY, {
     options: ({ match: { params: { id } } }) => ({
       variables: {
