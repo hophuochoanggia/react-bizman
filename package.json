@@ -74,6 +74,8 @@
     "react-router-dom": "4.2.2",
     "react-router-redux": "^4.0.8",
     "react-select": "^2.0.0-beta.2",
+    "react-signature-canvas": "^1.0.0-alpha.1",
+    "react-signature-pad": "0.0.6",
     "react-toastify": "^4.0.0-rc.2",
     "react-transition-group": "2.2.1",
     "reactstrap": "5.0.0-beta",
@@ -85,7 +87,7 @@
   "scripts": {
     "lint": "eslint .",
     "dev": "webpack -d --progress --watch --profile --json > compilation-stats.json --env.dev",
-    "start": "webpack-dev-server --progress --color --inline --env.dev",
+    "start": "webpack-dev-server --progress --color --inline --env.dev --host 0.0.0.0",
     "startc9": "webpack-dev-server --progress --hot --host $IP --port $PORT --public $C9_HOSTNAME --content-base build/",
     "build": "webpack -p --progress --env.prod",
     "clean": "rimraf ./build",

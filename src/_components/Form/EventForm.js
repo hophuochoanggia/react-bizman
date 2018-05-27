@@ -72,7 +72,7 @@ export default ({
                 <Dropdown
                   defaultValue={input.dentist}
                   defaultOptions={DENTIST}
-                  handleChange={handleselect('dentist')}
+                  handleChange={handleSelect('dentist')}
                 />
               </FormGroup>
             </Col>
@@ -95,11 +95,14 @@ export default ({
             <Spinner />
           ) : (
             <React.Fragment>
-              <Button type="submit" size="md" color="primary" onClick={handleSubmit}>
+              <Button
+                type="submit"
+                size="md"
+                color="primary"
+                onClick={handleSubmit}
+                disabled={spinner}
+              >
                 <i className="fa fa-dot-circle-o" /> Submit
-              </Button>
-              <Button type="reset" size="md" color="danger">
-                <i className="fa fa-ban" /> Reset
               </Button>
             </React.Fragment>
           )}

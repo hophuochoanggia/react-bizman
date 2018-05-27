@@ -75,9 +75,6 @@ const PasswordForm = ({
               <Button type="submit" size="md" color="warning" onClick={handlePassword}>
                 <i className="fa fa-dot-circle-o" /> Change Password
               </Button>
-              <Button type="reset" size="md" color="danger">
-                <i className="fa fa-ban" /> Reset
-              </Button>
             </React.Fragment>
           )}
         </CardFooter>

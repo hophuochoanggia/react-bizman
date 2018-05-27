@@ -225,9 +225,6 @@ const ProfileForm = ({ spinner, input, handleInput, handleEditViewer }) => {
                 <Button type="submit" size="md" color="primary" onClick={handleEditViewer}>
                   <i className="fa fa-dot-circle-o" /> Submit
                 </Button>
-                <Button type="reset" size="md" color="danger">
-                  <i className="fa fa-ban" /> Reset
-                </Button>
               </React.Fragment>
             )}
           </CardFooter>

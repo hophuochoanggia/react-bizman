@@ -1,5 +1,4 @@
 import { graphql } from 'react-apollo';
-import { connect } from 'react-redux';
 import { withHandlers, compose, mapProps } from 'recompose';
 
 import { CREATE_REFERRAL_MUTATION } from '../../graphql/referral';
@@ -39,7 +38,10 @@ export default compose(
   withHandlers({
     handleSubmit: ({
       input, history, mutate, handleSpinner, credential: { id }
-    }) => () => {
+    }) => ref => {
+      handleSpinner();
+      delete input.data.BANG; // BANG is derived from other fields, no need to store
+      input.data.signature = ref;
       input.doctorId = id;
       mutate({ variables: { input } })
         .then(() => {

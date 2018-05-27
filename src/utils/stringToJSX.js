@@ -1,9 +1,10 @@
+/* eslint react/no-danger: 0 */
 import React from 'react';
 
 export default schema => {
   const result = {};
   Object.keys(schema).map(props => {
-    const temp = {};
+    const temp = { ...schema[props] };
     if (schema[props]['ui:help']) {
       temp['ui:help'] = (
         <div

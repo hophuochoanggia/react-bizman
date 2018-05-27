@@ -70,9 +70,6 @@ const EventTypeForm = ({
               <Button type="submit" size="md" color="primary" onClick={handleSubmit}>
                 <i className="fa fa-dot-circle-o" /> Submit
               </Button>
-              <Button type="reset" size="md" color="danger">
-                <i className="fa fa-ban" /> Reset
-              </Button>
             </React.Fragment>
           )}
         </CardFooter>

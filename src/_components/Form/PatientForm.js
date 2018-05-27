@@ -247,14 +247,9 @@ const PatientForm = ({
           {spinner ? (
             <Spinner />
           ) : (
-            <React.Fragment>
-              <Button type="submit" size="md" color="primary" onClick={handleSubmit}>
-                <i className="fa fa-dot-circle-o" /> Submit
-              </Button>
-              <Button type="reset" size="md" color="danger">
-                <i className="fa fa-ban" /> Reset
-              </Button>
-            </React.Fragment>
+            <Button type="submit" size="md" color="primary" onClick={handleSubmit}>
+              <i className="fa fa-dot-circle-o" /> Submit
+            </Button>
           )}
         </CardFooter>
       </Card>
@@ -262,8 +257,12 @@ const PatientForm = ({
   </Row>
 );
 
+PatientForm.defaultProps = {
+  input: {}
+};
+
 PatientForm.propTypes = {
-  input: PropTypes.object.isRequired,
+  input: PropTypes.object,
   spinner: PropTypes.bool.isRequired,
   handleInput: PropTypes.func.isRequired,
   handleInputAsValue: PropTypes.func.isRequired,

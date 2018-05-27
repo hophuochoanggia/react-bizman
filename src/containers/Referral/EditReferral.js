@@ -35,11 +35,13 @@ const ReferralDetail = compose(
   graphql(EDIT_REFERRAL_BY_ID_MUTATION),
   withHandlers({
     handleSubmit: ({ input, mutate, handleSpinner }) => () => {
+      handleSpinner();
       const data = { ...input };
       delete data._id;
+      delete data.__typename;
       delete data.fullName;
       delete data.doctor;
-      delete data.__typename;
+      delete data.BANG; // BANG is derived from other fields, no need to store
       mutate({ variables: { id: input._id, data } })
         .then(() => {
           toast.success('Referral updated');

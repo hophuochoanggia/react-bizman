@@ -3,7 +3,7 @@ import { graphql } from 'react-apollo';
 
 import toast from '../../utils/toast';
 import WithSpinnerError from '../../_components/HOC/SpinnerError';
-import { ControlForm } from '../../_components/HOC/ControlForm';
+import ControlForm from '../../_components/HOC/ControlForm';
 import ControlSpinner from '../../_components/HOC/ControlSpinner';
 import CombineFinishFetching from '../../_components/HOC/CombineFetching';
 
