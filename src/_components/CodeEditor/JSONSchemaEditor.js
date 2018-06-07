@@ -3,9 +3,8 @@ import { compose, withState, lifecycle } from 'recompose';
 import { Row, Button, Col, Card, CardHeader, CardBody } from 'reactstrap';
 import Form from 'react-jsonschema-form';
 
-import ControlSpinner from '../../_components/HOC/ControlSpinner';
+import { Spinner } from '../common';
 import { withComponentError } from '../../_components/HOC/SpinnerError';
-import toast from '../../utils/toast';
 import Editor from '../CodeEditor';
 import stringToJSX from '../../utils/stringToJSX';
 
@@ -23,6 +22,7 @@ const EnhanceForm = compose(
 )(Form);
 
 const FormEditor = ({
+  spinner,
   JSONSchema,
   UISchema,
   validJSONSchema,
@@ -31,7 +31,7 @@ const FormEditor = ({
   setUISchema,
   setValidJSONSchema,
   setValidUISchema,
-  mutate
+  handleSubmit
 }) => (
   <Row>
     <Col xs="12" sm="12" md="6" lg="6">
@@ -55,25 +55,18 @@ const FormEditor = ({
         <CardHeader>Preview</CardHeader>
         <CardBody>
           <EnhanceForm schema={JSONSchema} uiSchema={stringToJSX(UISchema)}>
-            <Button
-              color="primary"
-              onClick={() => {
-                if (validJSONSchema && validUISchema) {
-                  mutate({
-                    variables: {
-                      name: 'REFERRAL-METADATA',
-                      data: { setting: { JSONSchema, UISchema } }
-                    }
-                  })
-                    .then(() => toast.success('Config Update'))
-                    .catch(() => toast.success('Error updating config'));
-                } else {
-                  toast.error('Setting has errors');
-                }
-              }}
-            >
-              Update
-            </Button>
+            {spinner ? (
+              <Spinner />
+            ) : (
+              <Button
+                color="primary"
+                onClick={() => {
+                  handleSubmit(validJSONSchema && validUISchema, JSONSchema, UISchema);
+                }}
+              >
+                Update
+              </Button>
+            )}
           </EnhanceForm>
         </CardBody>
       </Card>
@@ -82,9 +75,8 @@ const FormEditor = ({
 );
 
 export default compose(
-  withState('JSONSchema', 'setJSONSchema', ({ input }) => input.JSONSchema),
-  withState('UISchema', 'setUISchema', ({ input }) => input.UISchema),
+  withState('JSONSchema', 'setJSONSchema', ({ JSONSchema }) => JSONSchema),
+  withState('UISchema', 'setUISchema', ({ UISchema }) => UISchema),
   withState('validJSONSchema', 'setValidJSONSchema', true),
-  withState('validUISchema', 'setValidUISchema', true),
-  ControlSpinner
+  withState('validUISchema', 'setValidUISchema', true)
 )(FormEditor);

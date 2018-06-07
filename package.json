@@ -69,7 +69,6 @@
     "react-codemirror2": "^5.0.1",
     "react-datepicker": "^1.4.1",
     "react-dom": "16.2.0",
-    "react-jsonschema-form": "^1.0.3",
     "react-redux": "^5.0.7",
     "react-router-dom": "4.2.2",
     "react-router-redux": "^4.0.8",
@@ -87,7 +86,7 @@
   "scripts": {
     "lint": "eslint .",
     "dev": "webpack -d --progress --watch --profile --json > compilation-stats.json --env.dev",
-    "start": "webpack-dev-server --progress --color --inline --env.dev --host 0.0.0.0",
+    "start": "webpack-dev-server --progress --color --inline --env.dev",
     "startc9": "webpack-dev-server --progress --hot --host $IP --port $PORT --public $C9_HOSTNAME --content-base build/",
     "build": "webpack -p --progress --env.prod",
     "clean": "rimraf ./build",

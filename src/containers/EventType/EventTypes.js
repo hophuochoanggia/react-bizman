@@ -33,7 +33,6 @@ const EventTypes = props => {
                 <tr>
                   <th>Name</th>
                   <th>Description</th>
-                  <th>Schema</th>
                 </tr>
               </thead>
               <tbody>
@@ -41,15 +40,6 @@ const EventTypes = props => {
                   <tr key={node._id} onClick={() => history.push(`/eventType/${node._id}`)}>
                     <td>{node.name}</td>
                     <td>{node.description}</td>
-                    <td>
-                      <Input
-                        type="textarea"
-                        name="description"
-                        rows="10"
-                        value={JSON.stringify(node.schema, null, 2)}
-                        disabled
-                      />
-                    </td>
                   </tr>
                 ))}
               </tbody>

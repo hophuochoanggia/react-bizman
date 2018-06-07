@@ -7,7 +7,7 @@ import ControlForm from '../../_components/HOC/ControlForm';
 import ControlSpinner from '../../_components/HOC/ControlSpinner';
 import CombineFinishFetching from '../../_components/HOC/CombineFetching';
 
-import EventForm from '../../_components/Form/EventForm';
+import EventForm from '../../_components/Form/EventForm/';
 
 import { USERS_QUERY } from '../../graphql/user';
 import { EVENT_BY_ID_QUERY, EDIT_EVENT_MUTATION } from '../../graphql/event';
@@ -67,12 +67,14 @@ const WithState = compose(
   graphql(EDIT_EVENT_MUTATION),
   withHandlers({
     handleSubmit: ({
-      input, history, match: { params: { id } }, mutate, handleSpinner
+      input, match: { params: { id } }, mutate, handleSpinner
     }) => () => {
       const data = { ...input };
+      delete data._id;
       delete data.__typename;
       delete data.type;
       delete data.users;
+      delete data.inactiveReason;
       handleSpinner();
       mutate({ variables: { id, data } })
         .then(() => {

@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js remove codemirror
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js start
 
 PATH: 
   C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Vale\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0;C:\Program Files\Lenovo\Bluetooth Software;C:\Program Files\Lenovo\Bluetooth Software\syswow64;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\Git\cmd;E:\Workspace;C:\Program Files (x86)\Skype\Phone;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit;C:\Users\Vale\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Cmder;C:\Program Files (x86)\Vim\vim80;C:\Users\Vale\AppData\Local\atom\bin;C:\cmder;C:\Python27;C:\Python27\Scripts;C:\Program Files\Java\jdk1.8.0_121\bin;E:\Workspace;C:\Users\Vale\AppData\Local\Yarn\bin;C:\Program Files\Docker Toolbox;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\Vale\A;C:\Program Files\PuTTY;C:\Program Files (x86)\Yarn\bin;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\PDFtk\bin;C:\Cmder;C:\Program Files (x86)\Vim\vim80;C:\Users\Vale\AppData\Local\atom\bin;C:\cmder;C:\Python27;C:\Python27\Scripts;C:\Program Files\Java\jdk1.8.0_121\bin;E:\Workspace;C:\Program Files (x86)\Microsoft VS Code\bin;C:\Users\Vale\AppData\Roaming\nvm;C:\Program Files (x86)\Nmap;C:\Program Files\PostgreSQL\9.6\bin;C:\Users\Vale\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\Vale\AppData\Roaming\npm;C:\Program Files\Heroku\bin;C:\Program Files\Docker Toolbox;C:\Users\Vale\AppData\Local\Yarn\bin;C:\path\to\AndroidSDK\tools;C:\path\to\AndroidSDK\platform-tools;C:\Users\Vale\AppData\Local\Programs\Python\Python36-32
@@ -90,6 +90,8 @@ npm manifest:
       "react-router-dom": "4.2.2",
       "react-router-redux": "^4.0.8",
       "react-select": "^2.0.0-beta.2",
+      "react-signature-canvas": "^1.0.0-alpha.1",
+      "react-signature-pad": "0.0.6",
       "react-toastify": "^4.0.0-rc.2",
       "react-transition-group": "2.2.1",
       "reactstrap": "5.0.0-beta",
@@ -120,7 +122,17 @@ Lockfile:
   No lockfile
 
 Trace: 
-  Error: No lockfile in this directory. Run `yarn install` to generate one.
-      at new MessageError (C:\Users\Vale\AppData\Roaming\nvm\v8.9.4\node_modules\yarn\lib\cli.js:186:110)
-      at C:\Users\Vale\AppData\Roaming\nvm\v8.9.4\node_modules\yarn\lib\cli.js:89389:13
-      at <anonymous>
+  Error: Command failed.
+  Exit code: 3221225786
+  Command: C:\windows\system32\cmd.exe
+  Arguments: /d /s /c webpack-dev-server --progress --color --inline --env.dev
+  Directory: E:\Workspace\bizman-v3\React_Starter
+  Output:
+  
+      at ProcessTermError.MessageError (C:\Users\Vale\AppData\Roaming\nvm\v8.9.4\node_modules\yarn\lib\cli.js:186:110)
+      at new ProcessTermError (C:\Users\Vale\AppData\Roaming\nvm\v8.9.4\node_modules\yarn\lib\cli.js:226:113)
+      at ChildProcess.<anonymous> (C:\Users\Vale\AppData\Roaming\nvm\v8.9.4\node_modules\yarn\lib\cli.js:30281:17)
+      at emitTwo (events.js:126:13)
+      at ChildProcess.emit (events.js:214:7)
+      at maybeClose (internal/child_process.js:925:16)
+      at Process.ChildProcess._handle.onexit (internal/child_process.js:209:5)

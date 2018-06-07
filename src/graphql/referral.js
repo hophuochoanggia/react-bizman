@@ -22,6 +22,14 @@ export const EDIT_REFERRAL_BY_ID_MUTATION = gql`
   }
 `;
 
+export const DELETE_REFERRAL_BY_ID_MUTATION = gql`
+  mutation deleteReferralByIdMutation($id: Int!) {
+    deleteReferral(input: { id: $id }) {
+      response
+    }
+  }
+`;
+
 export const REFERRALS_QUERY = gql`
   query {
     referrals {

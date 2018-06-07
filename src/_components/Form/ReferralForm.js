@@ -1,16 +1,27 @@
+/* eslint no-return-assign: 0 */
 import React from 'react';
 import moment from 'moment';
-import { Row, Col, Button, Card, CardHeader, CardBody, FormGroup, Label, Input } from 'reactstrap';
-import Form from 'react-jsonschema-form';
+import {
+  Row,
+  Col,
+  Table,
+  Card,
+  CardHeader,
+  CardBody,
+  FormGroup,
+  Label,
+  Input,
+  Button
+} from 'reactstrap';
 import { pathOr, set, lensPath, compose } from 'ramda';
 import { mapProps } from 'recompose';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import SignaturePad from 'react-signature-pad';
-import './signCanvas.css';
+import '../../misc/signCanvas.css';
 
 import { Spinner } from '../common';
-import stringToJSX from '../../utils/stringToJSX';
+import ScoreScale from '../ScoreScale';
 
 const calculateBMI = (height, weight) => Math.round(weight / (height / 100) ** 2) || 'N/A';
 const getAge = dateString => {
@@ -23,6 +34,18 @@ const getAge = dateString => {
   }
   return age;
 };
+
+const ESS = [
+  'Sitting and reading',
+  'Watching television',
+  'Sitting inactive in a public place (e.g. a theatre or meetin)',
+  'As a passenger in a car for an hour without a break',
+  'Lying down to rest in the afternoon when circumstances permit',
+  'Sitting and talking to someone',
+  'Sitting quietly after a lunch without alcohol',
+  'In a car, while stopped for a few minutes in the traffic'
+];
+
 class ReferralForm extends React.Component {
   componentDidMount() {
     const { input: { data: { signature } } } = this.props;
@@ -31,14 +54,14 @@ class ReferralForm extends React.Component {
   render() {
     const {
       spinner,
-      JSONSchema,
-      UISchema,
       input,
       handleInput,
       handleInputAsValue,
       handleInputNested,
-      handleSchemaForm,
+      handleInputNestedAsValue,
+      handleInputNestedCheckbox,
       handleSubmit,
+      handleDelete,
       height,
       weight,
       neck,
@@ -226,76 +249,223 @@ class ReferralForm extends React.Component {
             </Col>
           </Row>
           <hr />
-          <Form
-            schema={JSONSchema}
-            uiSchema={stringToJSX(UISchema)}
-            formData={input.data}
-            onChange={({ formData }) => {
-              handleSchemaForm(formData);
-            }}
-          >
-            <hr />
-            <Col xs="12" sm="12" md="12" lg="12">
+          <Col xs="12" sm="12" md="12" lg="12">
+            <FormGroup style={{ marginLeft: '15px' }}>
               <Row>
-                <Label>Signature</Label>
+                <Label>
+                  <h2>Service(s) Required</h2>
+                </Label>
               </Row>
+              <Col xs="12" sm="12" md="12" lg="12">
+                <Row>
+                  <Input
+                    type="checkbox"
+                    checked={input.data.service[0]}
+                    onChange={handleInputNestedCheckbox('service')(0)}
+                  />{' '}
+                  Home Based Sleep Study
+                </Row>
+                <Row>
+                  <Input
+                    type="checkbox"
+                    checked={input.data.service[1]}
+                    onChange={handleInputNestedCheckbox('service')(1)}
+                  />{' '}
+                  Hospital Based Sleep Study
+                </Row>
+                <Row>
+                  <Input
+                    type="checkbox"
+                    checked={input.data.service[2]}
+                    onChange={handleInputNestedCheckbox('service')(2)}
+                  />{' '}
+                  Consultation with Sleep Physician
+                </Row>
+              </Col>
+            </FormGroup>
+          </Col>
+          <Col xs="12" sm="12" md="12" lg="12">
+            <FormGroup style={{ marginLeft: '15px' }}>
               <Row>
-                <SignaturePad
-                  clearButton={(pathname === '/referral/new')}
-                  ref={i => (this.signature = i)}
-                />
+                <Label>
+                  <h2>STOP Questionaire</h2>
+                </Label>
               </Row>
-            </Col>
-            <hr />
-            {spinner ? (
-              <Spinner />
-            ) : (
-              <React.Fragment>
-                <Button color="info" onClick={() => handleSubmit(this.signature.toDataURL())}>
-                  Submit
-                </Button>
-                {input.status === 'PENDING' && <Button color="danger">Delete</Button>}
-              </React.Fragment>
-            )}
-          </Form>
+              <Col xs="12" sm="12" md="12" lg="12">
+                <Row>
+                  <Input
+                    type="checkbox"
+                    checked={input.data.STOP[0]}
+                    onChange={handleInputNestedCheckbox('STOP')(0)}
+                  />{' '}
+                  Do you snore loudly?
+                </Row>
+                <Row>
+                  <Input
+                    type="checkbox"
+                    checked={input.data.STOP[1]}
+                    onChange={handleInputNestedCheckbox('STOP')(1)}
+                  />{' '}
+                  Do you often feel tired, fatigued or sleepy during the daytime?
+                </Row>
+                <Row>
+                  <Input
+                    type="checkbox"
+                    checked={input.data.STOP[2]}
+                    onChange={handleInputNestedCheckbox('STOP')(2)}
+                  />{' '}
+                  Has anyone noticed you stop breathing during your sleep?
+                </Row>
+                <Row>
+                  <Input
+                    type="checkbox"
+                    checked={input.data.STOP[3]}
+                    onChange={handleInputNestedCheckbox('STOP')(3)}
+                  />{' '}
+                  Do you have or are you being treated for high blood pressure?
+                </Row>
+                <Row>
+                  <Input
+                    type="checkbox"
+                    checked={input.data.STOP[4]}
+                    onChange={handleInputNestedCheckbox('STOP')(4)}
+                  />{' '}
+                  N/A
+                </Row>
+              </Col>
+              <br />
+            </FormGroup>
+            <p>
+              <b>Reference</b>: STOP Questionnaire (Chung F et al. Anesthesiology 2008 May;
+              108(5):812-21)
+            </p>
+            <p>
+              Patients answering <b>Yes to 2 or more</b> of the above questions are at{' '}
+              <b>high risk of having OSA</b> and may be referred directly for a Home Based Sleep
+              Study. The Epworth Sleepiness Scale (ESS) may also be used to further determine the
+              necessity for the investigation.
+            </p>
+          </Col>
+          <Col xs="12" sm="12" md="12" lg="12">
+            <FormGroup style={{ marginLeft: '15px' }}>
+              <Row>
+                <Label>
+                  <h2>BANG Questionaire</h2>
+                </Label>
+              </Row>
+              <Col xs="12" sm="12" md="12" lg="12">
+                <Row>
+                  <Input type="checkbox" checked={input.data.BANG[0]} disabled /> BMI more than 35
+                  kg/m2?
+                </Row>
+                <Row>
+                  <Input type="checkbox" checked={input.data.BANG[1]} disabled /> Age over 50 years?
+                </Row>
+                <Row>
+                  <Input type="checkbox" checked={input.data.BANG[2]} disabled /> Neck circumference
+                  greater than 40 cm?
+                </Row>
+                <Row>
+                  <Input type="checkbox" checked={input.data.BANG[3]} disabled /> Gender, male
+                </Row>
+              </Col>
+            </FormGroup>
+          </Col>
+          <Col xs="12" sm="12" md="12" lg="12">
+            <Row>
+              <Label>
+                <h2>The Epworth Sleepiness Scale (ESS)</h2>
+              </Label>
+            </Row>
+            <p>
+              How likely are you to doze off or fall asleep in the following situations, in contrast
+              to feeling just tired? This refers to your usual way of life in recent times. Even if
+              you have not done some of these things recently try to work out how they would have
+              affected you. Use the following scale to choose the most appropriate number for each
+              situation:
+            </p>
+            <p>0 = would never doze</p>
+            <p>1 = slight chance of dozing</p>
+            <p>2 = moderate chance of dozing</p>
+            <p>3 = high chance of dozing</p>
+            <Table responsive size="sm">
+              <tbody>
+                {ESS.map((title, index) => (
+                  <tr key={title}>
+                    <td>{title}</td>
+                    <td>
+                      <ScoreScale
+                        index={index}
+                        min={0}
+                        max={3}
+                        selected={input.data.ESS[index]}
+                        updateForm={handleInputNestedAsValue('ESS')}
+                      />
+                    </td>
+                  </tr>
+                ))}
+                <tr>
+                  <td>Total:</td>
+                  <td>{input.data.ESS.total}</td>
+                </tr>
+              </tbody>
+            </Table>
+          </Col>
+          <hr />
+          <Col xs="12" sm="12" md="12" lg="12">
+            <Row>
+              <Label />
+            </Row>
+            <Row>
+              <SignaturePad
+                clearButton={pathname === '/referral/new'}
+                ref={i => (this.signature = i)}
+              />
+            </Row>
+          </Col>
+          <hr />
+          {spinner ? (
+            <Spinner />
+          ) : (
+            <Button color="info" onClick={handleSubmit}>
+              Submit
+            </Button>
+          )}
         </CardBody>
       </Card>
     );
   }
 }
 ReferralForm.defaultProps = {
-  input: {
-    data: {}
-  },
   height: '',
   weight: '',
-  neck: ''
+  neck: '',
+  handleDelete: null
 };
 
 ReferralForm.propTypes = {
-  input: PropTypes.object,
+  input: PropTypes.object.isRequired,
   height: PropTypes.string,
   weight: PropTypes.string,
   neck: PropTypes.string,
+  handleDelete: PropTypes.func,
   spinner: PropTypes.bool.isRequired,
-  JSONSchema: PropTypes.object.isRequired,
-  UISchema: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
   handleInput: PropTypes.func.isRequired,
   handleInputAsValue: PropTypes.func.isRequired,
   handleInputNested: PropTypes.func.isRequired,
-  handleSchemaForm: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired
 };
 
 const transformInputToBANG = mapProps(({ input, ...props }) => {
   const BANGLens = lensPath(['data', 'BANG']);
   const { height, weight, neck } = pathOr({}, ['data', 'BMI'], input);
-  const BANG = {
-    1: calculateBMI(height, weight) > 35,
-    2: getAge(input.birthday) > 50,
-    3: neck > 14,
-    4: input.isMale !== 'false'
-  };
+  const BANG = [
+    calculateBMI(height, weight) > 35,
+    getAge(input.birthday) > 50,
+    neck > 14,
+    input.isMale !== 'false'
+  ];
   let newInput = set(BANGLens, BANG, input);
   return {
     input: newInput,
@@ -308,7 +478,7 @@ const transformInputToBANG = mapProps(({ input, ...props }) => {
 
 const calculateESSTotal = mapProps(({ input, ...props }) => {
   const ESSLens = lensPath(['data', 'ESS', 'total']);
-  const ESS = pathOr({ 1: 0 }, ['data', 'ESS'], input);
+  const ESS = pathOr({}, ['data', 'ESS'], input);
   delete ESS.total;
   const total = Object.values(ESS).reduce((acc = 0, cur = 0) => acc + parseInt(cur, 10));
   const newInput = set(ESSLens, total, input);

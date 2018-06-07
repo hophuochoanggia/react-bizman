@@ -4,26 +4,51 @@ import { graphql } from 'react-apollo';
 import moment from 'moment';
 import { Row, Col, Card, CardHeader, CardBody } from 'reactstrap';
 
-import AsyncDropdownButton from '../../_components/AsyncForm/DropdownButton';
+import DropdownButton from '../../_components/AsyncForm/DropdownButton';
 import WithSpinnerError from '../../_components/HOC/SpinnerError';
-import { EVENTTYPES_QUERY } from '../../graphql/eventType';
+// import { EVENTTYPES_QUERY } from '../../graphql/eventType';
 
-const AddEventButton = compose(
-  graphql(EVENTTYPES_QUERY),
-  WithSpinnerError,
-  mapProps(({
-    data, patientId, history, title
-  }) => ({
-    items: data.eventTypes.edges,
-    history,
-    title,
-    patientId
-  }))
-)(AsyncDropdownButton);
+// const AddEventButton = compose(
+//   graphql(EVENTTYPES_QUERY),
+//  WithSpinnerError,
+//  mapProps(({
+//    data, patientId, history, title
+//  }) => ({
+//    items: data.eventTypes.edges,
+//    history,
+//    title,
+//    patientId
+//  }))
+// )(AsyncDropdownButton);
+
+const AddEventButton = ({ patientId, ...props }) => {
+  const items = [
+    {
+      type: 'STUDY',
+      link: `/event/${patientId}/new/study`
+    },
+    {
+      type: 'CPAP',
+      link: `/event/${patientId}/new/cpap`
+    }
+  ];
+  return <DropdownButton items={items} {...props} />;
+};
+
+const eventList = (events, history) =>
+  events.map(({ node }) => (
+    <Card key={node._id} onClick={() => history.push(`/event/${node._id}`)}>
+      <CardHeader>Type: {node.type}</CardHeader>
+      <CardBody>
+        <p>Created at: {moment.utc(node.createdAt).format('DD/MM/YYYY')}</p>
+        <p>Status: {node.status}</p>
+      </CardBody>
+    </Card>
+  ));
 
 const EventByPatient = p => {
   const {
-    patient, events, history, patientId
+    patient, activeEvents, inactiveEvents, history, patientId
   } = p;
   return (
     <div>
@@ -39,22 +64,17 @@ const EventByPatient = p => {
       </Row>
       <hr />
       <h3>Active</h3>
-      {events.map(({ node }) => (
-        <Card key={node._id} onClick={() => history.push(`/event/${node._id}`)}>
-          <CardHeader>Type: {node.type.name}</CardHeader>
-          <CardBody>
-            <p>Created at: {moment.utc(node.createdAt).format('DD/MM/YYYY')}</p>
-            <p>Status: {node.status}</p>
-          </CardBody>
-        </Card>
-      ))}
+      {eventList(activeEvents, history)}
+      <h3>Inactive</h3>
+      {eventList(inactiveEvents, history)}
     </div>
   );
 };
 
 const tranformProps = mapProps(({ data, history, match }) => ({
   patient: data.patient.edges[0].node,
-  events: data.patient.edges[0].node.events.edges,
+  activeEvents: data.patient.edges[0].node.activeEvents.edges,
+  inactiveEvents: data.patient.edges[0].node.inactiveEvents.edges,
   patientId: match.params.id,
   history
 }));

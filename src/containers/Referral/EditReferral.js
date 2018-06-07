@@ -2,7 +2,11 @@ import { graphql } from 'react-apollo';
 import { withHandlers, compose, mapProps, branch, renderComponent } from 'recompose';
 import { path } from 'ramda';
 
-import { REFERRAL_BY_ID_QUERY, EDIT_REFERRAL_BY_ID_MUTATION } from '../../graphql/referral';
+import {
+  REFERRAL_BY_ID_QUERY,
+  EDIT_REFERRAL_BY_ID_MUTATION,
+  DELETE_REFERRAL_BY_ID_MUTATION
+} from '../../graphql/referral';
 import { CONFIG_QUERY } from '../../graphql/config';
 import { VIEWER_REFERRAL_BY_ID_QUERY } from '../../graphql/viewer';
 
@@ -33,6 +37,14 @@ const ReferralDetail = compose(
   ControlForm,
   ControlSpinner,
   graphql(EDIT_REFERRAL_BY_ID_MUTATION),
+  graphql(DELETE_REFERRAL_BY_ID_MUTATION, {
+    options: ({ match: { params: { id } } }) => ({
+      variables: {
+        id
+      }
+    }),
+    name: 'remove'
+  }),
   withHandlers({
     handleSubmit: ({ input, mutate, handleSpinner }) => () => {
       handleSpinner();
@@ -50,6 +62,18 @@ const ReferralDetail = compose(
           toast.error(e.message);
         })
         .finally(handleSpinner);
+    },
+    handleDelete: ({ history, remove, handleSpinner }) => () => {
+      handleSpinner();
+      remove()
+        .then(() => {
+          history.push('/referral');
+          toast.warn('Referral deleted');
+        })
+        .catch(e => {
+          toast.error(e.message);
+          handleSpinner();
+        });
     }
   })
 )(ReferralForm);

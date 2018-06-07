@@ -10,18 +10,16 @@ fragments.eventDetail = gql`
     inactiveReason {
       description
     }
-    type {
-      name
-    }
+    type
     users {
       edges {
         node {
+          _id
           fullName
           role
         }
       }
     }
-    createdAt
   }
 `;
 
@@ -76,7 +74,14 @@ fragments.patientDetail = gql`
     drivingLicense
     dva
     dvaType
-    events {
+    activeEvents: events(status: "active") {
+      edges {
+        node {
+          ...eventDetail
+        }
+      }
+    }
+    inactiveEvents: events(status: "inactive") {
       edges {
         node {
           ...eventDetail

@@ -12,24 +12,24 @@ const Base = ({
       {title}
     </DropdownToggle>
     <DropdownMenu>
-      {items.map(({ node }) => (
-        <DropdownItem
-          key={node._id}
-          onClick={() => history.push(`/event/${patientId}/new/${node._id}`)}
-        >
-          {node.name}
+      {items.map(node => (
+        <DropdownItem key={node.type} onClick={() => history.push(node.link)}>
+          {node.type}
         </DropdownItem>
       ))}
     </DropdownMenu>
   </ButtonDropdown>
 );
+Base.defaultProps = {
+  items: []
+};
+
 Base.propTypes = {
   title: PropTypes.string.isRequired,
-  items: PropTypes.array.isRequired,
+  items: PropTypes.array,
   toggle: PropTypes.func.isRequired,
   isDropdownOpen: PropTypes.bool.isRequired,
-  history: PropTypes.object.isRequired,
-  patientId: PropTypes.string.isRequired
+  history: PropTypes.object.isRequired
 };
 
 export default ControlDropdown(Base);

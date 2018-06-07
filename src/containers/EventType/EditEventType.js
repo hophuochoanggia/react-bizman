@@ -1,4 +1,4 @@
-import { compose, withHandlers } from 'recompose';
+import { compose, withHandlers, mapProps } from 'recompose';
 import { graphql } from 'react-apollo';
 import toast from '../../utils/toast';
 import { EVENTTYPE_BY_ID_QUERY, EDIT_EVENTTYPE_MUTATION } from '../../graphql/eventType';
@@ -8,10 +8,17 @@ import EventTypeForm from '../../_components/Form/EventTypeForm';
 
 const WithSubmit = withHandlers({
   handleSubmit: ({
-    mutate, handleSpinner, input, match: { params: { id } }
-  }) => () => {
+    input, mutate, handleSpinner, match: { params: { id } }
+  }) => (
+    validJSON,
+    JSONSchema,
+    UISchema
+  ) => {
+    if (!validJSON) {
+      return toast.error('Setting has errors');
+    }
     handleSpinner();
-    const data = { ...input };
+    const data = { ...input, setting: { JSONSchema, UISchema } };
     delete data._id;
     delete data.__typename;
     mutate({ variables: { id, data } })
@@ -34,6 +41,12 @@ export default compose(
     })
   }),
   WithSpinnerError,
+  mapProps(props => ({
+    ...props,
+    input: props.data.eventType.edges[0].node,
+    JSONSchema: props.data.eventType.edges[0].node.setting.JSONSchema,
+    UISchema: props.data.eventType.edges[0].node.setting.UISchema
+  })),
   WithStateHandlers,
   graphql(EDIT_EVENTTYPE_MUTATION, {
     name: 'mutate'

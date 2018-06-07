@@ -8,11 +8,20 @@ import ReferralForm from '../../_components/Form/ReferralForm';
 import toast from '../../utils/toast';
 import ControlForm from '../../_components/HOC/ControlForm';
 import ControlSpinner from '../../_components/HOC/ControlSpinner';
-import WithSpinnerError from '../../_components/HOC/SpinnerError';
 import RouteGuard from '../../_components/HOC/RouteGuard';
 import ReduxCredential from '../../_components/HOC/ReduxCredential';
 
-import { configLens } from '../../utils/pathLens';
+import { graphqlErrorParser } from '../../utils/errorParser';
+
+const defaultInput = {
+  data: {
+    service: [false, false, false],
+    STOP: [false, false, false, false, false],
+    ESS: {
+      0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0
+    }
+  }
+};
 
 export const LoadConfig = graphql(CONFIG_QUERY, {
   options: () => ({
@@ -22,16 +31,15 @@ export const LoadConfig = graphql(CONFIG_QUERY, {
   })
 });
 
-const defaultInput = {
-  data: {}
-};
+const initDefaultInput = mapProps(props => ({
+  ...props,
+  input: defaultInput
+}));
 
 export default compose(
   ReduxCredential,
   RouteGuard,
-  LoadConfig,
-  WithSpinnerError,
-  mapProps(props => ({ ...props, ...configLens(props.data.config), input: defaultInput })),
+  initDefaultInput,
   ControlForm,
   ControlSpinner,
   graphql(CREATE_REFERRAL_MUTATION),
@@ -49,7 +57,7 @@ export default compose(
           toast.success('Referral created');
         })
         .catch(e => {
-          toast.error(e.message);
+          toast.error(graphqlErrorParser('referral')(e));
           handleSpinner();
         });
     }

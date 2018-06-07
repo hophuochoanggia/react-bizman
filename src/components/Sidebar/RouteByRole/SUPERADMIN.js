@@ -43,15 +43,15 @@ export default {
       ]
     },
     {
-      name: 'Superadmin',
+      name: 'Setting',
       icon: 'icon-settings',
       children: [
-        // {
+        //{
         //  name: 'Event Type',
         //  url: '/eventType'
-        // },
+        //},
         {
-          name: 'Referral Setting',
+          name: 'Referral',
           url: '/setting/referral'
         }
       ]

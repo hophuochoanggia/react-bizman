@@ -28,7 +28,7 @@ export const ROUTEGUARD = {
   '/setting/referral': [SUPERADMIN]
 };
 
-// export const GRAPHQL = 'http://localhost:8000/graphql';
-export const GRAPHQL = 'https://bizman-hoanggia.c9users.io:8080/graphql';
+ export const GRAPHQL = 'http://localhost:8000/graphql';
+//export const GRAPHQL = 'https://bizman-hoanggia.c9users.io:8080/graphql';
 
 export const paginationLength = 20;

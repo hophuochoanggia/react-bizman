@@ -4,33 +4,9 @@ import toast from '../../utils/toast';
 import { CREATE_EVENTTYPE_MUTATION } from '../../graphql/eventType';
 import EventTypeForm from '../../_components/Form/EventTypeForm';
 
-const defaultSchema = [
-  {
-    type: 'text',
-    title: 'Text field',
-    name: 'key1',
-    key: Math.random()
-      .toString(36)
-      .substring(7)
-  },
-  {
-    type: 'text',
-    title: 'Text Field',
-    name: 'key2',
-    key: Math.random()
-      .toString(36)
-      .substring(7)
-  }
-];
-
 export const WithStateHandlers = compose(
   withState('spinner', 'setSpinner', false),
-  withState(
-    'input',
-    'setInput',
-    ({ data }) =>
-      (data ? data.eventType.edges[0].node : { name: null, description: null, schema: defaultSchema })
-  ),
+  withState('input', 'setInput', ({ input }) => input),
   withHandlers({
     handleSpinner: ({ spinner, setSpinner }) => () => {
       setSpinner(!spinner);
@@ -42,9 +18,28 @@ export const WithStateHandlers = compose(
 );
 
 const WithSubmit = withHandlers({
-  handleSubmit: ({ mutate, history, handleSpinner }) => () => {
+  handleSubmit: ({
+    input, history, mutate, handleSpinner
+  }) => (
+    validJSON,
+    JSONSchema,
+    UISchema
+  ) => {
+    if (!validJSON) {
+      return toast.error('Setting has errors');
+    }
     handleSpinner();
-    mutate()
+    mutate({
+      variables: {
+        input: {
+          ...input,
+          setting: {
+            JSONSchema,
+            UISchema
+          }
+        }
+      }
+    })
       .then(() => {
         toast.success('Success');
         history.push('/eventType');
@@ -59,12 +54,7 @@ const WithSubmit = withHandlers({
 export default compose(
   WithStateHandlers,
   graphql(CREATE_EVENTTYPE_MUTATION, {
-    name: 'mutate',
-    options: ({ input }) => ({
-      variables: {
-        input
-      }
-    })
+    name: 'mutate'
   }),
   WithSubmit
 )(EventTypeForm);
