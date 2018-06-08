@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Card, CardHeader, CardBody, FormGroup, Label, Input } from 'reactstrap';
-import JSONSchemaEditor from '../../_components/CodeEditor/JSONSchemaEditor';
 
 const EventTypeForm = ({
   input, JSONSchema, UISchema, handleInput, handleSubmit

@@ -12,14 +12,19 @@ import RouteGuard from '../../_components/HOC/RouteGuard';
 import ReduxCredential from '../../_components/HOC/ReduxCredential';
 
 import { graphqlErrorParser } from '../../utils/errorParser';
+import { serviceSTOPdefault } from '../../_components/ServiceAndSTOPForm';
 
 const defaultInput = {
-  data: {
-    service: [false, false, false],
-    STOP: [false, false, false, false, false],
-    ESS: {
-      0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0
-    }
+  ...serviceSTOPdefault,
+  ESS: {
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0
   }
 };
 

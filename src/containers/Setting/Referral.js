@@ -5,7 +5,6 @@ import { compose, mapProps, withHandlers } from 'recompose';
 import { CONFIG_QUERY, CONFIG_MUTATION_BY_NAME } from '../../graphql/config';
 import WithSpinnerError from '../../_components/HOC/SpinnerError';
 import ControlSpinner from '../../_components/HOC/ControlSpinner';
-// import JSONSchemaEditor from '../../_components/CodeEditor/JSONSchemaEditor';
 import { configLens } from '../../utils/pathLens';
 import toast from '../../utils/toast';
 

@@ -6,6 +6,7 @@ import { getInput, enhance } from './NewUser';
 import WithSpinnerError from '../../_components/HOC/SpinnerError';
 import { USER_BY_ID_QUERY, EDIT_USER_MUTATION } from '../../graphql/user';
 import toast from '../../utils/toast';
+import omitKeys from '../../utils/omitKeys';
 
 export default compose(
   graphql(USER_BY_ID_QUERY, {
@@ -24,9 +25,9 @@ export default compose(
       match: { params: { id } }, input, mutate, handleSpinner
     }) => () => {
       handleSpinner();
-      delete input._id;
-      delete input.__typename;
-      mutate({ variables: { id, data: input } })
+      const keys = ['_id', '__typename'];
+      const data = omitKeys(input, keys);
+      mutate({ variables: { id, data } })
         .then(() => {
           toast.success('User updated');
         })

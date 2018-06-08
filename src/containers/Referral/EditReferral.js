@@ -21,7 +21,7 @@ import ReduxCredential from '../../_components/HOC/ReduxCredential';
 
 import toast from '../../utils/toast';
 import { configLens } from '../../utils/pathLens';
-
+import omitKeys from '../../utils/omitKeys';
 import { DOCTOR } from '../../config';
 
 const LoadReferralConfig = graphql(CONFIG_QUERY, {
@@ -48,12 +48,8 @@ const ReferralDetail = compose(
   withHandlers({
     handleSubmit: ({ input, mutate, handleSpinner }) => () => {
       handleSpinner();
-      const data = { ...input };
-      delete data._id;
-      delete data.__typename;
-      delete data.fullName;
-      delete data.doctor;
-      delete data.BANG; // BANG is derived from other fields, no need to store
+      const keys = ['_id', '__typename', 'fullName', 'doctor', 'BANG'];
+      const data = omitKeys(input, keys);
       mutate({ variables: { id: input._id, data } })
         .then(() => {
           toast.success('Referral updated');

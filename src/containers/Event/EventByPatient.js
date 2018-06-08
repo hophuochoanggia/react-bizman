@@ -1,35 +1,19 @@
 import React from 'react';
-import { compose, mapProps } from 'recompose';
-import { graphql } from 'react-apollo';
+import { mapProps } from 'recompose';
 import moment from 'moment';
 import { Row, Col, Card, CardHeader, CardBody } from 'reactstrap';
 
 import DropdownButton from '../../_components/AsyncForm/DropdownButton';
-import WithSpinnerError from '../../_components/HOC/SpinnerError';
-// import { EVENTTYPES_QUERY } from '../../graphql/eventType';
-
-// const AddEventButton = compose(
-//   graphql(EVENTTYPES_QUERY),
-//  WithSpinnerError,
-//  mapProps(({
-//    data, patientId, history, title
-//  }) => ({
-//    items: data.eventTypes.edges,
-//    history,
-//    title,
-//    patientId
-//  }))
-// )(AsyncDropdownButton);
 
 const AddEventButton = ({ patientId, ...props }) => {
   const items = [
     {
       type: 'STUDY',
-      link: `/event/${patientId}/new/study`
+      link: `/event/${patientId}/new/STUDY`
     },
     {
       type: 'CPAP',
-      link: `/event/${patientId}/new/cpap`
+      link: `/event/${patientId}/new/CPAP`
     }
   ];
   return <DropdownButton items={items} {...props} />;

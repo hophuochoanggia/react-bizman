@@ -1,7 +1,6 @@
 import { compose, mapProps, withHandlers } from 'recompose';
 import { graphql } from 'react-apollo';
 
-import toast from '../../utils/toast';
 import WithSpinnerError from '../../_components/HOC/SpinnerError';
 import ControlForm from '../../_components/HOC/ControlForm';
 import ControlSpinner from '../../_components/HOC/ControlSpinner';
@@ -11,6 +10,9 @@ import EventForm from '../../_components/Form/EventForm/';
 
 import { USERS_QUERY } from '../../graphql/user';
 import { EVENT_BY_ID_QUERY, EDIT_EVENT_MUTATION } from '../../graphql/event';
+
+import toast from '../../utils/toast';
+import omitKeys from '../../utils/omitKeys';
 
 const QueryUserByRole = role =>
   graphql(USERS_QUERY, {
@@ -69,12 +71,8 @@ const WithState = compose(
     handleSubmit: ({
       input, match: { params: { id } }, mutate, handleSpinner
     }) => () => {
-      const data = { ...input };
-      delete data._id;
-      delete data.__typename;
-      delete data.type;
-      delete data.users;
-      delete data.inactiveReason;
+      const keys = ['_id', '__typename', 'type', 'users', 'inactiveReason'];
+      const data = omitKeys(input, keys);
       handleSpinner();
       mutate({ variables: { id, data } })
         .then(() => {

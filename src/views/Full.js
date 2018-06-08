@@ -57,7 +57,7 @@ const Full = props => (
             <Route path="/eventType/:id" name="EventTypeDetail" component={EditEventType} />
             <Route exact path="/eventType" name="EventType" component={EventTypes} />
 
-            <Route path="/event/:patientId/new/:eventTypeId" name="NewEvent" component={NewEvent} />
+            <Route path="/event/:patientId/new/:type" name="NewEvent" component={NewEvent} />
             <Route path="/event/:id" name="EventDetail" component={EditEvent} />
 
             <Route path="/referral/new" name="NewReferral" component={NewReferral} />
