@@ -25,7 +25,8 @@ const defaultInput = {
     5: 0,
     6: 0,
     7: 0
-  }
+  },
+  files: []
 };
 
 export const LoadConfig = graphql(CONFIG_QUERY, {
@@ -38,7 +39,7 @@ export const LoadConfig = graphql(CONFIG_QUERY, {
 
 const initDefaultInput = mapProps(props => ({
   ...props,
-  input: defaultInput
+  input: { data: defaultInput }
 }));
 
 export default compose(

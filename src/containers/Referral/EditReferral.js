@@ -7,7 +7,7 @@ import {
   EDIT_REFERRAL_BY_ID_MUTATION,
   DELETE_REFERRAL_BY_ID_MUTATION
 } from '../../graphql/referral';
-import { CONFIG_QUERY } from '../../graphql/config';
+import { CREATE_PATIENT_MUTATION, PATIENT_BY_LICENSE_QUERY } from '../../graphql/patient';
 import { VIEWER_REFERRAL_BY_ID_QUERY } from '../../graphql/viewer';
 
 import ReferralForm from '../../_components/Form/ReferralForm';
@@ -15,27 +15,17 @@ import ReferralForm from '../../_components/Form/ReferralForm';
 import ControlForm from '../../_components/HOC/ControlForm';
 import ControlSpinner from '../../_components/HOC/ControlSpinner';
 import WithSpinnerError from '../../_components/HOC/SpinnerError';
-import CombineFetching from '../../_components/HOC/CombineFetching';
 import NotFoundGuard from '../../_components/HOC/NotFoundGuard';
 import ReduxCredential from '../../_components/HOC/ReduxCredential';
 
 import toast from '../../utils/toast';
-import { configLens } from '../../utils/pathLens';
 import omitKeys from '../../utils/omitKeys';
 import { DOCTOR } from '../../config';
-
-const LoadReferralConfig = graphql(CONFIG_QUERY, {
-  options: () => ({
-    variables: {
-      name: 'REFERRAL-METADATA'
-    }
-  }),
-  name: 'config'
-});
 
 const ReferralDetail = compose(
   ControlForm,
   ControlSpinner,
+
   graphql(EDIT_REFERRAL_BY_ID_MUTATION),
   graphql(DELETE_REFERRAL_BY_ID_MUTATION, {
     options: ({ match: { params: { id } } }) => ({
@@ -45,6 +35,8 @@ const ReferralDetail = compose(
     }),
     name: 'remove'
   }),
+  graphql(CREATE_PATIENT_MUTATION, { name: 'createPatient' }),
+
   withHandlers({
     handleSubmit: ({ input, mutate, handleSpinner }) => () => {
       handleSpinner();
@@ -59,6 +51,7 @@ const ReferralDetail = compose(
         })
         .finally(handleSpinner);
     },
+
     handleDelete: ({ history, remove, handleSpinner }) => () => {
       handleSpinner();
       remove()
@@ -70,6 +63,30 @@ const ReferralDetail = compose(
           toast.error(e.message);
           handleSpinner();
         });
+    },
+
+    createEvent: ({
+      history,
+      input,
+      createPatient,
+      handleSpinner,
+      data: { patient }
+    }) => async () => {
+      handleSpinner();
+      if (patient.edges.length === 0) {
+        const keys = ['_id', '__typename', 'doctor', 'data', 'status', 'fullName'];
+        const data = omitKeys(input, keys);
+        try {
+          await createPatient({ variables: { input: data } });
+          toast.success('Referral updated');
+        } catch (e) {
+          return toast.error(e.message);
+        }
+      }
+      history.push({
+        pathname: `/event/${patient.edges[0].node._id}/new/STUDY`,
+        state: { referral: input }
+      });
     }
   })
 )(ReferralForm);
@@ -84,36 +101,35 @@ const DoctorReferralDetail = compose(
     }),
     name: 'referral'
   }),
-  LoadReferralConfig,
-  CombineFetching(['referral', 'config']),
   WithSpinnerError,
   NotFoundGuard(props => path(viewerProps, props).length === 0),
   mapProps(props => ({
     ...props,
-    ...configLens(props.config.config),
     input: path(viewerProps, props)[0].node
   }))
 )(ReferralDetail);
 
-const referralProps = ['referral', 'referral', 'edges'];
+const referralProps = ['data', 'referral', 'edges'];
 const AdminReferralDetail = compose(
   graphql(REFERRAL_BY_ID_QUERY, {
     options: ({ match: { params: { id } } }) => ({
       variables: {
         id
       }
-    }),
-    name: 'referral'
+    })
   }),
-  LoadReferralConfig,
-  CombineFetching(['referral', 'config']),
   WithSpinnerError,
   NotFoundGuard(props => path(referralProps, props).length === 0),
   mapProps(props => ({
     ...props,
-    ...configLens(props.config.config),
     input: path(referralProps, props)[0].node
-  }))
+  })),
+  graphql(PATIENT_BY_LICENSE_QUERY, {
+    options: ({ input: { drivingLicense } }) => ({
+      variables: { drivingLicense }
+    })
+  }),
+  WithSpinnerError
 )(ReferralDetail);
 
 export default compose(

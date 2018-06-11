@@ -52,6 +52,7 @@
     "apollo-client": "^2.2.8",
     "apollo-link-context": "^1.0.8",
     "apollo-link-http": "^1.5.4",
+    "axios": "^0.18.0",
     "bootstrap": "4.0.0",
     "chart.js": "2.7.1",
     "codemirror": "^5.37.0",
@@ -69,6 +70,7 @@
     "react-codemirror2": "^5.0.1",
     "react-datepicker": "^1.4.1",
     "react-dom": "16.2.0",
+    "react-dropzone": "^4.2.11",
     "react-redux": "^5.0.7",
     "react-router-dom": "4.2.2",
     "react-router-redux": "^4.0.8",
@@ -87,10 +89,12 @@
     "lint": "eslint .",
     "dev": "webpack -d --progress --watch --profile --json > compilation-stats.json --env.dev",
     "start": "webpack-dev-server --progress --color --inline --env.dev",
-    "startc9": "webpack-dev-server --progress --hot --host $IP --port $PORT --public $C9_HOSTNAME --content-base build/",
+    "startc9":
+      "webpack-dev-server --progress --hot --host $IP --port $PORT --public $C9_HOSTNAME --content-base build/",
     "build": "webpack -p --progress --env.prod",
     "clean": "rimraf ./build",
-    "prettier": "prettier --single-quote --trailing-comma es5 --write src/**/*.js && prettier --single-quote --trailing-comma es5 --write test/**/*.js "
+    "prettier":
+      "prettier --single-quote --trailing-comma es5 --write src/**/*.js && prettier --single-quote --trailing-comma es5 --write test/**/*.js "
   },
   "engines": {
     "node": ">= 8.9.4",

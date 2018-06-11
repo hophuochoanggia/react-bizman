@@ -11,7 +11,11 @@ import {
   FormGroup,
   Label,
   Input,
-  Button
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
 } from 'reactstrap';
 import { pathOr, set, lensPath, compose } from 'ramda';
 import { mapProps } from 'recompose';
@@ -23,6 +27,8 @@ import '../../misc/signCanvas.css';
 import { Spinner } from '../common';
 import ScoreScale from '../ScoreScale';
 import ServiceAndSTOPForm from '../ServiceAndSTOPForm';
+
+import ReduxCredential from '../HOC/ReduxCredential';
 
 const calculateBMI = (height, weight) => Math.round(weight / (height / 100) ** 2) || 'N/A';
 const getAge = dateString => {
@@ -63,10 +69,12 @@ class ReferralForm extends React.Component {
       handleInputNestedCheckbox,
       handleSubmit,
       handleDelete,
+      handleFile,
       height,
       weight,
       neck,
-      location: { pathname }
+      location: { pathname },
+      credential: { role }
     } = this.props;
     return (
       <Card>
@@ -321,6 +329,28 @@ class ReferralForm extends React.Component {
             </Table>
           </Col>
           <hr />
+          {/*
+          <section>
+            <aside>
+              <h4>Uploaded files</h4>
+              <ul>
+                {input.data.files.map(f => (
+                  <li key={f.key}>
+                    <a href={f.location}>{f.originalname}</a>
+                  </li>
+                ))}
+              </ul>
+            </aside>
+            <div className="dropzone">
+              <Dropzone
+                style={{ width: '40%', height: '20%', border: '1px dashed black' }}
+                onDrop={file => handleFile()(file, 'referral')}
+              >
+                <p>Drop file or click to upload</p>
+              </Dropzone>
+            </div>
+          </section>
+          */}
           <Col xs="12" sm="12" md="12" lg="12">
             <Row>
               <Label />
@@ -345,6 +375,7 @@ class ReferralForm extends React.Component {
     );
   }
 }
+
 ReferralForm.defaultProps = {
   height: '',
   weight: '',
@@ -389,7 +420,9 @@ const calculateESSTotal = mapProps(({ input, ...props }) => {
   const ESSLens = lensPath(['data', 'ESS', 'total']);
   const ESS = pathOr({}, ['data', 'ESS'], input);
   delete ESS.total;
-  const total = Object.values(ESS).reduce((acc = 0, cur = 0) => acc + parseInt(cur, 10));
+  const values = Object.values(ESS);
+  const total =
+    values.length === 0 ? 0 : values.reduce((acc = 0, cur = 0) => acc + parseInt(cur, 10));
   const newInput = set(ESSLens, total, input);
   return {
     input: newInput,
@@ -397,4 +430,4 @@ const calculateESSTotal = mapProps(({ input, ...props }) => {
   };
 });
 
-export default compose(calculateESSTotal, transformInputToBANG)(ReferralForm);
+export default compose(calculateESSTotal, transformInputToBANG, ReduxCredential)(ReferralForm);

@@ -28,7 +28,17 @@ export const ROUTEGUARD = {
   '/setting/referral': [SUPERADMIN]
 };
 
- export const GRAPHQL = 'http://localhost:8000/graphql';
-//export const GRAPHQL = 'https://bizman-hoanggia.c9users.io:8080/graphql';
+// export const server = 'http://localhost:8000';
+export const server = 'https://bizman-hoanggia.c9users.io:8080';
+
+export const GRAPHQL = `${server}/graphql`;
+
+const bucket = 'bizman-test';
+export const s3Url = `https://${bucket}.s3-ap-southeast-2.amazonaws.com/`;
+
+export const uploadOptions = uploadType => ({
+  server,
+  signingUrlQueryParams: { uploadType }
+});
 
 export const paginationLength = 20;

@@ -1,7 +1,9 @@
 import React from 'react';
 import { Row, Col, FormGroup, Label, Input } from 'reactstrap';
 
-const Form = ({ service, STOP, handleInputNestedCheckbox }) => (
+const Form = ({
+  disabled, service, STOP, handleInputNestedCheckbox
+}) => (
   <React.Fragment>
     <Col xs="12" sm="12" md="12" lg="12">
       <FormGroup style={{ marginLeft: '15px' }}>
@@ -14,24 +16,27 @@ const Form = ({ service, STOP, handleInputNestedCheckbox }) => (
           <Row>
             <Input
               type="checkbox"
-              checked={service[0]}
+              checked={service[0] || false}
               onChange={handleInputNestedCheckbox('service')(0)}
+              disabled={disabled}
             />{' '}
             Home Based Sleep Study
           </Row>
           <Row>
             <Input
               type="checkbox"
-              checked={service[1]}
+              checked={service[1] || false}
               onChange={handleInputNestedCheckbox('service')(1)}
+              disabled={disabled}
             />{' '}
             Hospital Based Sleep Study
           </Row>
           <Row>
             <Input
               type="checkbox"
-              checked={service[2]}
+              checked={service[2] || false}
               onChange={handleInputNestedCheckbox('service')(2)}
+              disabled={disabled}
             />{' '}
             Consultation with Sleep Physician
           </Row>
@@ -49,40 +54,45 @@ const Form = ({ service, STOP, handleInputNestedCheckbox }) => (
           <Row>
             <Input
               type="checkbox"
-              checked={STOP[0]}
+              checked={STOP[0] || false}
               onChange={handleInputNestedCheckbox('STOP')(0)}
+              disabled={disabled}
             />{' '}
             Do you snore loudly?
           </Row>
           <Row>
             <Input
               type="checkbox"
-              checked={STOP[1]}
+              checked={STOP[1] || false}
               onChange={handleInputNestedCheckbox('STOP')(1)}
+              disabled={disabled}
             />{' '}
             Do you often feel tired, fatigued or sleepy during the daytime?
           </Row>
           <Row>
             <Input
               type="checkbox"
-              checked={STOP[2]}
+              checked={STOP[2] || false}
               onChange={handleInputNestedCheckbox('STOP')(2)}
+              disabled={disabled}
             />{' '}
             Has anyone noticed you stop breathing during your sleep?
           </Row>
           <Row>
             <Input
               type="checkbox"
-              checked={STOP[3]}
+              checked={STOP[3] || false}
               onChange={handleInputNestedCheckbox('STOP')(3)}
+              disabled={disabled}
             />{' '}
             Do you have or are you being treated for high blood pressure?
           </Row>
           <Row>
             <Input
               type="checkbox"
-              checked={STOP[4]}
+              checked={STOP[4] || false}
               onChange={handleInputNestedCheckbox('STOP')(4)}
+              disabled={disabled}
             />{' '}
             N/A
           </Row>

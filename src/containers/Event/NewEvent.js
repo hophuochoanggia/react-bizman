@@ -1,5 +1,6 @@
 import { compose, mapProps, withHandlers } from 'recompose';
 import { graphql } from 'react-apollo';
+import { pathOr } from 'ramda';
 
 import toast from '../../utils/toast';
 import WithSpinnerError from '../../_components/HOC/SpinnerError';
@@ -9,7 +10,6 @@ import CombineFinishFetching from '../../_components/HOC/CombineFetching';
 
 import EventForm from '../../_components/Form/EventForm/';
 
-// import { EVENTTYPE_BY_ID_QUERY } from '../../graphql/eventType';
 import { USERS_QUERY } from '../../graphql/user';
 import { CREATE_EVENT_MUTATION } from '../../graphql/event';
 
@@ -43,7 +43,9 @@ export default compose(
     return {
       ...props,
       ...dropdownData,
-      input: { data: {} }
+      input: {
+        data: {}
+      }
     };
   }),
   // Component State
@@ -55,19 +57,22 @@ export default compose(
     handleSubmit: ({
       input,
       history,
-      match: { params: { patientId, eventTypeId } },
+      match: { params: { patientId, type } },
       mutate,
       handleSpinner
     }) => () => {
+      const files = pathOr([], ['data', 'files'], input);
+      if (files.length === 0) {
+        return toast.error('Please upload referral document');
+      }
       input.patientId = parseInt(patientId, 10);
-      input.type = eventTypeId;
+      input.type = type;
       handleSpinner();
       mutate({ variables: { input } })
         .then(() => {
           history.push(`/patient/${patientId}`);
         })
         .catch(e => {
-          console.log(e);
           toast.error(e.message);
           handleSpinner();
         });

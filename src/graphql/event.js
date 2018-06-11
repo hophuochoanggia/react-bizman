@@ -13,6 +13,16 @@ export const CREATE_EVENT_MUTATION = gql`
   ${eventList}
 `;
 
+export const FINISH_STUDY_TASK_MUTATION = gql`
+  mutation finishStudyTaskMutation($id: Int!, $taskId: Int!, $date: String!) {
+    finishStudyTask(input: { id: $id, taskId: $taskId, date: $date }) {
+      response {
+        data
+      }
+    }
+  }
+`;
+
 export const EDIT_EVENT_MUTATION = gql`
   mutation editEventByIdMutation($id: Int!, $data: eventInput!) {
     editEventById(input: { id: $id, data: $data }) {

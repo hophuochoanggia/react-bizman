@@ -74,14 +74,14 @@ fragments.patientDetail = gql`
     drivingLicense
     dva
     dvaType
-    activeEvents: events(status: "active") {
+    activeEvents: events(isActive: "active") {
       edges {
         node {
           ...eventDetail
         }
       }
     }
-    inactiveEvents: events(status: "inactive") {
+    inactiveEvents: events(isActive: "inactive") {
       edges {
         node {
           ...eventDetail
@@ -124,6 +124,7 @@ fragments.referralDetail = gql`
     drivingLicense
     data
     doctor {
+      _id
       firstName
       lastName
     }

@@ -61,7 +61,8 @@ const WithState = compose(
       input: {
         ...props.EVENT.event.edges[0].node,
         ...currentUser
-      }
+      },
+      activeTab: 1
     };
   }),
   ControlForm,

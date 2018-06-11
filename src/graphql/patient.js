@@ -39,6 +39,19 @@ export const PATIENTS_QUERY = gql`
   ${patientList}
 `;
 
+export const PATIENT_BY_LICENSE_QUERY = gql`
+  query patient($drivingLicense: String!) {
+    patient(drivingLicense: $drivingLicense) {
+      edges {
+        node {
+          ...patientDetail
+        }
+      }
+    }
+  }
+  ${patientDetail}
+`;
+
 export const PATIENT_BY_ID_QUERY = gql`
   query patient($id: Int!) {
     patient(id: $id) {

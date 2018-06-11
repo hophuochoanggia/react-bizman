@@ -1,5 +1,6 @@
 import { compose, withState, withHandlers } from 'recompose';
-import { lensPath, set } from 'ramda';
+import { lensPath, set, pathOr } from 'ramda';
+import { server } from '../../config';
 
 export default compose(
   withState('input', 'setInput', ({ input }) => input),
@@ -9,6 +10,21 @@ export default compose(
     },
     handleInputAsValue: ({ input, setInput }) => key => value => {
       setInput({ ...input, [key]: value });
+    },
+    handleFile: ({ input, setInput }) => group => ([file], folder) => {
+      const lens = lensPath(['data', group, 'files']);
+      const oldValue = pathOr([], ['data', group, 'files'], input);
+      let formData = new FormData();
+      formData.append(folder, file);
+      fetch(`${server}/${folder}`, {
+        method: 'POST',
+        body: formData
+      })
+        .then(res => res.json())
+        .then(data => {
+          const newInput = set(lens, [...oldValue, data], input);
+          setInput(newInput);
+        });
     },
     handleInputNested: ({ input, setInput }) => group => key => event => {
       const lens = lensPath(['data', group, key]);

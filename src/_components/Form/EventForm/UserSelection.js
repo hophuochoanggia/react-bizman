@@ -8,7 +8,6 @@ import Dropdown from '../../AsyncForm/DropdownList';
 
 const UserSelection = ({
   input,
-  selectedUsers,
   handleSelect,
   CONSULTANT,
   DOCTOR,
@@ -21,7 +20,7 @@ const UserSelection = ({
       <FormGroup>
         <Label>Consultant: *</Label>
         <Dropdown
-          defaultValue={selectedUsers.CONSULTANT}
+          defaultValue={input.consultant}
           defaultOptions={CONSULTANT}
           handleChange={handleSelect('consultant')}
         />
@@ -72,7 +71,7 @@ const UserSelection = ({
 
 UserSelection.propTypes = {
   input: PropTypes.object.isRequired,
-  selectedUsers: PropTypes.object.isRequired,
+  handleSelect: PropTypes.func.isRequired,
   CONSULTANT: PropTypes.array.isRequired,
   DOCTOR: PropTypes.array.isRequired,
   SPECIALIST: PropTypes.array.isRequired,
@@ -80,15 +79,4 @@ UserSelection.propTypes = {
   SCIENTIST: PropTypes.array.isRequired
 };
 
-export default mapProps(({ input, ...props }) => {
-  let selectedUsers = {};
-  const users = pathOr([], ['users', 'edges'], input);
-  users.map(({ node }) => {
-    selectedUsers[node.role] = node._id;
-  });
-  return {
-    input,
-    selectedUsers,
-    ...props
-  };
-})(UserSelection);
+export default UserSelection;
